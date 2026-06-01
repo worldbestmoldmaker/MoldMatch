@@ -17,7 +17,7 @@ st.markdown(
 @st.cache_data
 def load_data():
     base_path = os.path.dirname(__file__)
-    file_path = os.path.join(base_path, "machines_data.xlsx")
+    file_path = os.path.join(base_path, "machines_dataKU.xlsx")
     return pd.read_excel(file_path, engine="openpyxl")
 
 df = load_data()
