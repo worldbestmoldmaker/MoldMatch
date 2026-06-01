@@ -42,6 +42,46 @@ with col4:
 
 
 
+
+
+# Store selection
+if "selected_oem" not in st.session_state:
+    st.session_state.selected_oem = None
+
+if selected_oem:
+    st.session_state.selected_oem = selected_oem
+
+if st.session_state.selected_oem:
+    st.success(f"Selected OEM: {st.session_state.selected_oem}")
+
+# ---------------------------
+# INPUTS (MIDDLE)
+# ---------------------------
+st.header("Enter Mold Dimensions")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    mold_length = st.number_input("Length (mm)", value=300)
+
+with col2:
+    mold_width = st.number_input("Width (mm)", value=300)
+
+with col3:
+    mold_height = st.number_input("Height / Thickness (mm)", value=400)
+
+# Opening calculation
+safety_clearance = mold_height * 0.1 + 20
+required_opening = mold_height + safety_clearance
+
+st.info(f"Required Machine Opening: {required_opening} mm")
+
+
+
+
+
+
+
 # Load data
 
 @st.cache_data
