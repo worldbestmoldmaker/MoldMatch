@@ -3,6 +3,21 @@ import pandas as pd
 import streamlit as st
 
 
+import time
+
+if st.button("Refresh Data"):
+    st.cache_data.clear()
+
+
+@st.cache_data
+def load_data(url):
+    return pd.read_excel(url)
+
+url = f"https://raw.githubusercontent.com/yourrepo/main/machines_clean.xlsx?v={int(time.time())}"
+
+df = load_data(url)
+
+st.write(df.shape)
 
 # ---------------------------
 # TITLE
@@ -18,16 +33,13 @@ st.markdown(
 # ---------------------------
 
 
-if st.button("Refresh Data"):
-    st.cache_data.clear()
+#@st.cache_data
+#def load_data():
+#    base_path = os.path.dirname(__file__)
+#    file_path = os.path.join(base_path, "machines_clean.xlsx")
+#    return pd.read_excel(file_path, engine="openpyxl")
 
-@st.cache_data
-def load_data():
-    base_path = os.path.dirname(__file__)
-    file_path = os.path.join(base_path, "machines_clean.xlsx")
-    return pd.read_excel(file_path, engine="openpyxl")
-
-df = load_data()
+#df = load_data()
 
 # ---------------------------
 # OEM SELECTION
