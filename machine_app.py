@@ -173,4 +173,4 @@ if st.button("Run Compatibility Check"):
             f"✅ Recommended Machine:\n\n"
             f"{best['OEM']} - {best['Model']} ({best['Clamp (ton)']} ton)"
         )
-    else:
+     else:
