@@ -5,19 +5,6 @@ import streamlit as st
 
 import time
 
-if st.button("Refresh Data"):
-    st.cache_data.clear()
-
-
-@st.cache_data
-def load_data(url):
-    return pd.read_excel(url)
-
-url = f"https://github.com/worldbestmoldmaker/MoldMatch/machines_clean.xlsx?v={int(time.time())}"
-
-df = load_data(url)
-
-st.write(df.shape)
 
 # ---------------------------
 # TITLE
