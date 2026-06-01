@@ -117,3 +117,80 @@ else:
         "Platen X (mm)","Platen Y (mm)","Mold Max (mm)"
     ]])
 
+
+
+
+
+
+df = pd.DataFrame(machines)
+
+# ✅ OPTIONAL: filter by selected OEM
+if st.session_state.selected_oem:
+    df = df[df["OEM"] == st.session_state.selected_oem]
+
+# ---------------------------
+# CHECK FUNCTION
+# ---------------------------
+def check(machine):
+    reasons = []
+
+    # Width
+    if machine["TieBar_X"] is not None:
+        if mold_width > machine["TieBar_X"]:
+            reasons.append("Too wide")
+    else:
+        if mold_width > machine["Platen_X"]:
+            reasons.append("Too wide")
+
+    # Length
+    if machine["TieBar_Y"] is not None:
+        if mold_length > machine["TieBar_Y"]:
+            reasons.append("Too long")
+    else:
+        if mold_length > machine["Platen_Y"]:
+            reasons.append("Too long")
+
+    # Height / opening
+    if required_opening > machine["Daylight"]:
+        reasons.append("Insufficient daylight")
+
+    return "PASS" if not reasons else "FAIL", ", ".join(reasons)
+
+# ---------------------------
+# RUN BUTTON (BOTTOM)
+# ---------------------------
+if st.button("Run Compatibility Check"):
+
+    results = []
+
+    for _, m in df.iterrows():
+        status, reason = check(m)
+
+        results.append({
+            "OEM": m["OEM"],
+            "Model": m["Model"],
+            "Clamp (ton)": m["Clamp"],
+            "Status": status,
+            "Reason": reason
+        })
+
+    results_df = pd.DataFrame(results)
+
+    st.subheader("Results")
+    st.dataframe(results_df)
+
+    # ---------------------------
+    # BEST MACHINE
+    # ---------------------------
+    valid = results_df[results_df["Status"] == "PASS"]
+
+    if len(valid) > 0:
+        best = valid.sort_values("Clamp (ton)").iloc[0]
+
+        st.success(
+            f"✅ Recommended Machine:\n\n"
+            f"{best['OEM']} - {best['Model']} ({best['Clamp (ton)']} ton)"
+        )
+    else:
+        st.error("❌ No compatible machines found")
+
