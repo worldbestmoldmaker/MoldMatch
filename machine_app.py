@@ -5,7 +5,11 @@ import streamlit as st
 # ---------------------------
 # TITLE
 # ---------------------------
-st.markdown("# MoldMatch - Machine Selection")
+# st.markdown("# MoldMatch - Machine Selection")
+st.markdown(
+    "# <span style='color:darkblue; font-style:italic;'>MoldMatch</span> - Machine Selection",
+    unsafe_allow_html=True
+)
 
 # ---------------------------
 # LOAD DATA
