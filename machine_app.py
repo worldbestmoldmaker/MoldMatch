@@ -87,7 +87,6 @@ required_opening = mold_height + safety_clearance
 
 st.info(f"Required Machine Opening: {required_opening:.1f} mm")
 st.info(f"mold_length: {mold_length:.1f} mm")
-st.info(f"platen_x: {platen_x:.1f} mm")
 
 # ---------------------------
 # CHECK FUNCTION (FIXED)
@@ -180,4 +179,5 @@ if st.button("Run Compatibility Check"):
     else:
         st.error("❌ No compatible machines found")
 
+st.info(f"platen_x: {platen_x:.1f} mm")
 
