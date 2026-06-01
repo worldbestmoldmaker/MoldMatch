@@ -92,29 +92,28 @@ st.info(f"Required Machine Opening: {required_opening:.1f} mm")
 # ---------------------------
 def check(machine):
     reasons = []
-
-    # Width check
+   
+    # Length check
     tie_x = machine.get("Tie Bar X (mm)")
     platen_x = machine.get("Platen X (mm)")
 
-    if pd.notna(tie_x):
-        if mold_width > tie_x:
-            reasons.append("Too wide")
-    elif pd.notna(platen_x):
+    #if pd.notna(tie_x):
+    #    if mold_width > tie_x:
+    #        reasons.append("Too long")
+    if pd.notna(platen_x):
         if mold_width > platen_x:
-            reasons.append("Too wide")
+            reasons.append("Too long")
 
-    # Length check
+     # Width check
     tie_y = machine.get("Tie Bar Y (mm)")
     platen_y = machine.get("Platen Y (mm)")
 
-    #if pd.notna(tie_y):
-    #    if mold_length > tie_y:
-    #        reasons.append("Too long")
-    #elif pd.notna(platen_y):
-    if pd.notna(platen_y):
+    if pd.notna(tie_y):
+        if mold_length > tie_y:
+            reasons.append("Too wide")
+    elif pd.notna(platen_y):
         if mold_length > platen_y:
-            reasons.append("Too long")
+            reasons.append("Too wide")
 
     # Thickness (mold height)
     mold_min = machine.get("Mold Min (mm)", 0)
