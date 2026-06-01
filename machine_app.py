@@ -79,7 +79,7 @@ with col3:
     mold_height = st.number_input("Thickness (mm)", value=458)
 
 # Clamp input
-clamp_required = st.number_input("Required Clamp Force (ton)", value=100)
+clamp_required = st.number_input("Required Clamp Force (ton)", value=80)
 
 # Opening calculation
 safety_clearance = mold_height * 0.1 + 20
@@ -104,6 +104,9 @@ def check(machine):
     if pd.notna(platen_x):
         if mold_length > platen_x:
             reasons.append("Too long")
+
+st.info(f"mold_length: {mold_length:.1f} mm")
+st.info(f"platen_x: {platen_x:.1f} mm")
 
      # Width check
     tie_y = machine.get("Tie Bar Y (mm)")
@@ -177,3 +180,5 @@ if st.button("Run Compatibility Check"):
         )
     else:
         st.error("❌ No compatible machines found")
+
+
