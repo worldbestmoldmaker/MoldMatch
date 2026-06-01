@@ -102,7 +102,7 @@ def check(machine):
     if pd.notna(platen_x):
         if mold_length > platen_x:
             reasons.append("Too long")
-    if pd.notna(platen_x):
+    elif pd.notna(platen_x):
         if mold_length > platen_x:
             reasons.append("Too long")
 
