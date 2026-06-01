@@ -87,6 +87,7 @@ required_opening = mold_height + safety_clearance
 
 st.info(f"Required Machine Opening: {required_opening:.1f} mm")
 st.info(f"mold_length: {mold_length:.1f} mm")
+st.info(f"mold_height: {mold_height:.1f} mm")
 
 # ---------------------------
 # CHECK FUNCTION (FIXED)
