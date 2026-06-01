@@ -84,6 +84,21 @@ with col2:
 with col3:
     mold_height = st.number_input("Thickness (mm)", value=458)
 
+
+# ---------------------------
+# OPTIONAL CLAMP INPUT
+# ---------------------------
+st.subheader("Clamp Requirement")
+
+use_clamp = st.checkbox("Apply Clamp Requirement", value=True)
+
+if use_clamp:
+    clamp_required = st.number_input("Required Clamp Force (ton)", value=80)
+else:
+    clamp_required = None
+
+
+
 # Clamp input
 clamp_required = st.number_input("Required Clamp Force (ton)", value=80)
 
