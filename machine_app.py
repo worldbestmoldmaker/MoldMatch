@@ -83,7 +83,7 @@ use_clamp = st.checkbox("Apply Clamp Requirement", value=True)
 
 if use_clamp:
     clamp_required = st.number_input("Required Clamp Force (ton)", value=80)
-else:
+ else:
     clamp_required = None
 
 # ---------------------------
