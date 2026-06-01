@@ -130,8 +130,8 @@ def check(machine):
     if pd.notna(mold_min) and mold_height < mold_min:
         reasons.append("Too thin")
 
-    if pd.notna(mold_max) and mold_height > mold_max:
-if pd.notna(daylight_max) and  required_opening> daylight_max:
+    # if pd.notna(mold_max) and mold_height > mold_max:
+    if pd.notna(daylight_max) and required_opening > daylight_max:
         reasons.append("Too thick")
 
     # Clamp check
