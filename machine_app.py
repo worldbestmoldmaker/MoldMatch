@@ -98,10 +98,10 @@ def check(machine):
     platen_x = machine.get("Platen X (mm)")
 
     #if pd.notna(tie_x):
-    #    if mold_width > tie_x:
+    #    if mold_length > tie_x:
     #        reasons.append("Too long")
     if pd.notna(platen_x):
-        if mold_width > platen_x:
+        if mold_length > platen_x:
             reasons.append("Too long")
 
      # Width check
@@ -109,10 +109,10 @@ def check(machine):
     platen_y = machine.get("Platen Y (mm)")
 
     if pd.notna(tie_y):
-        if mold_length > tie_y:
+        if mold_width > tie_y:
             reasons.append("Too wide")
     elif pd.notna(platen_y):
-        if mold_length > platen_y:
+        if mold_width > platen_y:
             reasons.append("Too wide")
 
     # Thickness (mold height)
