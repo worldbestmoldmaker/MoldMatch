@@ -99,6 +99,8 @@ def check(machine):
     #410
     platen_x = machine.get("Platen X (mm)")
     #650
+    st.info(f"platen_x: {platen_x:.1f} mm")
+
     if pd.notna(platen_x):
         if mold_length > platen_x:
             reasons.append("Too long")
@@ -179,5 +181,4 @@ if st.button("Run Compatibility Check"):
     else:
         st.error("❌ No compatible machines found")
 
-st.info(f"platen_x: {platen_x:.1f} mm")
 
