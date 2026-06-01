@@ -1,13 +1,16 @@
 
+import os
 import pandas as pd
 import streamlit as st
 
 st.title("Machine Selection Tool")
-
 # Load data
+
 @st.cache_data
 def load_data():
-    return pd.read_excel("machines_cleaned.xlsx")
+    base_path = os.path.dirname(__file__)
+    file_path = os.path.join(base_path, "machines_cleaned.xlsx")
+    return pd.read_excel(file_path, engine="openpyxl")
 
 df = load_data()
 
