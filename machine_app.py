@@ -13,7 +13,7 @@ if st.button("Refresh Data"):
 def load_data(url):
     return pd.read_excel(url)
 
-url = f"https://raw.githubusercontent.com/yourrepo/main/machines_clean.xlsx?v={int(time.time())}"
+url = f"https://github.com/worldbestmoldmaker/MoldMatch/machines_clean.xlsx?v={int(time.time())}"
 
 df = load_data(url)
 
