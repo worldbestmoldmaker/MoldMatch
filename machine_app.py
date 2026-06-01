@@ -108,7 +108,7 @@ def check(machine):
 st.info(f"mold_length: {mold_length:.1f} mm")
 st.info(f"platen_x: {platen_x:.1f} mm")
 
-     # Width check
+    # Width check
     tie_y = machine.get("Tie Bar Y (mm)")
     #410
     platen_y = machine.get("Platen Y (mm)")
