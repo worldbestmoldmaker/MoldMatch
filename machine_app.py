@@ -70,13 +70,13 @@ st.header("Enter Mold Dimensions")
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    mold_length = st.number_input("Length (mm)", value=300)
+    mold_length = st.number_input("Length (mm)", value=636)
 
 with col2:
-    mold_width = st.number_input("Width (mm)", value=300)
+    mold_width = st.number_input("Width (mm)", value=396)
 
 with col3:
-    mold_height = st.number_input("Thickness (mm)", value=400)
+    mold_height = st.number_input("Thickness (mm)", value=458)
 
 # Clamp input
 clamp_required = st.number_input("Required Clamp Force (ton)", value=100)
@@ -108,10 +108,11 @@ def check(machine):
     tie_y = machine.get("Tie Bar Y (mm)")
     platen_y = machine.get("Platen Y (mm)")
 
-    if pd.notna(tie_y):
-        if mold_length > tie_y:
-            reasons.append("Too long")
-    elif pd.notna(platen_y):
+    #if pd.notna(tie_y):
+    #    if mold_length > tie_y:
+    #        reasons.append("Too long")
+    #elif pd.notna(platen_y):
+    if pd.notna(platen_y):
         if mold_length > platen_y:
             reasons.append("Too long")
 
