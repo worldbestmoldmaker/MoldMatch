@@ -2,6 +2,8 @@ import os
 import pandas as pd
 import streamlit as st
 
+
+
 # ---------------------------
 # TITLE
 # ---------------------------
@@ -14,6 +16,11 @@ st.markdown(
 # ---------------------------
 # LOAD DATA
 # ---------------------------
+
+
+if st.button("Refresh Data"):
+    st.cache_data.clear()
+
 @st.cache_data
 def load_data():
     base_path = os.path.dirname(__file__)
