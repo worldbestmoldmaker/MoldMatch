@@ -3,7 +3,15 @@ import os
 import pandas as pd
 import streamlit as st
 
-st.title("Machine Selection Tool")
+# st.title("Machine Selection Tool")
+st.markdown(
+    "# <span style='color:darkblue; font-style:italic;'>MoldMatch</span> - Machine Selection",
+    unsafe_allow_html=True
+)
+
+
+
+
 # Load data
 
 @st.cache_data
