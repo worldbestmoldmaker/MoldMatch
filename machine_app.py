@@ -140,9 +140,16 @@ def check(machine):
     if pd.notna(daylight_max) and required_opening > daylight_max:
         reasons.append("Too thick")
 
+
+# ✅ Optional clamp check
+    if clamp_required is not None:
+        if machine.get("Clamp Force (ton)", 0) < clamp_required:
+            reasons.append("Insufficient clamp")
+
+
     # Clamp check
-    if machine.get("Clamp Force (ton)", 0) < clamp_required:
-        reasons.append("Insufficient clamp")
+    #if machine.get("Clamp Force (ton)", 0) < clamp_required:
+    #    reasons.append("Insufficient clamp")
 
     # Daylight check
     daylight = machine.get("Daylight Max (mm)", 0)
