@@ -86,6 +86,8 @@ safety_clearance = mold_height * 0.1 + 20
 required_opening = mold_height + safety_clearance
 
 st.info(f"Required Machine Opening: {required_opening:.1f} mm")
+st.info(f"mold_length: {mold_length:.1f} mm")
+st.info(f"platen_x: {platen_x:.1f} mm")
 
 # ---------------------------
 # CHECK FUNCTION (FIXED)
@@ -105,11 +107,8 @@ def check(machine):
         if mold_length > platen_x:
             reasons.append("Too long")
 
-st.info(f"mold_length: {mold_length:.1f} mm")
-st.info(f"platen_x: {platen_x:.1f} mm")
-
     # Width check
-   tie_y = machine.get("Tie Bar Y (mm)")
+    tie_y = machine.get("Tie Bar Y (mm)")
     #410
     platen_y = machine.get("Platen Y (mm)")
     #621
