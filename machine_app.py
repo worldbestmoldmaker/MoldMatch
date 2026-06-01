@@ -122,7 +122,7 @@ else:
 
 
 
-df = pd.DataFrame(machines)
+# df = pd.DataFrame(machines)
 
 # ✅ OPTIONAL: filter by selected OEM
 if st.session_state.selected_oem:
