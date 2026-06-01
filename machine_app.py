@@ -95,8 +95,9 @@ def check(machine):
    
     # Length check
     tie_x = machine.get("Tie Bar X (mm)")
+    #410
     platen_x = machine.get("Platen X (mm)")
-
+    #650
     #if pd.notna(tie_x):
     #    if mold_length > tie_x:
     #        reasons.append("Too long")
@@ -106,7 +107,9 @@ def check(machine):
 
      # Width check
     tie_y = machine.get("Tie Bar Y (mm)")
+    #410
     platen_y = machine.get("Platen Y (mm)")
+    #621
 
     if pd.notna(tie_y):
         if mold_width > tie_y:
