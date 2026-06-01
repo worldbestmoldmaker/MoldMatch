@@ -2,24 +2,14 @@ import os
 import pandas as pd
 import streamlit as st
 
-
-import time
-
-
 # ---------------------------
 # TITLE
 # ---------------------------
-# st.markdown("# MoldMatch - Machine Selection")
-st.markdown(
-    "# <span style='color:darkblue; font-style:italic;'>MoldMatch</span> - Machine Selection",
-    unsafe_allow_html=True
-)
+st.markdown("# MoldMatch - Machine Selection")
 
 # ---------------------------
 # LOAD DATA
 # ---------------------------
-
-
 @st.cache_data
 def load_data():
     base_path = os.path.dirname(__file__)
@@ -84,43 +74,40 @@ with col2:
 with col3:
     mold_height = st.number_input("Thickness (mm)", value=458)
 
-# Clamp input
-clamp_required = st.number_input("Required Clamp Force (ton)", value=80)
+# ---------------------------
+# OPTIONAL CLAMP INPUT
+# ---------------------------
+st.subheader("Clamp Requirement")
 
-# Opening calculation
+use_clamp = st.checkbox("Apply Clamp Requirement", value=True)
+
+if use_clamp:
+    clamp_required = st.number_input("Required Clamp Force (ton)", value=80)
+else:
+    clamp_required = None
+
+# ---------------------------
+# OPENING CALCULATION
+# ---------------------------
 safety_clearance = mold_height * 0.1 + 20
 required_opening = mold_height + safety_clearance
 
 st.info(f"Required Machine Opening: {required_opening:.1f} mm")
-#st.info(f"mold_length: {mold_length:.1f} mm")
-#st.info(f"mold_height: {mold_height:.1f} mm")
 
 # ---------------------------
-# CHECK FUNCTION (FIXED)
+# CHECK FUNCTION
 # ---------------------------
 def check(machine):
     reasons = []
-   
-    # Length check
-    tie_x = machine.get("Tie Bar X (mm)")
-    #410
-    platen_x = machine.get("Platen X (mm)")
-    #650
-    #st.info(f"platen_x: {platen_x:.1f} mm")
 
-    if pd.notna(platen_x):
-        if mold_length > platen_x:
-            reasons.append("Too long")
-    elif pd.notna(platen_x):
-        if mold_length > platen_x:
-            reasons.append("Too long")
+    # Length check
+    platen_x = machine.get("Platen X (mm)")
+    if pd.notna(platen_x) and mold_length > platen_x:
+        reasons.append("Too long")
 
     # Width check
     tie_y = machine.get("Tie Bar Y (mm)")
-    #410
     platen_y = machine.get("Platen Y (mm)")
-    #621
-
     if pd.notna(tie_y):
         if mold_width > tie_y:
             reasons.append("Too wide")
@@ -128,29 +115,28 @@ def check(machine):
         if mold_width > platen_y:
             reasons.append("Too wide")
 
-    # Thickness (mold height)
+    # Thickness / opening check
     mold_min = machine.get("Mold Min (mm)", 0)
-    mold_max = machine.get("Mold Max (mm)", 9999)
     daylight_max = machine.get("Daylight Max (mm)", 9999)
 
     if pd.notna(mold_min) and mold_height < mold_min:
         reasons.append("Too thin")
 
-    # if pd.notna(mold_max) and mold_height > mold_max:
     if pd.notna(daylight_max) and required_opening > daylight_max:
         reasons.append("Too thick")
 
-    # Clamp check
-    if machine.get("Clamp Force (ton)", 0) < clamp_required:
-        reasons.append("Insufficient clamp")
+    # ✅ Optional clamp check
+    if clamp_required is not None:
+        if machine.get("Clamp Force (ton)", 0) < clamp_required:
+            reasons.append("Insufficient clamp")
 
     # Daylight check
     daylight = machine.get("Daylight Max (mm)", 0)
     if pd.notna(daylight) and required_opening > daylight:
-        reasons.append("Insufficient daylight")
+        if "Too thick" not in reasons:
+            reasons.append("Insufficient daylight")
 
     return "PASS" if not reasons else "FAIL", ", ".join(reasons)
-
 
 # ---------------------------
 # RUN BUTTON
@@ -188,6 +174,3 @@ if st.button("Run Compatibility Check"):
             f"{best['OEM']} - {best['Model']} ({best['Clamp (ton)']} ton)"
         )
     else:
-        st.error("❌ No compatible machines found")
-
-
