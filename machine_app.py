@@ -10,6 +10,36 @@ st.markdown(
 )
 
 
+# ---------------------------
+# MACHINE SELECTION (TOP UI)
+# ---------------------------
+st.header("Select Machine Brand")
+
+col1, col2, col3, col4 = st.columns(4)
+
+selected_oem = None
+
+with col1:
+    st.image("https://s3-prod.plasticsnews.com/styles/width_792/s3/ENGEL%20e-mac%20180.jpg")
+    if st.button("ENGEL"):
+        selected_oem = "ENGEL"
+
+with col2:
+    # st.image("https://www.arburg.com/media/_processed_/b/f/csm_186074-ALLROUNDER-470H-PREMIUM_fc43cccff1.jpg")
+    st.image("https://insights.globalspec.com/images/assets/776/24776/Allrounder_1000.jpg")
+    if st.button("ARBURG"):
+        selected_oem = "ARBURG"
+
+with col3:
+    st.image("https://www.plasticportal.eu/image/staticke/Image/2022_foto/2022_september/netstal_text1.jpg")
+    if st.button("NETSTAL"):
+        selected_oem = "NETSTAL"
+
+with col4:
+    st.image("https://www.tkpm.eu/wp-content/uploads/2015/11/The-New-IntElect-5-2017.jpg")
+    if st.button("SUMITOMO"):
+        selected_oem = "SUMITOMO"
+
 
 
 # Load data
