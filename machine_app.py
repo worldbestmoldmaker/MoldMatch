@@ -221,7 +221,7 @@ Proceed with:
 
 Consider widening clamp limits if additional options needed.
 """)
-    else:
+else:
         st.warning("No valid machines — review design inputs")
 
     # ===========================
