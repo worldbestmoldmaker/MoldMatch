@@ -53,7 +53,7 @@ with col3:
         selected_oem = "NETSTAL"
 
 with col4:
-    st.image("https://static.wixstatic.com/media/22a5c3_7bf8a568d3b84008ba793e09c1a1b409~mv2.jpeg/v1/fill/w_376,h_266,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/22a5c3_7bf8a568d3b84008ba793e09c1a1b409~mv2.jpeg")
+    st.image("https://static.wixstatic.com/media/22a5c3_c0c468b8427f474aa47bc3ea19e43a34~mv2.jpg/v1/fill/w_376,h_266,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/The-New-IntElect-5-2017_edited.jpg")
     if st.button("SUMITOMO"):
         selected_oem = "SUMITOMO"
 
