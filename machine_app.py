@@ -195,8 +195,8 @@ else:
         st.success("All machines passed")
 
     # Clamp distribution
-    st.subheader("Clamp Force Distribution")
-    st.bar_chart(results_df.set_index("Model")["Clamp (ton)"])
+st.subheader("Clamp Force Distribution")
+st.bar_chart(results_df.set_index("Model")["Clamp (ton)"])
 
     # ===========================
     # 🧠 ENGINEERING INSIGHTS
