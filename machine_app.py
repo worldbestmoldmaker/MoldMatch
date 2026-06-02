@@ -263,7 +263,7 @@ else:
     # ===========================
     # 🤖 COPILOT BUTTON
     # ===========================
-    if st.button("Generate Copilot 3D Simulation"):
-        with st.spinner("Generating..."):
+if st.button("Generate Copilot 3D Simulation"):
+    with st.spinner("Generating..."):
             time.sleep(2)
-        st.success("3D simulation generated (demo)")
+    st.success("3D simulation generated (demo)")
