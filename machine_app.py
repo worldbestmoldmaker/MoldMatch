@@ -90,13 +90,17 @@ with col3:
 # ---------------------------
 st.subheader("Clamp Requirement")
 
-use_clamp = st.checkbox("Apply Clamp Requirement", value=True)
+# use_clamp = st.checkbox("Apply Clamp Requirement", value=True)
 
-if use_clamp:
-    clamp_required = st.number_input("Required Clamp Force (ton)", value=80)
-else:
-    clamp_required = None
+# if use_clamp:
+#    clamp_required = st.number_input("Required Clamp Force (ton)", value=80)
+# else:
+#    clamp_required = None
 
+st.subheader("Clamp Requirement")
+
+clamp_min = st.number_input("Min Clamp (ton)", value=50)
+clamp_max = st.number_input("Max Clamp (ton)", value=200)
 
 
 # Clamp input
