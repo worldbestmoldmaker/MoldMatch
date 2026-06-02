@@ -100,7 +100,7 @@ else:
 
 
 # Clamp input
-clamp_required = st.number_input("Required Clamp Force (ton)", value=80)
+# clamp_required = st.number_input("Required Clamp Force (ton)", value=80)
 
 # Opening calculation
 safety_clearance = mold_height * 0.1 + 20
