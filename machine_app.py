@@ -1,25 +1,17 @@
 import os
 import pandas as pd
 import streamlit as st
-
-
+import plotly.graph_objects as go
 import time
-
 
 # ---------------------------
 # TITLE
 # ---------------------------
-# st.markdown("# MoldMatch - Machine Selection")
-st.markdown(
-    "# <span style='color:darkblue; font-style:italic;'>MoldMatch</span> - Machine Selection",
-    unsafe_allow_html=True
-)
+st.markdown("# MoldMatch - Machine Selection + Copilot Analysis")
 
 # ---------------------------
 # LOAD DATA
 # ---------------------------
-
-
 @st.cache_data
 def load_data():
     base_path = os.path.dirname(__file__)
@@ -38,26 +30,21 @@ col1, col2, col3, col4 = st.columns(4)
 selected_oem = None
 
 with col1:
-    st.image("https://static.wixstatic.com/media/22a5c3_8ccee611ed11458b92d28dda93a3df86~mv2.jpeg/v1/fill/w_600,h_400,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ENGEL%20e-mac%20180.jpeg")
     if st.button("ENGEL"):
         selected_oem = "ENGEL"
 
 with col2:
-    st.image("https://static.wixstatic.com/media/22a5c3_8da520d483c5457f9abd0adb3a1ab9ee~mv2.png/v1/fill/w_399,h_266,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/arburg2_edited_edited.png")
     if st.button("ARBURG"):
         selected_oem = "ARBURG"
 
 with col3:
-    st.image("https://static.wixstatic.com/media/22a5c3_fa5afcc9c002422ea8806b087440bd00~mv2.jpeg/v1/fill/w_399,h_266,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/netstal_text1.jpeg")
     if st.button("NETSTAL"):
         selected_oem = "NETSTAL"
 
 with col4:
-    st.image("https://static.wixstatic.com/media/22a5c3_c0c468b8427f474aa47bc3ea19e43a34~mv2.jpg/v1/fill/w_376,h_266,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/The-New-IntElect-5-2017_edited.jpg")
     if st.button("SUMITOMO"):
         selected_oem = "SUMITOMO"
 
-# Session state
 if "selected_oem" not in st.session_state:
     st.session_state.selected_oem = None
 
@@ -84,102 +71,52 @@ with col2:
 with col3:
     mold_height = st.number_input("Thickness (mm)", value=458)
 
-
-# ---------------------------
-# OPTIONAL CLAMP INPUT
-# ---------------------------
+# Clamp
 st.subheader("Clamp Requirement")
-
-# use_clamp = st.checkbox("Apply Clamp Requirement", value=True)
-
-# if use_clamp:
-#    clamp_required = st.number_input("Required Clamp Force (ton)", value=80)
-# else:
-#    clamp_required = None
-
-# st.subheader("Clamp Requirement")
-
 clamp_min = st.number_input("Min Clamp (ton)", value=50)
 clamp_max = st.number_input("Max Clamp (ton)", value=200)
-
-
-# Clamp input
-# clamp_required = st.number_input("Required Clamp Force (ton)", value=80)
 
 # Opening calculation
 safety_clearance = mold_height * 0.1 + 20
 required_opening = mold_height + safety_clearance
 
 st.info(f"Required Machine Opening: {required_opening:.1f} mm")
-#st.info(f"mold_length: {mold_length:.1f} mm")
-#st.info(f"mold_height: {mold_height:.1f} mm")
 
 # ---------------------------
-# CHECK FUNCTION (FIXED)
+# CHECK FUNCTION
 # ---------------------------
 def check(machine):
     reasons = []
-   
-    # Length check
-    tie_x = machine.get("Tie Bar X (mm)")
-    #410
+
     platen_x = machine.get("Platen X (mm)")
-    #650
-    #st.info(f"platen_x: {platen_x:.1f} mm")
+    if pd.notna(platen_x) and mold_length > platen_x:
+        reasons.append("Too long")
 
-    if pd.notna(platen_x):
-        if mold_length > platen_x:
-            reasons.append("Too long")
-    elif pd.notna(platen_x):
-        if mold_length > platen_x:
-            reasons.append("Too long")
-
-    # Width check
     tie_y = machine.get("Tie Bar Y (mm)")
-    #410
     platen_y = machine.get("Platen Y (mm)")
-    #621
 
-    if pd.notna(tie_y):
-        if mold_width > tie_y:
-            reasons.append("Too wide")
-    elif pd.notna(platen_y):
-        if mold_width > platen_y:
-            reasons.append("Too wide")
+    if pd.notna(tie_y) and mold_width > tie_y:
+        reasons.append("Too wide")
+    elif pd.notna(platen_y) and mold_width > platen_y:
+        reasons.append("Too wide")
 
-    # Thickness (mold height)
     mold_min = machine.get("Mold Min (mm)", 0)
-    mold_max = machine.get("Mold Max (mm)", 9999)
     daylight_max = machine.get("Daylight Max (mm)", 9999)
 
     if pd.notna(mold_min) and mold_height < mold_min:
         reasons.append("Too thin")
 
-    # if pd.notna(mold_max) and mold_height > mold_max:
     if pd.notna(daylight_max) and required_opening > daylight_max:
         reasons.append("Too thick")
 
-
-# ✅ Optional clamp check
-    #if clamp_required is not None:
-    #    if machine.get("Clamp Force (ton)", 0) < clamp_required:
-    #        reasons.append("Insufficient clamp")
-    
     clamp_force = machine.get("Clamp Force (ton)", 0)
     if not (clamp_min <= clamp_force <= clamp_max):
-        reasons.append("Clamp force out of range")
+        reasons.append("Clamp out of range")
 
-    # Clamp check
-    #if machine.get("Clamp Force (ton)", 0) < clamp_required:
-    #    reasons.append("Insufficient clamp")
-
-    # Daylight check
-    daylight = machine.get("Daylight Max (mm)", 0)
-    if pd.notna(daylight) and required_opening > daylight:
+    if pd.notna(daylight_max) and required_opening > daylight_max:
         reasons.append("Insufficient daylight")
 
-    return "PASS" if not reasons else "FAIL", ", ".join(reasons)
-
+    return "PASS" if not reasons else "FAIL", ", ".join(set(reasons))
 
 # ---------------------------
 # RUN BUTTON
@@ -190,7 +127,6 @@ if st.button("Run Compatibility Check"):
 
     for _, m in df.iterrows():
         status, reason = check(m)
-
         results.append({
             "OEM": m["OEM"],
             "Model": m["Model"],
@@ -201,19 +137,17 @@ if st.button("Run Compatibility Check"):
 
     results_df = pd.DataFrame(results)
 
-    #st.subheader("Results")
-    #st.dataframe(results_df)
-
+    # ---------------------------
+    # SHOW PASSED
+    # ---------------------------
+    st.subheader("✅ Passed Machines")
     passed_df = results_df[results_df["Status"] == "PASS"]
-
-    st.subheader("Passed Machines Only")
     st.dataframe(passed_df)
 
     # ---------------------------
-    # BEST MACHINE LOGIC
+    # BEST MACHINE
     # ---------------------------
-    valid = results_df[results_df["Status"] == "PASS"]
-
+    valid = passed_df
     if len(valid) > 0:
         best = valid.sort_values("Clamp (ton)").iloc[0]
 
@@ -224,4 +158,20 @@ if st.button("Run Compatibility Check"):
     else:
         st.error("❌ No compatible machines found")
 
+    # ===========================
+    # 📊 RESULTS ANALYSIS
+    # ===========================
+    st.header("📊 Results Analysis")
+
+    total = len(results_df)
+    passed = len(passed_df)
+    failed = total - passed
+
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Total Machines", total)
+    c2.metric("Passed", passed)
+    c3.metric("Failed", failed)
+
+    # Failure reasons
+    st.subheader("Failure Breakdown")
 
