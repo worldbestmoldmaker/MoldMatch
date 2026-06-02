@@ -43,7 +43,7 @@ with col1:
         selected_oem = "ENGEL"
 
 with col2:
-    st.image("https://static.wixstatic.com/media/22a5c3_a5d69d06e7fe43a8a1bdccbfdff0c5f4~mv2.webp/v1/fill/w_525,h_266,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/arburg2.webp")
+    st.image("https://static.wixstatic.com/media/22a5c3_8da520d483c5457f9abd0adb3a1ab9ee~mv2.png/v1/fill/w_399,h_266,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/arburg2_edited_edited.png")
     if st.button("ARBURG"):
         selected_oem = "ARBURG"
 
