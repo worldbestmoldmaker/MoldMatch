@@ -183,7 +183,7 @@ if st.button("Run Compatibility Check"):
 
 fail_df = results_df[results_df["Status"] == "FAIL"]
 
-   if not fail_df.empty:
+if not fail_df.empty:
         reason_counts = (
             fail_df["Reason"]
             .str.split(", ")
@@ -191,7 +191,7 @@ fail_df = results_df[results_df["Status"] == "FAIL"]
             .value_counts()
         )
         st.bar_chart(reason_counts)
-    else:
+else:
         st.success("All machines passed")
 
     # Clamp distribution
