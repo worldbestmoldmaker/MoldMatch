@@ -247,17 +247,17 @@ fig.update_layout(
         )
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, use_container_width=True)
 
     # ===========================
     # 🎥 OPTIONAL VIDEO
     # ===========================
-    st.header("🎥 3D Simulation (Optional)")
+st.header("🎥 3D Simulation (Optional)")
 
-    if os.path.exists("mold_simulation.mp4"):
+if os.path.exists("mold_simulation.mp4"):
         video_file = open("mold_simulation.mp4", "rb")
         st.video(video_file.read())
-    else:
+else:
         st.info("No simulation video found. Add mold_simulation.mp4 to enable.")
 
     # ===========================
