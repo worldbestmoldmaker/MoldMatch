@@ -53,7 +53,7 @@ with col3:
         selected_oem = "NETSTAL"
 
 with col4:
-    st.image("Commit changes")
+    st.image("https://static.wixstatic.com/media/22a5c3_c0c468b8427f474aa47bc3ea19e43a34~mv2.jpg/v1/fill/w_376,h_266,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/The-New-IntElect-5-2017_edited.jpg")
     if st.button("SUMITOMO"):
         selected_oem = "SUMITOMO"
 
