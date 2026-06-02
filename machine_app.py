@@ -43,17 +43,17 @@ with col1:
         selected_oem = "ENGEL"
 
 with col2:
-    st.image("https://insights.globalspec.com/images/assets/776/24776/Allrounder_1000.jpg")
+    st.image("https://static.wixstatic.com/media/22a5c3_a5d69d06e7fe43a8a1bdccbfdff0c5f4~mv2.webp/v1/fill/w_525,h_266,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/arburg2.webp")
     if st.button("ARBURG"):
         selected_oem = "ARBURG"
 
 with col3:
-    st.image("https://www.plasticportal.eu/image/staticke/Image/2022_foto/2022_september/netstal_text1.jpg")
+    st.image("https://static.wixstatic.com/media/22a5c3_fa5afcc9c002422ea8806b087440bd00~mv2.jpeg/v1/fill/w_399,h_266,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/netstal_text1.jpeg")
     if st.button("NETSTAL"):
         selected_oem = "NETSTAL"
 
 with col4:
-    st.image("https://www.tkpm.eu/wp-content/uploads/2015/11/The-New-IntElect-5-2017.jpg")
+    st.image("https://static.wixstatic.com/media/22a5c3_7bf8a568d3b84008ba793e09c1a1b409~mv2.jpeg/v1/fill/w_376,h_266,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/22a5c3_7bf8a568d3b84008ba793e09c1a1b409~mv2.jpeg")
     if st.button("SUMITOMO"):
         selected_oem = "SUMITOMO"
 
