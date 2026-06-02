@@ -201,7 +201,7 @@ st.bar_chart(results_df.set_index("Model")["Clamp (ton)"])
     # ===========================
     # 🧠 ENGINEERING INSIGHTS
     # ===========================
-    st.header("🧠 Copilot Engineering Insights")
+st.header("🧠 Copilot Engineering Insights")
 
     if len(valid) > 0:
         st.markdown(f"""
