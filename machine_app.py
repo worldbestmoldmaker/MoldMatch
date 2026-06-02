@@ -201,8 +201,13 @@ if st.button("Run Compatibility Check"):
 
     results_df = pd.DataFrame(results)
 
-    st.subheader("Results")
-    st.dataframe(results_df)
+    #st.subheader("Results")
+    #st.dataframe(results_df)
+
+    passed_df = results_df[results_df["Status"] == "PASS"]
+
+    st.subheader("Passed Machines Only")
+    st.dataframe(passed_df)
 
     # ---------------------------
     # BEST MACHINE LOGIC
