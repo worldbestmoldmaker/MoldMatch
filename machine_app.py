@@ -180,3 +180,90 @@ if st.button("Run Compatibility Check"):
     # Failure reasons
     st.subheader("Failure Breakdown")
 
+
+fail_df = results_df[results_df["Status"] == "FAIL"]
+
+    if not fail_df.empty:
+        reason_counts = (
+            fail_df["Reason"]
+            .str.split(", ")
+            .explode()
+            .value_counts()
+        )
+        st.bar_chart(reason_counts)
+    else:
+        st.success("All machines passed")
+
+    # Clamp distribution
+    st.subheader("Clamp Force Distribution")
+    st.bar_chart(results_df.set_index("Model")["Clamp (ton)"])
+
+    # ===========================
+    # 🧠 ENGINEERING INSIGHTS
+    # ===========================
+    st.header("🧠 Copilot Engineering Insights")
+
+    if len(valid) > 0:
+        st.markdown(f"""
+### Key Findings
+- {passed}/{total} machines satisfy constraints
+- Best candidate: **{best['Model']}**
+- Lowest clamp force = most cost-efficient choice
+
+### Constraints Driving Failure
+- Mold size vs platen limits
+- Daylight / opening requirements
+- Clamp window restriction
+
+### Recommendation
+Proceed with:
+**{best['OEM']} {best['Model']} ({best['Clamp (ton)']} ton)**
+
+Consider widening clamp limits if additional options needed.
+""")
+    else:
+        st.warning("No valid machines — review design inputs")
+
+    # ===========================
+    # 🧊 3D VISUALIZATION
+    # ===========================
+    st.header("🧊 3D Mold Visualization")
+
+    fig = go.Figure()
+
+    fig.add_trace(go.Mesh3d(
+        x=[0, mold_length, mold_length, 0, 0, mold_length, mold_length, 0],
+        y=[0, 0, mold_width, mold_width, 0, 0, mold_width, mold_width],
+        z=[0, 0, 0, 0, mold_height, mold_height, mold_height, mold_height],
+        opacity=0.5,
+        color='blue'
+    ))
+
+    fig.update_layout(
+        scene=dict(
+            xaxis_title="Length",
+            yaxis_title="Width",
+            zaxis_title="Height"
+        )
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+    # ===========================
+    # 🎥 OPTIONAL VIDEO
+    # ===========================
+    st.header("🎥 3D Simulation (Optional)")
+
+    if os.path.exists("mold_simulation.mp4"):
+        video_file = open("mold_simulation.mp4", "rb")
+        st.video(video_file.read())
+    else:
+        st.info("No simulation video found. Add mold_simulation.mp4 to enable.")
+
+    # ===========================
+    # 🤖 COPILOT BUTTON
+    # ===========================
+    if st.button("Generate Copilot 3D Simulation"):
+        with st.spinner("Generating..."):
+            time.sleep(2)
+        st.success("3D simulation generated (demo)")
