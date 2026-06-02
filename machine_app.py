@@ -227,7 +227,7 @@ else:
     # ===========================
     # 🧊 3D VISUALIZATION
     # ===========================
-    st.header("🧊 3D Mold Visualization")
+st.header("🧊 3D Mold Visualization")
 
     fig = go.Figure()
 
