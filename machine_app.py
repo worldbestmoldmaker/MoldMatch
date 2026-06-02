@@ -97,7 +97,7 @@ st.subheader("Clamp Requirement")
 # else:
 #    clamp_required = None
 
-st.subheader("Clamp Requirement")
+# st.subheader("Clamp Requirement")
 
 clamp_min = st.number_input("Min Clamp (ton)", value=50)
 clamp_max = st.number_input("Max Clamp (ton)", value=200)
