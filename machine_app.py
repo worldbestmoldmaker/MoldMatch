@@ -229,9 +229,9 @@ else:
     # ===========================
 st.header("🧊 3D Mold Visualization")
 
-    fig = go.Figure()
+fig = go.Figure()
 
-    fig.add_trace(go.Mesh3d(
+fig.add_trace(go.Mesh3d(
         x=[0, mold_length, mold_length, 0, 0, mold_length, mold_length, 0],
         y=[0, 0, mold_width, mold_width, 0, 0, mold_width, mold_width],
         z=[0, 0, 0, 0, mold_height, mold_height, mold_height, mold_height],
@@ -239,7 +239,7 @@ st.header("🧊 3D Mold Visualization")
         color='blue'
     ))
 
-    fig.update_layout(
+fig.update_layout(
         scene=dict(
             xaxis_title="Length",
             yaxis_title="Width",
