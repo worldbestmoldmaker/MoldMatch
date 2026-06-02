@@ -203,7 +203,7 @@ st.bar_chart(results_df.set_index("Model")["Clamp (ton)"])
     # ===========================
 st.header("🧠 Copilot Engineering Insights")
 
-    if len(valid) > 0:
+if len(valid) > 0:
         st.markdown(f"""
 ### Key Findings
 - {passed}/{total} machines satisfy constraints
