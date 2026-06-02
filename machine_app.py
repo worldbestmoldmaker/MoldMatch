@@ -161,10 +161,13 @@ def check(machine):
 
 
 # ✅ Optional clamp check
-    if clamp_required is not None:
-        if machine.get("Clamp Force (ton)", 0) < clamp_required:
-            reasons.append("Insufficient clamp")
-
+    #if clamp_required is not None:
+    #    if machine.get("Clamp Force (ton)", 0) < clamp_required:
+    #        reasons.append("Insufficient clamp")
+    
+    clamp_force = machine.get("Clamp Force (ton)", 0)
+    if not (clamp_min <= clamp_force <= clamp_max):
+        reasons.append("Clamp force out of range")
 
     # Clamp check
     #if machine.get("Clamp Force (ton)", 0) < clamp_required:
