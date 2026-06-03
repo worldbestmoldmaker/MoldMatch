@@ -185,9 +185,11 @@ if st.button("Run Compatibility Check"):
         area_ratio = (mold_area / platen_area) * 100
 
     # Safety color logic
-        if area_ratio < 50:
-            ratio_color = "🟢 SAFE"
-        elif area_ratio < 70:
+        if area_ratio < 40:
+            ratio_color = "🟢 WARNING"        
+        elif area_ratio < 60:
+            ratio_color = "🟢 🔴 SAFE"
+        elif area_ratio < 80:
             ratio_color = "🟡 WARNING"
         else:
             ratio_color = "🔴 RISK"
