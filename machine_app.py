@@ -122,7 +122,6 @@ def check(machine):
         reasons.append("Insufficient daylight")
 
     return "PASS" if not reasons else "FAIL", ", ".join(set(reasons))
-
 # ---------------------------
 # RUN BUTTON
 # ---------------------------
@@ -179,7 +178,7 @@ if st.button("Run Compatibility Check"):
     # Failure reasons
     st.subheader("Failure Breakdown")
 
-    fail_df = results_df[results_df["Status"] == "FAIL"]   # ✅ NOW INSIDE
+    fail_df = results_df[results_df["Status"] == "FAIL"]
 
     if not fail_df.empty:
         reason_counts = (
@@ -191,13 +190,13 @@ if st.button("Run Compatibility Check"):
         st.bar_chart(reason_counts)
     else:
         st.success("All machines passed")
+
     # ===========================
-    # 🧊 3D VISUALIZATION
+    # 🧊 3D Mold Visualization
     # ===========================
     st.header("🧊 3D Mold Visualization")
 
     if len(valid) > 0:
-
         platen_x = best["Platen X (mm)"]
         platen_y = best["Platen Y (mm)"]
 
@@ -210,7 +209,7 @@ if st.button("Run Compatibility Check"):
 
         fig = go.Figure()
 
-        # --- Platen (flat rectangle) ---
+        # Platen
         fig.add_trace(go.Mesh3d(
             x=[0, platen_x, platen_x, 0, 0, platen_x, platen_x, 0],
             y=[0, 0, platen_y, platen_y, 0, 0, platen_y, platen_y],
@@ -220,7 +219,7 @@ if st.button("Run Compatibility Check"):
             name="Platen"
         ))
 
-        # --- Mold Block (centered) ---
+        # Mold block
         fig.add_trace(go.Mesh3d(
             x=[mold_x0, mold_x1, mold_x1, mold_x0, mold_x0, mold_x1, mold_x1, mold_x0],
             y=[mold_y0, mold_y0, mold_y1, mold_y1, mold_y0, mold_y0, mold_y1, mold_y1],
@@ -242,7 +241,6 @@ if st.button("Run Compatibility Check"):
         )
 
         st.plotly_chart(fig, use_container_width=True)
-
     else:
         st.info("Run compatibility check to visualize mold on platen.")
 
