@@ -200,15 +200,15 @@ if st.button("Run Compatibility Check"):
 
     if len(valid) > 0:
 
-    platen_x = best["Platen X (mm)"]
-    platen_y = best["Platen Y (mm)"]
+        platen_x = best["Platen X (mm)"]
+        platen_y = best["Platen Y (mm)"]
 
     # Center mold on platen
-    mold_x0 = (platen_x - mold_length) / 2
-    mold_x1 = mold_x0 + mold_length
+        mold_x0 = (platen_x - mold_length) / 2
+        mold_x1 = mold_x0 + mold_length
 
-    mold_y0 = (platen_y - mold_width) / 2
-    mold_y1 = mold_y0 + mold_width
+        mold_y0 = (platen_y - mold_width) / 2
+        mold_y1 = mold_y0 + mold_width
 
     fig = go.Figure()
 
