@@ -105,12 +105,12 @@ with c2:
 #shot_weight = st.number_input("Shot Weight (g)", value=5)
 
 # Shot Weight
-st.subheader("⚖️ Shot Weight")
+st.subheader("⚖️ Shot Weight (g)")
 
 c1, c2, c3 = st.columns([1, 1, 1])
 
 with c2:
-    shot_weight = st.number_input("     Shot (g)", value=5)
+    shot_weight = st.number_input(" ", value=5)
 
 
 # Opening calculation
