@@ -184,8 +184,10 @@ if st.button("Run Compatibility Check"):
         mold_area = mold_length * mold_width
         platen_area = platen_x * platen_y
         area_ratio = (mold_area / platen_area) * 100
+        st.write("Platen_x", platen_x)
+        st.write("platen_y:", platen_y)
 
-    # --- Opening Gap ---
+# --- Opening Gap ---
         opening_gap = daylight_max - required_opening
 
         st.subheader("📐 Mold Fit Analysis")
