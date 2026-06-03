@@ -7,7 +7,7 @@ import time
 # ---------------------------
 # TITLE
 # ---------------------------
-st.markdown("# MoldMatch - Machine Selection + Copilot Analysis")
+st.markdown("# MoldMatch")
 
 # ---------------------------
 # LOAD DATA
@@ -171,7 +171,7 @@ if st.button("Run Compatibility Check"):
 # ===========================
 # 📐 Mold Fit Analysis
 # ===========================
-if len(valid) > 0:
+    if len(valid) > 0:
 
     # Pull full machine row from original df
     machine_row = df[df["Model"] == best["Model"]].iloc[0]
