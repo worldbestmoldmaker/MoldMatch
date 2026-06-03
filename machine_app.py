@@ -7,7 +7,11 @@ import time
 # ---------------------------
 # TITLE
 # ---------------------------
-st.markdown("# MoldMatch”)
+#st.markdown("# MoldMatch”)
+st.markdown(
+    "<h1 style='color:#003366; font-style:italic;'>MoldMatch</h1>",
+    unsafe_allow_html=True
+)
 
 # ---------------------------
 # LOAD DATA
