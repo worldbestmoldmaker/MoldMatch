@@ -89,10 +89,16 @@ with col2:
 with col3:
     mold_height = st.number_input("Thickness (mm)", value=458)
 
-# Clamp
+# Clamp Requirement
 st.subheader("Clamp Requirement")
-clamp_min = st.number_input("Min Clamp (ton)", value=50)
-clamp_max = st.number_input("Max Clamp (ton)", value=200)
+
+c1, c2 = st.columns(2)
+
+with c1:
+    clamp_min = st.number_input("Min Clamp (ton)", value=50)
+
+with c2:
+    clamp_max = st.number_input("Max Clamp (ton)", value=200)
 
 # Shot Weight
 st.subheader("Shot Weight")
