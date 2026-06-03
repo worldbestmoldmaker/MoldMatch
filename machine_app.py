@@ -266,7 +266,7 @@ if st.button("Click to Run"):
 st.subheader("⚖️ Shot Weight Analysis")
 
 # Machine data (from your dataset)
-machine_shot = selected_machine["Shot Weight (g)"]
+machine_shot = machine_row["Shot Weight (g)"]
 
 # User input
 actual_shot = shot_weight
