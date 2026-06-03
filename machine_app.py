@@ -7,7 +7,7 @@ import time
 # ---------------------------
 # TITLE
 # ---------------------------
-st.markdown("# MoldMatch” Dark Blue)
+st.markdown("# MoldMatch”)
 
 # ---------------------------
 # LOAD DATA
