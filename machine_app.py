@@ -76,7 +76,7 @@ if st.session_state.selected_oem:
 # ---------------------------
 # INPUTS
 # ---------------------------
-st.subheader("📦Enter Mold Dimensions")
+st.subheader("📦 Enter Mold Dimensions")
 
 col1, col2, col3 = st.columns(3)
 
