@@ -196,9 +196,9 @@ if st.button("Run Compatibility Check"):
     # ===========================
     # 🧊 3D VISUALIZATION
     # ===========================
-st.header("🧊 3D Mold Visualization")
+    st.header("🧊 3D Mold Visualization")
 
-if len(valid) > 0:
+    if len(valid) > 0:
 
     platen_x = best["Platen X (mm)"]
     platen_y = best["Platen Y (mm)"]
