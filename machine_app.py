@@ -266,10 +266,11 @@ if st.button("Click to Run"):
 st.subheader("⚖️ Shot Weight Analysis")
 
 # Machine data (from your dataset)
-machine_shot = m["Shot Weight (g)"]
+machine_shot = selected_machine["Shot Weight (g)"]
 
 # User input
-actual_shot = st.number_input("Actual Shot Weight (g)", value=50)
+actual_shot = shot_weight
+#st.number_input("Actual Shot Weight (g)", value=50)
 
 # Calculate utilization
 if machine_shot > 0:
