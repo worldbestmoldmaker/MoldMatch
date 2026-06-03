@@ -19,7 +19,7 @@ def load_data():
     return pd.read_excel(file_path, engine="openpyxl")
 
 df = load_data()
-    st.write(df.columns.tolist())
+st.write(df.columns.tolist())
 # ---------------------------
 # OEM SELECTION
 # ---------------------------
