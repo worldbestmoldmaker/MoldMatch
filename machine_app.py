@@ -189,7 +189,8 @@ if st.button("Run Compatibility Check"):
         #st.write("platen_y:", platen_y)
 
 # --- Opening Gap ---
-        opening_gap = daylight_max - required_opening
+        opening_gap = daylight_max - mold_height
+        #required_opening
 
         st.subheader("📐 Mold Fit Analysis")
 
