@@ -211,11 +211,11 @@ if st.button("Run Compatibility Check"):
         cA.write(f"{ratio_color} **Projected Area Ratio**")
         cA.metric("Projected Area Ratio", f"{area_ratio:.1f}%")
 
-        cA.metric(
+     #   cA.metric(
     #        f"{ratio_color} Projected Area Ratio",
     #        f"{area_ratio:.1f}%",
-            help="Mold projected area divided by platen area"
-        )
+    #        help="Mold projected area divided by platen area"
+     #   )
 
         cB.metric(
             f"{gap_color} Opening Gap",
