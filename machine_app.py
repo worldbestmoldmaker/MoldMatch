@@ -129,15 +129,18 @@ if st.button("Run Compatibility Check"):
 
     results = []
 
-    for _, m in df.iterrows():
+        for _, m in df.iterrows():
         status, reason = check(m)
         results.append({
             "OEM": m["OEM"],
             "Model": m["Model"],
             "Clamp (ton)": m["Clamp Force (ton)"],
+            "Platen X (mm)": m["Platen X (mm)"],   # 👈 add this
+            "Platen Y (mm)": m["Platen Y (mm)"],   # 👈 add this
             "Status": status,
             "Reason": reason
         })
+
 
     results_df = pd.DataFrame(results)
 
