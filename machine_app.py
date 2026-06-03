@@ -101,8 +101,17 @@ with c2:
     clamp_max = st.number_input("Max Clamp (ton)", value=200)
 
 # Shot Weight
-st.subheader("Shot Weight")
-shot_weight = st.number_input("Shot Weight (g)", value=5)
+#st.subheader("Shot Weight")
+#shot_weight = st.number_input("Shot Weight (g)", value=5)
+
+# Shot Weight
+st.subheader("⚖️ Shot Weight")
+
+c1, c2, c3 = st.columns([1, 2, 1])
+
+with c2:
+    shot_weight = st.number_input("Shot (g)", value=5)
+
 
 # Opening calculation
 safety_clearance = mold_height * 0.1 + 20
