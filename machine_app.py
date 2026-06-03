@@ -198,8 +198,8 @@ if st.button("Run Compatibility Check"):
 
     if len(valid) > 0:
 
-        platen_x = best["Platen X (mm)"]
-        platen_y = best["Platen Y (mm)"]
+    platen_x = best["Platen X (mm)"]
+    platen_y = best["Platen Y (mm)"]
 
         # Center mold on platen
         mold_x0 = (platen_x - mold_length) / 2
