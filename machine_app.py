@@ -28,7 +28,8 @@ df = load_data()
 # ---------------------------
 # OEM SELECTION
 # ---------------------------
-st.header("Select Machine Brand")
+#st.header("Select Machine Brand")
+st.subheader("Select Machine Brand")
 
 col1, col2, col3, col4 = st.columns(4)
 
