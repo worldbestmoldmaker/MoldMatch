@@ -76,7 +76,7 @@ if st.session_state.selected_oem:
 # ---------------------------
 # INPUTS
 # ---------------------------
-st.subheader("Enter Mold Dimensions")
+st.subheader("📦Enter Mold Dimensions")
 
 col1, col2, col3 = st.columns(3)
 
@@ -90,7 +90,7 @@ with col3:
     mold_height = st.number_input("Thickness (mm)", value=458)
 
 # Clamp Requirement
-st.subheader("Clamp Requirement")
+st.subheader("🏗️ Clamp Requirement")
 
 c1, c2 = st.columns(2)
 
