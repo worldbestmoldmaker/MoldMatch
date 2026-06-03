@@ -20,7 +20,7 @@ def load_data():
 
 df = load_data()
 #st.write(df.columns.tolist())
-st.write("COLUMNS:", df.columns.tolist())
+#st.write("COLUMNS:", df.columns.tolist())
 # ---------------------------
 # OEM SELECTION
 # ---------------------------
