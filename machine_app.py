@@ -211,51 +211,51 @@ if st.button("Run Compatibility Check"):
 # ===========================
 # 📐 Mold Fit Analysis (with safety colors)
 # ===========================
-if len(valid) > 0:
+    if len(valid) > 0:
 
     # Pull full machine row from original df
-    machine_row = df[df["Model"] == best["Model"]].iloc[0]
+        machine_row = df[df["Model"] == best["Model"]].iloc[0]
 
-    platen_x = machine_row["Platen X (mm)"]
-    platen_y = machine_row["Platen Y (mm)"]
-    daylight_max = machine_row["Daylight Max (mm)"]
+        platen_x = machine_row["Platen X (mm)"]
+        platen_y = machine_row["Platen Y (mm)"]
+        daylight_max = machine_row["Daylight Max (mm)"]
 
     # --- Mold vs Platen Area ---
-    mold_area = mold_length * mold_width
-    platen_area = platen_x * platen_y
-    area_ratio = (mold_area / platen_area) * 100
+        mold_area = mold_length * mold_width
+        platen_area = platen_x * platen_y
+        area_ratio = (mold_area / platen_area) * 100
 
     # Safety color logic
-    if area_ratio < 50:
-        ratio_color = "🟢"
-    elif area_ratio < 70:
-        ratio_color = "🟡"
-    else:
-        ratio_color = "🔴"
+        if area_ratio < 50:
+            ratio_color = "🟢"
+        elif area_ratio < 70:
+            ratio_color = "🟡"
+        else:
+            ratio_color = "🔴"
 
     # --- Opening Gap ---
-    opening_gap = daylight_max - required_opening
+        opening_gap = daylight_max - required_opening
 
-    if opening_gap >= 0:
-        gap_color = "🟢"
-    elif opening_gap > -20:
-        gap_color = "🟡"
-    else:
-        gap_color = "🔴"
+        if opening_gap >= 0:
+            gap_color = "🟢"
+        elif opening_gap > -20:
+            gap_color = "🟡"
+        else:
+            gap_color = "🔴"
 
-    st.subheader("📐 Mold Fit Analysis")
+        st.subheader("📐 Mold Fit Analysis")
 
-    cA, cB = st.columns(2)
+        cA, cB = st.columns(2)
 
-    cA.metric(
-        f"{ratio_color} Projected Area Ratio",
-        f"{area_ratio:.1f}%",
-        help="Mold projected area divided by platen area"
-    )
+        cA.metric(
+            f"{ratio_color} Projected Area Ratio",
+            f"{area_ratio:.1f}%",
+            help="Mold projected area divided by platen area"
+        )
 
-    cB.metric(
-        f"{gap_color} Opening Gap",
-        f"{opening_gap:.1f} mm",
-        help="Positive = mold fits with margin; Negative = mold too tall"
-    )
+        cB.metric(
+            f"{gap_color} Opening Gap",
+            f"{opening_gap:.1f} mm",
+            help="Positive = mold fits with margin; Negative = mold too tall"
+        )
 
