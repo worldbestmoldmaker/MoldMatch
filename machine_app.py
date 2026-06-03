@@ -94,6 +94,10 @@ st.subheader("Clamp Requirement")
 clamp_min = st.number_input("Min Clamp (ton)", value=50)
 clamp_max = st.number_input("Max Clamp (ton)", value=200)
 
+# Shot Weight
+st.subheader("Shot Weight")
+shot_weight = st.number_input("Shot Weight (g)", value=5)
+
 # Opening calculation
 safety_clearance = mold_height * 0.1 + 20
 required_opening = mold_height + safety_clearance
