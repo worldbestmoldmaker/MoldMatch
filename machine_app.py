@@ -170,45 +170,6 @@ if st.button("Run Compatibility Check"):
     # ===========================
     st.header("📊 Results Analysis")
 # ===========================
-# 📐 Mold Fit Analysis
-# ===========================
-    if len(valid) > 0:
-
-    # Pull full machine row from original df
-        machine_row = df[df["Model"] == best["Model"]].iloc[0]
-
-        platen_x = machine_row["Platen X (mm)"]
-        platen_y = machine_row["Platen Y (mm)"]
-        daylight_max = machine_row["Daylight Max (mm)"]
-
-    # --- Mold vs Platen Area ---
-        mold_area = mold_length * mold_width
-        platen_area = platen_x * platen_y
-        area_ratio = (mold_area / platen_area) * 100
-        #st.write("Platen_x", platen_x)
-        #st.write("platen_y:", platen_y)
-
-# --- Opening Gap ---
-        opening_gap = daylight_max - mold_height
-        #required_opening
-
-        st.subheader("📐 Mold Fit Analysis")
-
-        cA, cB = st.columns(2)
-
-        cA.metric(
-            "Projected Area Ratio",
-            f"{area_ratio:.1f}%",
-            help="Mold projected area divided by platen area"
-        )
-
-        cB.metric(
-            "Opening Gap",
-            f"{opening_gap:.1f} mm",
-            help="Positive = mold fits with margin; Negative = mold too tall"
-        )
-
-# ===========================
 # 📐 Mold Fit Analysis (with safety colors)
 # ===========================
     if len(valid) > 0:
@@ -234,7 +195,7 @@ if st.button("Run Compatibility Check"):
             ratio_color = "🔴"
 
     # --- Opening Gap ---
-        opening_gap = daylight_max - required_opening
+        opening_gap = daylight_max - mold_height
 
         if opening_gap >= 0:
             gap_color = "🟢"
