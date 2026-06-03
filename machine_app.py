@@ -136,6 +136,7 @@ if st.button("Run Compatibility Check"):
             "Model": m["Model"],
             "Clamp (ton)": m["Clamp Force (ton)"],
             "Platen X (mm)": m["Platen X (mm)"], 
+            "Platen Y (mm)": m["Platen Y (mm)"], 
             "Tie Bar Y (mm)": m["Tie Bar Y (mm)"],
             "Daylight Max (mm)": m["Daylight Max (mm)"], # shown
             "Status": status   
@@ -184,8 +185,8 @@ if st.button("Run Compatibility Check"):
         mold_area = mold_length * mold_width
         platen_area = platen_x * platen_y
         area_ratio = (mold_area / platen_area) * 100
-        st.write("Platen_x", platen_x)
-        st.write("platen_y:", platen_y)
+        #st.write("Platen_x", platen_x)
+        #st.write("platen_y:", platen_y)
 
 # --- Opening Gap ---
         opening_gap = daylight_max - required_opening
