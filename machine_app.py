@@ -14,13 +14,12 @@ st.markdown("# MoldMatch - Machine Selection + Copilot Analysis")
 # ---------------------------
 @st.cache_data
 def load_data():
-    st.write(df.columns.tolist())
     base_path = os.path.dirname(__file__)
     file_path = os.path.join(base_path, "machines_clean.xlsx")
     return pd.read_excel(file_path, engine="openpyxl")
 
 df = load_data()
-
+    st.write(df.columns.tolist())
 # ---------------------------
 # OEM SELECTION
 # ---------------------------
