@@ -155,7 +155,6 @@ if st.button("Run Compatibility Check"):
     valid = passed_df
     if len(valid) > 0:
         best = valid.sort_values("Clamp (ton)").iloc[0]
-
         st.success(
             f"✅ Recommended Machine:\n\n"
             f"{best['OEM']} - {best['Model']} ({best['Clamp (ton)']} ton)"
@@ -180,10 +179,9 @@ if st.button("Run Compatibility Check"):
     # Failure reasons
     st.subheader("Failure Breakdown")
 
+    fail_df = results_df[results_df["Status"] == "FAIL"]   # ✅ NOW INSIDE
 
-fail_df = results_df[results_df["Status"] == "FAIL"]
-
-if not fail_df.empty:
+    if not fail_df.empty:
         reason_counts = (
             fail_df["Reason"]
             .str.split(", ")
@@ -191,38 +189,9 @@ if not fail_df.empty:
             .value_counts()
         )
         st.bar_chart(reason_counts)
-else:
+    else:
         st.success("All machines passed")
 
-    # Clamp distribution
-st.subheader("Clamp Force Distribution")
-st.bar_chart(results_df.set_index("Model")["Clamp (ton)"])
-
-    # ===========================
-    # 🧠 ENGINEERING INSIGHTS
-    # ===========================
-st.header("🧠 Copilot Engineering Insights")
-
-if len(valid) > 0:
-        st.markdown(f"""
-### Key Findings
-- {passed}/{total} machines satisfy constraints
-- Best candidate: **{best['Model']}**
-- Lowest clamp force = most cost-efficient choice
-
-### Constraints Driving Failure
-- Mold size vs platen limits
-- Daylight / opening requirements
-- Clamp window restriction
-
-### Recommendation
-Proceed with:
-**{best['OEM']} {best['Model']} ({best['Clamp (ton)']} ton)**
-
-Consider widening clamp limits if additional options needed.
-""")
-else:
-        st.warning("No valid machines — review design inputs")
 
     # ===========================
     # 🧊 3D VISUALIZATION
