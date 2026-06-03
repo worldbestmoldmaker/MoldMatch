@@ -191,8 +191,6 @@ if st.button("Run Compatibility Check"):
         st.bar_chart(reason_counts)
     else:
         st.success("All machines passed")
-
-
     # ===========================
     # 🧊 3D VISUALIZATION
     # ===========================
@@ -203,51 +201,50 @@ if st.button("Run Compatibility Check"):
         platen_x = best["Platen X (mm)"]
         platen_y = best["Platen Y (mm)"]
 
-    # Center mold on platen
+        # Center mold on platen
         mold_x0 = (platen_x - mold_length) / 2
         mold_x1 = mold_x0 + mold_length
 
         mold_y0 = (platen_y - mold_width) / 2
         mold_y1 = mold_y0 + mold_width
 
-    fig = go.Figure()
+        fig = go.Figure()
 
-    # --- Platen (flat rectangle) ---
-    fig.add_trace(go.Mesh3d(
-        x=[0, platen_x, platen_x, 0, 0, platen_x, platen_x, 0],
-        y=[0, 0, platen_y, platen_y, 0, 0, platen_y, platen_y],
-        z=[0, 0, 0, 0, -20, -20, -20, -20],   # small thickness
-        opacity=0.3,
-        color='gray',
-        name="Platen"
-    ))
+        # --- Platen (flat rectangle) ---
+        fig.add_trace(go.Mesh3d(
+            x=[0, platen_x, platen_x, 0, 0, platen_x, platen_x, 0],
+            y=[0, 0, platen_y, platen_y, 0, 0, platen_y, platen_y],
+            z=[0, 0, 0, 0, -20, -20, -20, -20],
+            opacity=0.3,
+            color='gray',
+            name="Platen"
+        ))
 
-    # --- Mold Block (centered) ---
-    fig.add_trace(go.Mesh3d(
-        x=[mold_x0, mold_x1, mold_x1, mold_x0, mold_x0, mold_x1, mold_x1, mold_x0],
-        y=[mold_y0, mold_y0, mold_y1, mold_y1, mold_y0, mold_y0, mold_y1, mold_y1],
-        z=[0, 0, 0, 0, mold_height, mold_height, mold_height, mold_height],
-        opacity=0.6,
-        color='steelblue',
-        name="Mold"
-    ))
+        # --- Mold Block (centered) ---
+        fig.add_trace(go.Mesh3d(
+            x=[mold_x0, mold_x1, mold_x1, mold_x0, mold_x0, mold_x1, mold_x1, mold_x0],
+            y=[mold_y0, mold_y0, mold_y1, mold_y1, mold_y0, mold_y0, mold_y1, mold_y1],
+            z=[0, 0, 0, 0, mold_height, mold_height, mold_height, mold_height],
+            opacity=0.6,
+            color='steelblue',
+            name="Mold"
+        ))
 
-    fig.update_layout(
-        scene=dict(
-            xaxis_title="X (mm)",
-            yaxis_title="Y (mm)",
-            zaxis_title="Z (mm)",
-            aspectmode="data"
-        ),
-        width=700,
-        height=600
-    )
+        fig.update_layout(
+            scene=dict(
+                xaxis_title="X (mm)",
+                yaxis_title="Y (mm)",
+                zaxis_title="Z (mm)",
+                aspectmode="data"
+            ),
+            width=700,
+            height=600
+        )
 
-    st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
-else:
-    st.info("Run compatibility check to visualize mold on platen.")
-
+    else:
+        st.info("Run compatibility check to visualize mold on platen.")
 
     # ===========================
     # 🎥 OPTIONAL VIDEO
