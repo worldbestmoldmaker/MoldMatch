@@ -129,7 +129,7 @@ if st.button("Run Compatibility Check"):
 
     results = []
 
-        for _, m in df.iterrows():
+    for _, m in df.iterrows():
         status, reason = check(m)
         results.append({
             "OEM": m["OEM"],
