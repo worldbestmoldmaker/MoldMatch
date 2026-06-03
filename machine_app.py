@@ -135,8 +135,8 @@ if st.button("Run Compatibility Check"):
             "OEM": m["OEM"],
             "Model": m["Model"],
             "Clamp (ton)": m["Clamp Force (ton)"],
-            "Platen X (mm)": m["Platen X (mm)"],   # 👈 add this
-            "Platen Y (mm)": m["Platen Y (mm)"],   # 👈 add this
+            "Platen X (mm)": m["Platen X (mm)"], 
+            "Tie Bar Y (mm)": m["Tie Bar Y (mm)"],
             "Status": status,
             "Reason": reason
         })
