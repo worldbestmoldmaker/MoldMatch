@@ -137,8 +137,8 @@ if st.button("Run Compatibility Check"):
             "Clamp (ton)": m["Clamp Force (ton)"],
             "Platen X (mm)": m["Platen X (mm)"], 
             "Tie Bar Y (mm)": m["Tie Bar Y (mm)"],
-            "Status": status,
-            "Reason": reason
+            "Daylight Max (mm)": m["Daylight Max (mm)"], # shown
+            "Status": status   
         })
 
 
