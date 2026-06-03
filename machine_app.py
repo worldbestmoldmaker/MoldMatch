@@ -168,6 +168,41 @@ if st.button("Run Compatibility Check"):
     # 📊 RESULTS ANALYSIS
     # ===========================
     st.header("📊 Results Analysis")
+# ===========================
+# 📐 Mold Fit Analysis
+# ===========================
+if len(valid) > 0:
+
+    # Pull full machine row from original df
+    machine_row = df[df["Model"] == best["Model"]].iloc[0]
+
+    platen_x = machine_row["Platen X (mm)"]
+    platen_y = machine_row["Platen Y (mm)"]
+    daylight_max = machine_row["Daylight Max (mm)"]
+
+    # --- Mold vs Platen Area ---
+    mold_area = mold_length * mold_width
+    platen_area = platen_x * platen_y
+    area_ratio = (mold_area / platen_area) * 100
+
+    # --- Opening Gap ---
+    opening_gap = daylight_max - required_opening
+
+    st.subheader("📐 Mold Fit Analysis")
+
+    cA, cB = st.columns(2)
+
+    cA.metric(
+        "Projected Area Ratio",
+        f"{area_ratio:.1f}%",
+        help="Mold projected area divided by platen area"
+    )
+
+    cB.metric(
+        "Opening Gap",
+        f"{opening_gap:.1f} mm",
+        help="Positive = mold fits with margin; Negative = mold too tall"
+    )
 
     total = len(results_df)
     passed = len(passed_df)
