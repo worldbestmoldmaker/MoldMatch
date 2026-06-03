@@ -132,9 +132,13 @@ def check(machine):
 # ---------------------------
 #if st.button("Run Compatibility Check"):
 
-st.markdown("**Run Compatibility Check**")
+#st.markdown("**Run Compatibility Check**")
 
-if st.button("Run Compatibility Check"):
+st.header("Run Compatibility Check")
+
+if st.button("Click to Run"):
+
+#if st.button("Run Compatibility Check"):
     st.write("Running...")
 
     results = []
