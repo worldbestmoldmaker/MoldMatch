@@ -56,7 +56,7 @@ with col3:
 with col4:
     st.image("https://static.wixstatic.com/media/22a5c3_c0c468b8427f474aa47bc3ea19e43a34~mv2.jpg/v1/fill/w_376,h_266,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/The-New-IntElect-5-2017_edited.jpg")
     st.markdown(
-    "<div style='height:8px;'></div>",
+    "<div style='height:4px;'></div>",
     unsafe_allow_html=True
     )
     #st.write("")
