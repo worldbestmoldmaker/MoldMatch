@@ -134,7 +134,23 @@ def check(machine):
 
 #st.markdown("**Run Compatibility Check**")
 
-st.header("Run Compatibility Check")
+st.markdown("""
+<style>
+div.stButton > button {
+    background-color: #007BFF;  /* Blue */
+    color: white;               /* Text color */
+    font-weight: bold;
+    border-radius: 8px;
+    height: 50px;
+    width: 250px;
+}
+div.stButton > button:hover {
+    background-color: #0056b3;  /* Darker blue on hover */
+}
+</style>
+""", unsafe_allow_html=True)
+
+#st.header("Run Compatibility Check")
 
 if st.button("Click to Run"):
 
