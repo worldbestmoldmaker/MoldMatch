@@ -142,7 +142,7 @@ div.stButton > button {
     font-weight: bold;
     border-radius: 8px;
     height: 50px;
-    width: 250px;
+    width: 150px;
 }
 div.stButton > button:hover {
     background-color: #0056b3;  /* Darker blue on hover */
