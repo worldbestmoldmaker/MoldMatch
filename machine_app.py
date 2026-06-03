@@ -226,42 +226,42 @@ if st.button("Run Compatibility Check"):
 # ===========================
 # 📐 Mold Fit Analysis (guaranteed color)
 # ===========================
-if len(valid) > 0:
+    if len(valid) > 0:
 
-    machine_row = df[df["Model"] == best["Model"]].iloc[0]
+        machine_row = df[df["Model"] == best["Model"]].iloc[0]
 
-    platen_x = machine_row["Platen X (mm)"]
-    platen_y = machine_row["Platen Y (mm)"]
-    daylight_max = machine_row["Daylight Max (mm)"]
+        platen_x = machine_row["Platen X (mm)"]
+        platen_y = machine_row["Platen Y (mm)"]
+        daylight_max = machine_row["Daylight Max (mm)"]
 
-    mold_area = mold_length * mold_width
-    platen_area = platen_x * platen_y
-    area_ratio = (mold_area / platen_area) * 100
+        mold_area = mold_length * mold_width
+        platen_area = platen_x * platen_y
+        area_ratio = (mold_area / platen_area) * 100
 
     # Safety color logic
-    if area_ratio < 50:
-        ratio_color = "🟢 SAFE"
-    elif area_ratio < 70:
-        ratio_color = "🟡 WARNING"
-    else:
-        ratio_color = "🔴 RISK"
+        if area_ratio < 50:
+            ratio_color = "🟢 SAFE"
+        elif area_ratio < 70:
+            ratio_color = "🟡 WARNING"
+        else:
+            ratio_color = "🔴 RISK"
 
-    opening_gap = daylight_max - required_opening
+        opening_gap = daylight_max - mold_height
 
-    if opening_gap >= 0:
-        gap_color = "🟢 SAFE"
-    elif opening_gap > -20:
-        gap_color = "🟡 TIGHT"
-    else:
-        gap_color = "🔴 TOO TALL"
+        if opening_gap >= 0:
+            gap_color = "🟢 SAFE"
+        elif opening_gap > -20:
+            gap_color = "🟡 TIGHT"
+        else:
+            gap_color = "🔴 TOO TALL"
 
-    st.subheader("📐 Mold Fit Analysis")
+        st.subheader("📐 Mold Fit Analysis")
 
-    cA, cB = st.columns(2)
+        cA, cB = st.columns(2)
 
     # Color badge ALWAYS visible
-    cA.markdown(f"### {ratio_color}")
-    cA.metric("Projected Area Ratio", f"{area_ratio:.1f}%")
+        cA.markdown(f"### {ratio_color}")
+        cA.metric("Projected Area Ratio", f"{area_ratio:.1f}%")
 
-    cB.markdown(f"### {gap_color}")
-    cB.metric("Opening Gap", f"{opening_gap:.1f} mm")
+        cB.markdown(f"### {gap_color}")
+        cB.metric("Opening Gap", f"{opening_gap:.1f} mm")
