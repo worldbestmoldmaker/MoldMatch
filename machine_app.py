@@ -190,7 +190,7 @@ if st.button("Run Compatibility Check"):
         elif area_ratio < 60:
             ratio_color = "✅ SAFE"
         elif area_ratio < 80:
-            ratio_color = "⚠︎ WARNING
+            ratio_color = "⚠︎ WARNING"
         else:
             ratio_color = "🔴 RISK"
 
