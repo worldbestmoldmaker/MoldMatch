@@ -43,11 +43,13 @@ with col1:
 
 with col2:
     st.image("https://static.wixstatic.com/media/22a5c3_8da520d483c5457f9abd0adb3a1ab9ee~mv2.png/v1/fill/w_399,h_266,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/arburg2_edited_edited.png")
+    st.write("")
     if st.button("ARBURG"):
         selected_oem = "ARBURG"
 
 with col3:
     st.image("https://static.wixstatic.com/media/22a5c3_fa5afcc9c002422ea8806b087440bd00~mv2.jpeg/v1/fill/w_399,h_266,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/netstal_text1.jpeg")
+    st.write("")
     if st.button("NETSTAL"):
         selected_oem = "NETSTAL"
 
