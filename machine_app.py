@@ -49,7 +49,6 @@ with col4:
     if st.button("SUMITOMO"):
         selected_oem = "SUMITOMO"
 
-
 if "selected_oem" not in st.session_state:
     st.session_state.selected_oem = None
 
