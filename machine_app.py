@@ -208,10 +208,10 @@ if st.button("Run Compatibility Check"):
 
         cA, cB = st.columns(2)
 
-    cA.write(f"{ratio_color} **Projected Area Ratio**")
-    cA.metric("Projected Area Ratio", f"{area_ratio:.1f}%")
+        cA.write(f"{ratio_color} **Projected Area Ratio**")
+        cA.metric("Projected Area Ratio", f"{area_ratio:.1f}%")
 
-    cA.metric(
+        cA.metric(
     #        f"{ratio_color} Projected Area Ratio",
     #        f"{area_ratio:.1f}%",
             help="Mold projected area divided by platen area"
