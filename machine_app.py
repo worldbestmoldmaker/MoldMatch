@@ -383,5 +383,5 @@ if len(valid) > 0:
 
         st.plotly_chart(fig, use_container_width=True)
 
-    else:
+else:
         st.info("Run compatibility check to visualize machine + mold.")
