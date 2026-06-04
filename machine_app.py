@@ -36,6 +36,17 @@ col1, col2, col3, col4 = st.columns(4)
 
 selected_oem = None
 
+st.subheader("Select Machine Brand")
+
+col1, col2, col3, col4 = st.columns(4)
+
+selected_oem = None
+
+with col1:
+    st.image("https://static.wixstatic.com/media/22a5c3_8ccee611ed11458b92d28dda93a3df86~mv2.jpeg/v1/fill/w_600,h_400,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ENGEL%20e-mac%20180.jpeg")
+    st.write("")
+    if st.button("ENGEL"):        
+        selected_oem = "ENGEL"
 with col1:
     st.image("https://static.wixstatic.com/media/22a5c3_8ccee611ed11458b92d28dda93a3df86~mv2.jpeg/v1/fill/w_600,h_400,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ENGEL%20e-mac%20180.jpeg")
     st.write("")
