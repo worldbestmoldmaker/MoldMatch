@@ -315,23 +315,6 @@ if st.button("Click to Run"):
     with cB:
         st.metric("Status", shot_color)
 
-# Status logic
-if 0.2 <= shot_ratio <= 0.8:
-    shot_color = "🟢 GOOD"
-elif 0.1 <= shot_ratio < 0.2 or 0.8 < shot_ratio <= 0.9:
-    shot_color = "🟡 MARGINAL"
-else:
-    shot_color = "🔴 OUT OF RANGE"
-
-# Display
-cA, cB = st.columns(2)
-
-with cA:
-    st.metric("Shot Utilization (%)", f"{shot_ratio*100:.1f}%")
-
-with cB:
-    st.metric("Status", shot_color)
-
 # ===========================
 # 🧊 3D Machine + Mold Visualization
 # ===========================
