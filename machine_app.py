@@ -296,8 +296,8 @@ if st.button("Click to Run"):
 # ===========================
 # 📐 Mold Fit Analysis (guaranteed color)
 # ===========================
-    if len(valid) > 0:
-
+    #if len(valid) > 0:
+    if len(passed_df) > 0:
         machine_row = df[df["Model"] == best["Model"]].iloc[0]
 
         platen_x = machine_row["Platen X (mm)"]
