@@ -323,7 +323,24 @@ st.header("🧊 3D Machine + Mold Visualization")
 
 if len(valid) > 0:
 
-    # 1. Build animation frames FIRST
+    machine_row = df[df["Model"] == best["Model"]].iloc[0]
+
+    platen_x = machine_row["Platen X (mm)"]
+    platen_y = machine_row["Platen Y (mm)"]
+    daylight_max = machine_row["Daylight Max (mm)"]
+
+    # 1️⃣ Mold geometry FIRST
+    mold_x0 = (platen_x - mold_length) / 2
+    mold_x1 = mold_x0 + mold_length
+
+    mold_y0 = (platen_y - mold_width) / 2
+    mold_y1 = mold_y0 + mold_width
+
+    mold_z0 = (daylight_max - mold_height) / 2
+    mold_z1 = mold_z0 + mold_height
+    mold_mid = (mold_z0 + mold_z1) / 2
+
+    # 2️⃣ Animation frames SECOND (now mold_z1 exists)
     frames = []
     steps = 20
     z_positions = np.linspace(daylight_max, mold_z1, steps)
@@ -344,16 +361,16 @@ if len(valid) > 0:
             )
         )
 
-    # 2. Create figure
+    # 3️⃣ Create figure THIRD
     fig = go.Figure()
 
-    # 3. Add all your traces (platen, mold, tie-bars, ejector, split line)
+    # 4️⃣ Add all traces (platen, mold, tie-bars, ejector, split line)
     # ... your traces here ...
 
-    # 4. Add animation frames
+    # 5️⃣ Add animation frames
     fig.update(frames=frames)
 
-    # 5. Layout
+    # 6️⃣ Layout + plot
     fig.update_layout(
         updatemenus=[{
             "type": "buttons",
@@ -373,7 +390,6 @@ if len(valid) > 0:
         height=800
     )
 
-    # 6. Display
     st.plotly_chart(fig, use_container_width=True)
 
 else:
