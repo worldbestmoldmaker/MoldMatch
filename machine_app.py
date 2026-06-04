@@ -316,6 +316,8 @@ if st.button("Click to Run"):
     with cB:
         st.metric("Status", shot_color)
 
+import numpy as np
+
 # ===========================
 # 🧊 3D Machine + Mold Visualization
 # ===========================
@@ -329,7 +331,9 @@ if len(valid) > 0:
     platen_y = machine_row["Platen Y (mm)"]
     daylight_max = machine_row["Daylight Max (mm)"]
 
-    # 1️⃣ Mold geometry FIRST
+    # -------------------------
+    # 1️⃣ Mold geometry
+    # -------------------------
     mold_x0 = (platen_x - mold_length) / 2
     mold_x1 = mold_x0 + mold_length
 
@@ -340,7 +344,31 @@ if len(valid) > 0:
     mold_z1 = mold_z0 + mold_height
     mold_mid = (mold_z0 + mold_z1) / 2
 
-    # 2️⃣ Animation frames SECOND (now mold_z1 exists)
+    # -------------------------
+    # 2️⃣ Tie‑bars
+    # -------------------------
+    tb_offset = 80
+    tiebar_radius = 20
+    tiebar_height = daylight_max + 40
+
+    tiebar_centers = [
+        (tb_offset, tb_offset),
+        (platen_x - tb_offset, tb_offset),
+        (platen_x - tb_offset, platen_y - tb_offset),
+        (tb_offset, platen_y - tb_offset),
+    ]
+
+    def cylinder(cx, cy, r, z0, z1, n=20):
+        theta = np.linspace(0, 2*np.pi, n)
+        z = np.array([z0, z1])
+        theta, z = np.meshgrid(theta, z)
+        x = cx + r * np.cos(theta)
+        y = cy + r * np.sin(theta)
+        return x.flatten(), y.flatten(), z.flatten()
+
+    # -------------------------
+    # 3️⃣ Animation frames
+    # -------------------------
     frames = []
     steps = 20
     z_positions = np.linspace(daylight_max, mold_z1, steps)
@@ -361,34 +389,87 @@ if len(valid) > 0:
             )
         )
 
-    # 3️⃣ Create figure THIRD
+    # -------------------------
+    # 4️⃣ Create figure
+    # -------------------------
     fig = go.Figure()
 
-    # 4️⃣ Add all traces (platen, mold, tie-bars, ejector, split line)
-    # ... your traces here ...
+    # Fixed platen
+    fig.add_trace(go.Mesh3d(
+        x=[0, platen_x, platen_x, 0, 0, platen_x, platen_x, 0],
+        y=[0, 0, platen_y, platen_y, 0, 0, platen_y, platen_y],
+        z=[0, 0, 0, 0, -40, -40, -40, -40],
+        opacity=0.35,
+        color='gray',
+        name="Fixed Platen"
+    ))
 
+    # Movable platen (initial)
+    fig.add_trace(go.Mesh3d(
+        x=[0, platen_x, platen_x, 0, 0, platen_x, platen_x, 0],
+        y=[0, 0, platen_y, platen_y, 0, 0, platen_y, platen_y],
+        z=[daylight_max, daylight_max, daylight_max, daylight_max,
+           daylight_max + 40, daylight_max + 40, daylight_max + 40, daylight_max + 40],
+        opacity=0.35,
+        color='darkgray',
+        name="Movable Platen"
+    ))
+
+    # Mold block
+    fig.add_trace(go.Mesh3d(
+        x=[mold_x0, mold_x1, mold_x1, mold_x0, mold_x0, mold_x1, mold_x1, mold_x0],
+        y=[mold_y0, mold_y0, mold_y1, mold_y1, mold_y0, mold_y0, mold_y1, mold_y1],
+        z=[mold_z0, mold_z0, mold_z0, mold_z0,
+           mold_z1, mold_z1, mold_z1, mold_z1],
+        opacity=0.7,
+        color='steelblue',
+        name="Mold"
+    ))
+
+    # Split line
+    fig.add_trace(go.Mesh3d(
+        x=[mold_x0, mold_x1, mold_x1, mold_x0],
+        y=[mold_y0, mold_y0, mold_y1, mold_y1],
+        z=[mold_mid, mold_mid, mold_mid, mold_mid],
+        opacity=0.3,
+        color='yellow',
+        name="Split Line"
+    ))
+
+    # Tie‑bars
+    for cx, cy in tiebar_centers:
+        x, y, z = cylinder(cx, cy, tiebar_radius, 0, tiebar_height)
+        fig.add_trace(go.Mesh3d(
+            x=x, y=y, z=z,
+            opacity=0.4,
+            color='silver',
+            name="Tie-bar"
+        ))
+
+    # Ejector plate
+    fig.add_trace(go.Mesh3d(
+        x=[mold_x0, mold_x1, mold_x1, mold_x0, mold_x0, mold_x1, mold_x1, mold_x0],
+        y=[mold_y0, mold_y0, mold_y1, mold_y1, mold_y0, mold_y0, mold_y1, mold_y1],
+        z=[-20]*8,
+        opacity=0.6,
+        color='orange',
+        name="Ejector Plate"
+    ))
+
+    # -------------------------
     # 5️⃣ Add animation frames
+    # -------------------------
     fig.update(frames=frames)
 
-    # 6️⃣ Layout + plot
+    # -------------------------
+    # 6️⃣ Layout + display
+    # -------------------------
     fig.update_layout(
         updatemenus=[{
             "type": "buttons",
             "buttons": [{
                 "label": "Play Closing Animation",
                 "method": "animate",
-                "args": [None, {"frame": {"duration": 80}, "fromcurrent": True}]
-            }]
-        }],
-        scene=dict(
-            xaxis_title="X (mm)",
-            yaxis_title="Y (mm)",
-            zaxis_title="Z (mm)",
-            aspectmode="data"
-        ),
-        width=900,
-        height=800
-    )
 
     st.plotly_chart(fig, use_container_width=True)
 
