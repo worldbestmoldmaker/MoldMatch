@@ -103,7 +103,7 @@ with c2:
 
 # Shot Weight
 #st.subheader("Shot Weight")
-#shot_weight = st.number_input("Shot Weight (g)", value=5)
+#shot_weight = st.number_input("Shot Weight (g)", value=15)
 
 # Shot Weight
 st.subheader("⚖️ Shot Weight (g)")
