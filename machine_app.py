@@ -36,17 +36,6 @@ col1, col2, col3, col4 = st.columns(4)
 
 selected_oem = None
 
-st.subheader("Select Machine Brand")
-
-col1, col2, col3, col4 = st.columns(4)
-
-selected_oem = None
-
-with col1:
-    st.image("https://static.wixstatic.com/media/22a5c3_8ccee611ed11458b92d28dda93a3df86~mv2.jpeg/v1/fill/w_600,h_400,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ENGEL%20e-mac%20180.jpeg")
-    st.write("")
-    if st.button("ENGEL"):        
-        selected_oem = "ENGEL"
 with col1:
     st.image("https://static.wixstatic.com/media/22a5c3_8ccee611ed11458b92d28dda93a3df86~mv2.jpeg/v1/fill/w_600,h_400,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/ENGEL%20e-mac%20180.jpeg")
     st.write("")
@@ -249,8 +238,7 @@ if st.button("Click to Run"):
             "Shot Weight (g)": m["Shot Weight (g)"],
             "Screw Size (mm)": m["Screw Size (mm)"],
             "Status": status,   
-            #"Shot Utilization (%)": utilization * 100 if utilization else None,
-            "Shot Utilization (%)": round(utilization * 100) if utilization is not None else None,
+            "Shot Utilization (%)": utilization * 100 if utilization else None,
             "Status": status,
             "Fail Reason": reason
         })
@@ -260,7 +248,7 @@ if st.button("Click to Run"):
         
    # shot_capacity = m.get("Shot Weight (g)")
    # if pd.notna(shot_capacity) and shot_capacity > 0:
-   #     utilization = shot_weight / shot_capacity    
+   #     utilization = shot_weight / shot_capacity
    # else:
    #     utilization = None
 
@@ -366,7 +354,6 @@ if len(valid) > 0:
     # Calculate utilization
     if machine_shot > 0:
         shot_ratio = actual_shot / machine_shot
-        
     else:
         shot_ratio = 0
 
@@ -382,8 +369,8 @@ if len(valid) > 0:
     cA, cB = st.columns(2)
 
     with cA:
-        #st.metric("Shot Utilization (%)", f"{int(shot_ratio*100:.1f)}%")
-        st.metric("Shot Utilization (%)", f"{int(shot_ratio * 100)}%")
+        st.metric("Shot Utilization (%)", f"{shot_ratio*100:.1f}%")
+
     with cB:
         st.metric("Status", shot_color)
 
