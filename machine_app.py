@@ -30,35 +30,15 @@ df = load_data()
 # OEM SELECTION
 # ---------------------------
 st.subheader("Select Machine Brand")
+
 st.markdown("""
 <style>
-
-/* Target the selected values (the pills/tags) */
-div[data-baseweb="tag"] {
-    background-color: #1f77ff !important;  /* BLUE */
-    color: white !important;
-}
-
-/* Text inside the pill */
-div[data-baseweb="tag"] span {
-    color: white !important;
-}
-
-/* Remove the red "X" button styling */
-div[data-baseweb="tag"] svg {
-    fill: white !important;
-}
-
-/* EXTRA: override Streamlit danger/red theme fallback */
-div[data-testid="stMultiSelect"] div[data-baseweb="tag"] {
+[data-baseweb="tag"] {
     background-color: #1f77ff !important;
+    border: none !important;
 }
-
 </style>
 """, unsafe_allow_html=True)
-
-
-
 
 
 # Multi-select dropdown (add here)
