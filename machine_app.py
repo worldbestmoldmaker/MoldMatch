@@ -220,6 +220,13 @@ if st.button("Click to Run"):
 
     for _, m in df.iterrows():
         status, reason = check(m)
+        
+    shot_capacity = m.get("Shot Weight (g)")
+    if pd.notna(shot_capacity) and shot_capacity > 0:
+        utilization = shot_weight / shot_capacity
+    else:
+        utilization = None
+
         results.append({
             "OEM": m["OEM"],
             "Model": m["Model"],
@@ -231,6 +238,7 @@ if st.button("Click to Run"):
             "Shot Weight (g)": m["Shot Weight (g)"],
             "Screw Size (mm)": m["Screw Size (mm)"],
             "Status": status   
+            "Fail Reason": reason   # ✅ ADD THIS
         })
 
 
