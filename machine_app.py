@@ -113,7 +113,7 @@ c1, c2, c3 = st.columns([1, 1, 1])
 with c1:
     shot_weight = st.number_input(
         "Shot Weight (g)",
-        value=5,
+        value=15,
         label_visibility="collapsed"
     )
     #shot_weight = st.number_input("", value=5)
