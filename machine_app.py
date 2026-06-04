@@ -354,9 +354,7 @@ if len(valid) > 0:
     # Calculate utilization
     if machine_shot > 0:
         shot_ratio = actual_shot / machine_shot
-        shot_ratio = int(shot_ratio )
-       
-
+        
     else:
         shot_ratio = 0
 
@@ -372,7 +370,7 @@ if len(valid) > 0:
     cA, cB = st.columns(2)
 
     with cA:
-        st.metric("Shot Utilization (%)", f"{shot_ratio*100:.1f}%")
+        st.metric("Shot Utilization (%)", f"{int(shot_ratio*100:.1f)}%")
 
     with cB:
         st.metric("Status", shot_color)
