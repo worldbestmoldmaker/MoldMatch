@@ -39,15 +39,14 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-
-
 # Multi-select dropdown (add here)
-selected_oems = st.multiselect(
-    "",
-    options=sorted(df["OEM"].dropna().unique()),
-    default=[]    
-)
 
+selected_oems = st.multiselect(
+    "OEM",  # still required
+    options=sorted(df["OEM"].dropna().unique()),
+    default=[],
+    label_visibility="collapsed"
+)
 
 col1, col2, col3, col4 = st.columns(4)
 
