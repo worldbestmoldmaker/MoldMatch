@@ -317,7 +317,7 @@ if st.button("Click to Run"):
 
 st.header("🧊 3D Machine + Mold Visualization")
 
-    if len(valid) > 0:
+        if len(valid) > 0:
 
         machine_row = df[df["Model"] == best["Model"]].iloc[0]
 
