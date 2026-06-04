@@ -320,6 +320,16 @@ if st.button("Click to Run"):
 # ===========================
 st.header("🧊 3D Machine + Mold Visualization")
 
+if len(valid) > 0:
+
+    # --- your 3D model code here ---
+    # (fixed platen, movable platen, mold, tie-bars, animation, ejector, etc.)
+
+    st.plotly_chart(fig, use_container_width=True)
+
+else:
+    st.info("Run compatibility check to visualize machine + mold.")
+    
 # ❗ MUST be inside the same button block where `valid` and `best` are created
 if len(valid) > 0:
 
