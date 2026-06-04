@@ -84,7 +84,7 @@ with col4:
 col5, col6, col7, col8 = st.columns(4)
 
 with col5:
-    st.image("https://upload.wikimedia.org/wikipedia/commons/6/6f/Haitian_injection_machine.jpg")  # replace if needed
+    st.image("https://image.made-in-china.com/2f0j00KdelktaMAzpO/Haitian-Injection-Molding-Machine-for-PVC-PPR-Pipe-Fitting-Moulding-Used-Haitian-Injection-Machine.jpg")  # replace if needed
     st.write("")
     if st.button("HAITIAN"):
         selected_oem = "HAITIAN"
