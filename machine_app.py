@@ -341,8 +341,8 @@ if st.button("Click to Run"):
         # Shot Weight Analysis
 
 # ✅ Only run if a valid machine exists
-if len(valid) > 0:
-
+#if len(valid) > 0:
+if len(passed_df) > 0:
     st.subheader("⚖️ Shot Weight Analysis")
 
     # ✅ Use best machine directly (NO machine_row needed)
