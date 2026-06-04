@@ -340,38 +340,6 @@ if st.button("Click to Run"):
         cB.metric("Opening Gap", f"{opening_gap:.1f} mm")
         # Shot Weight Analysis
 
-    st.subheader("⚖️ Shot Weight Analysis")
-
-# Machine data (from your dataset)
-    machine_shot = machine_row["Shot Weight (g)"]
-
-# User input
-    actual_shot = shot_weight
-# Calculate utilization
-    if machine_shot > 0:
-        shot_ratio = actual_shot / machine_shot
-    else:
-        shot_ratio = 0
-
-# Status logic
-    if 0.2 <= shot_ratio <= 0.8:
-        shot_color = "🟢 GOOD"
-    elif 0.1 <= shot_ratio < 0.2 or 0.8 < shot_ratio <= 0.9:
-        shot_color = "🟡 MARGINAL"
-    else:
-        shot_color = "🔴 OUT OF RANGE"
-
-# Display
-    cA, cB = st.columns(2)
-
-    with cA:
-        st.metric("Shot Utilization (%)", f"{shot_ratio*100:.1f}%")
-
-    with cB:
-        st.metric("Status", shot_color)
-
-
-
 # ✅ Only run if a valid machine exists
 if len(valid) > 0:
 
