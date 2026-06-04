@@ -232,7 +232,12 @@ if st.button("Click to Run"):
             "OEM": m["OEM"],
             "Model": m["Model"],
             "Clamp (ton)": m["Clamp Force (ton)"],
+            "Platen X (mm)": m["Platen X (mm)"], 
+            "Tie Bar Y (mm)": m["Tie Bar Y (mm)"],
+            "Daylight Max (mm)": m["Daylight Max (mm)"], # shown
             "Shot Weight (g)": m["Shot Weight (g)"],
+            "Screw Size (mm)": m["Screw Size (mm)"],
+            "Status": status,   
             "Shot Utilization (%)": utilization * 100 if utilization else None,
             "Status": status,
             "Fail Reason": reason
