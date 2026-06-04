@@ -266,99 +266,83 @@ if st.button("Click to Run"):
    #         "Fail Reason": reason   # ✅ ADD THIS
    #     })
 
+results_df = pd.DataFrame(results)
 
-    results_df = pd.DataFrame(results)
+# ---------------------------
+# SHOW PASSED
+# ---------------------------
+st.subheader("✅ Passed Machines")
+passed_df = results_df[results_df["Status"] == "PASS"]
+st.dataframe(passed_df)
 
-    # ---------------------------
-    # SHOW PASSED
-    # ---------------------------
-    st.subheader("✅ Passed Machines")
-    passed_df = results_df[results_df["Status"] == "PASS"]
-    st.dataframe(passed_df)
+# ---------------------------
+# BEST MACHINE
+# ---------------------------
+if len(passed_df) > 0:
 
-    # ---------------------------
-    # BEST MACHINE
-    # ---------------------------
-    valid = passed_df
-    if len(valid) > 0:
-        best = valid.sort_values("Clamp (ton)").iloc[0]
-        st.success(
-            f"✅ Recommended Machine:\n\n"
-            f"{best['OEM']} - {best['Model']} ({best['Clamp (ton)']} ton)"
-        )
-    else:
-        st.error("❌ No compatible machines found")
+    best = passed_df.sort_values("Clamp (ton)").iloc[0]
+
+    st.success(
+        f"✅ Recommended Machine:\n\n"
+        f"{best['OEM']} - {best['Model']} ({best['Clamp (ton)']} ton)"
+    )
 
     # ===========================
     # 📊 RESULTS ANALYSIS
     # ===========================
     st.header("📊 Results Analysis")
-# ===========================
-# 📐 Mold Fit Analysis (guaranteed color)
-# ===========================
-    #if len(valid) > 0:
-    if len(passed_df) > 0:
-        machine_row = df[df["Model"] == best["Model"]].iloc[0]
 
-        platen_x = machine_row["Platen X (mm)"]
-        platen_y = machine_row["Platen Y (mm)"]
-        daylight_max = machine_row["Daylight Max (mm)"]
+    # ---------------------------
+    # 📐 Mold Fit Analysis
+    # ---------------------------
+    platen_x = best["Platen X (mm)"]
+    platen_y = best.get("Platen Y (mm)", 1)
+    daylight_max = best["Daylight Max (mm)"]
 
-        mold_area = mold_length * mold_width
-        platen_area = platen_x * platen_y
-        area_ratio = (mold_area / platen_area) * 100
+    mold_area = mold_length * mold_width
+    platen_area = platen_x * platen_y if platen_y else 1
+    area_ratio = (mold_area / platen_area) * 100
 
-    # Safety color logic
-        #if area_ratio < 40:
-        if 20 <= area_ratio <= 40:
-            ratio_color = "🟡 WARNING"        
-        elif area_ratio < 65:
-            ratio_color = "🟢 SAFE"
-        elif area_ratio < 80:
-            ratio_color = "🟡 WARNING"
-        else:
-            ratio_color = "🔴 RISK"
+    if 20 <= area_ratio <= 40:
+        ratio_color = "🟡 WARNING"
+    elif area_ratio < 65:
+        ratio_color = "🟢 SAFE"
+    elif area_ratio < 80:
+        ratio_color = "🟡 WARNING"
+    else:
+        ratio_color = "🔴 RISK"
 
-        opening_gap = daylight_max - mold_height
+    opening_gap = daylight_max - mold_height
 
-        if opening_gap >= 0:
-            gap_color = "🟢 SAFE"
-        elif opening_gap > -20:
-            gap_color = "🟡 TIGHT"
-        else:
-            gap_color = "🔴 TOO TALL"
+    if opening_gap >= 0:
+        gap_color = "🟢 SAFE"
+    elif opening_gap > -20:
+        gap_color = "🟡 TIGHT"
+    else:
+        gap_color = "🔴 TOO TALL"
 
-        st.subheader("📐 Mold Fit Analysis")
+    st.subheader("📐 Mold Fit Analysis")
 
-        cA, cB = st.columns(2)
+    cA, cB = st.columns(2)
+    cA.markdown(f"### {ratio_color}")
+    cA.metric("Projected Area Ratio", f"{area_ratio:.1f}%")
 
-    # Color badge ALWAYS visible
-        cA.markdown(f"### {ratio_color}")
-        cA.metric("Projected Area Ratio", f"{area_ratio:.1f}%")
+    cB.markdown(f"### {gap_color}")
+    cB.metric("Opening Gap", f"{opening_gap:.1f} mm")
 
-        cB.markdown(f"### {gap_color}")
-        cB.metric("Opening Gap", f"{opening_gap:.1f} mm")
-        # Shot Weight Analysis
-
-# ✅ Only run if a valid machine exists
-#if len(valid) > 0:
-
-if len(passed_df) > 0:
+    # ---------------------------
+    # ⚖️ Shot Weight Analysis
+    # ---------------------------
     st.subheader("⚖️ Shot Weight Analysis")
 
-    # ✅ Use best machine directly (NO machine_row needed)
     machine_shot = best["Shot Weight (g)"]
-
-    # User input
     actual_shot = shot_weight
 
-    # Calculate utilization
     if machine_shot > 0:
         shot_ratio = actual_shot / machine_shot
     else:
         shot_ratio = 0
 
-    # Status logic
     if 0.2 <= shot_ratio <= 0.8:
         shot_color = "🟢 GOOD"
     elif 0.1 <= shot_ratio < 0.2 or 0.8 < shot_ratio <= 0.9:
@@ -366,15 +350,10 @@ if len(passed_df) > 0:
     else:
         shot_color = "🔴 OUT OF RANGE"
 
-    # Display
     cA, cB = st.columns(2)
-
-    with cA:
-        st.metric("Shot Utilization (%)", f"{shot_ratio*100:.1f}%")
-
-    with cB:
-        st.metric("Status", shot_color)
+    cA.metric("Shot Utilization (%)", f"{shot_ratio*100:.1f}%")
+    cB.metric("Status", shot_color)
 
 else:
-    st.warning("No valid machine → Shot analysis skipped")
-
+    st.error("❌ No compatible machines found")
+   
