@@ -300,7 +300,7 @@ if st.button("Click to Run"):
     #machine_row = df[df["Model"] == best["Model"]].iloc[0]
     
     platen_x = best["Platen X (mm)"]
-    platen_y = machine_row["Platen Y (mm)"]
+    platen_y = best["Platen Y (mm)"]
 
     #platen_y = best.get("Platen Y (mm)", 1)
     daylight_max = best["Daylight Max (mm)"]
