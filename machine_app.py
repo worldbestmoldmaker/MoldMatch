@@ -272,8 +272,8 @@ if st.button("Click to Run"):
 # SHOW PASSED
 # ---------------------------
 st.subheader("✅ Passed Machines")
-passed_df = results_df[results_df["Status"] == "PASS"]
-st.dataframe(passed_df)
+    passed_df = results_df[results_df["Status"] == "PASS"]
+    st.dataframe(passed_df)
 
 # ---------------------------
 # BEST MACHINE
