@@ -187,7 +187,7 @@ def check(machine):
 # ---------------------------
 #if st.button("Run Compatibility Check"):
 #st.markdown("**Run Compatibility Check**")
-
+valid = pd.DataFrame()
 st.markdown(
     "<span style='font-size:24px; font-weight:bold;'>Run Compatibility Check</span>",
     unsafe_allow_html=True
