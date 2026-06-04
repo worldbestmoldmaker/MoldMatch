@@ -261,7 +261,7 @@ if st.button("Click to Run"):
             "Shot Weight (g)": m["Shot Weight (g)"],
             "Screw Size (mm)": m["Screw Size (mm)"],
             "Status": status,   
-            "Shot Utilization (%)": utilization * 100 if utilization else None,
+            "Shot Utilization (%)": utilization if utilization else None,
             "Status": status,
             "Fail Reason": reason
         })
