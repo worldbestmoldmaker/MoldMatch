@@ -238,7 +238,8 @@ if st.button("Click to Run"):
             "Shot Weight (g)": m["Shot Weight (g)"],
             "Screw Size (mm)": m["Screw Size (mm)"],
             "Status": status,   
-            "Shot Utilization (%)": utilization * 100 if utilization else None,
+            #"Shot Utilization (%)": utilization * 100 if utilization else None,
+            "Shot Utilization (%)": round(utilization * 100) if utilization is not None else None,
             "Status": status,
             "Fail Reason": reason
         })
@@ -248,7 +249,7 @@ if st.button("Click to Run"):
         
    # shot_capacity = m.get("Shot Weight (g)")
    # if pd.notna(shot_capacity) and shot_capacity > 0:
-   #     utilization = shot_weight / shot_capacity
+   #     utilization = shot_weight / shot_capacity    
    # else:
    #     utilization = None
 
