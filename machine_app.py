@@ -314,3 +314,74 @@ if st.button("Click to Run"):
 
     with cB:
         st.metric("Status", shot_color)
+
+st.header("🧊 3D Machine + Mold Visualization")
+
+if len(valid) > 0:
+
+    machine_row = df[df["Model"] == best["Model"]].iloc[0]
+
+    platen_x = machine_row["Platen X (mm)"]
+    platen_y = machine_row["Platen Y (mm)"]
+    daylight_max = machine_row["Daylight Max (mm)"]
+
+    # Mold centered on platen
+    mold_x0 = (platen_x - mold_length) / 2
+    mold_x1 = mold_x0 + mold_length
+
+    mold_y0 = (platen_y - mold_width) / 2
+    mold_y1 = mold_y0 + mold_width
+
+    # Mold positioned between platens
+    mold_z0 = (daylight_max - mold_height) / 2
+    mold_z1 = mold_z0 + mold_height
+
+    fig = go.Figure()
+
+    # --- Fixed Platen (bottom) ---
+    fig.add_trace(go.Mesh3d(
+        x=[0, platen_x, platen_x, 0, 0, platen_x, platen_x, 0],
+        y=[0, 0, platen_y, platen_y, 0, 0, platen_y, platen_y],
+        z=[0, 0, 0, 0, -40, -40, -40, -40],
+        opacity=0.35,
+        color='gray',
+        name="Fixed Platen"
+    ))
+
+    # --- Movable Platen (top) ---
+    fig.add_trace(go.Mesh3d(
+        x=[0, platen_x, platen_x, 0, 0, platen_x, platen_x, 0],
+        y=[0, 0, platen_y, platen_y, 0, 0, platen_y, platen_y],
+        z=[daylight_max, daylight_max, daylight_max, daylight_max,
+           daylight_max + 40, daylight_max + 40, daylight_max + 40, daylight_max + 40],
+        opacity=0.35,
+        color='darkgray',
+        name="Movable Platen"
+    ))
+
+    # --- Mold Block ---
+    fig.add_trace(go.Mesh3d(
+        x=[mold_x0, mold_x1, mold_x1, mold_x0, mold_x0, mold_x1, mold_x1, mold_x0],
+        y=[mold_y0, mold_y0, mold_y1, mold_y1, mold_y0, mold_y0, mold_y1, mold_y1],
+        z=[mold_z0, mold_z0, mold_z0, mold_z0,
+           mold_z1, mold_z1, mold_z1, mold_z1],
+        opacity=0.7,
+        color='steelblue',
+        name="Mold"
+    ))
+
+    fig.update_layout(
+        scene=dict(
+            xaxis_title="X (mm)",
+            yaxis_title="Y (mm)",
+            zaxis_title="Z (mm)",
+            aspectmode="data"
+        ),
+        width=800,
+        height=700
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+else:
+    st.info("Run compatibility check to visualize machine + mold.")
