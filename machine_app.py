@@ -323,132 +323,57 @@ st.header("🧊 3D Machine + Mold Visualization")
 
 if len(valid) > 0:
 
-    machine_row = df[df["Model"] == best["Model"]].iloc[0]
+    # 1. Build animation frames FIRST
+    frames = []
+    steps = 20
+    z_positions = np.linspace(daylight_max, mold_z1, steps)
 
-    platen_x = machine_row["Platen X (mm)"]
-    platen_y = machine_row["Platen Y (mm)"]
-    daylight_max = machine_row["Daylight Max (mm)"]
+    for z_top in z_positions:
+        frames.append(
+            go.Frame(
+                data=[
+                    go.Mesh3d(
+                        x=[0, platen_x, platen_x, 0, 0, platen_x, platen_x, 0],
+                        y=[0, 0, platen_y, platen_y, 0, 0, platen_y, platen_y],
+                        z=[z_top, z_top, z_top, z_top,
+                           z_top + 40, z_top + 40, z_top + 40, z_top + 40],
+                        color='darkgray',
+                        opacity=0.35
+                    )
+                ]
+            )
+        )
 
-    # Mold centered on platen
-    mold_x0 = (platen_x - mold_length) / 2
-    mold_x1 = mold_x0 + mold_length
-
-    mold_y0 = (platen_y - mold_width) / 2
-    mold_y1 = mold_y0 + mold_width
-
-    # Mold positioned between platens
-    mold_z0 = (daylight_max - mold_height) / 2
-    mold_z1 = mold_z0 + mold_height
-    mold_mid = (mold_z0 + mold_z1) / 2
-
-    # Tie-bar coordinates
-    tb_offset = 80
-    tiebar_radius = 20
-    tiebar_height = daylight_max + 40
-
-    tiebar_centers = [
-        (tb_offset, tb_offset),
-        (platen_x - tb_offset, tb_offset),
-        (platen_x - tb_offset, platen_y - tb_offset),
-        (tb_offset, platen_y - tb_offset),
-    ]
-
-    # Cylinder generator
-    def cylinder(cx, cy, r, z0, z1, n=20):
-        theta = np.linspace(0, 2*np.pi, n)
-        z = np.array([z0, z1])
-        theta, z = np.meshgrid(theta, z)
-        x = cx + r * np.cos(theta)
-        y = cy + r * np.sin(theta)
-        return x.flatten(), y.flatten(), z.flatten()
-
+    # 2. Create figure
     fig = go.Figure()
 
-    # --- Fixed Platen ---
-    fig.add_trace(go.Mesh3d(
-        x=[0, platen_x, platen_x, 0, 0, platen_x, platen_x, 0],
-        y=[0, 0, platen_y, platen_y, 0, 0, platen_y, platen_y],
-        z=[0, 0, 0, 0, -40, -40, -40, -40],
-        opacity=0.35,
-        color='gray',
-        name="Fixed Platen"
-    ))
+    # 3. Add all your traces (platen, mold, tie-bars, ejector, split line)
+    # ... your traces here ...
 
-    # --- Movable Platen ---
-    fig.add_trace(go.Mesh3d(
-        x=[0, platen_x, platen_x, 0, 0, platen_x, platen_x, 0],
-        y=[0, 0, platen_y, platen_y, 0, 0, platen_y, platen_y],
-        z=[daylight_max, daylight_max, daylight_max, daylight_max,
-           daylight_max + 40, daylight_max + 40, daylight_max + 40, daylight_max + 40],
-        opacity=0.35,
-        color='darkgray',
-        name="Movable Platen"
-    ))
+    # 4. Add animation frames
+    fig.update(frames=frames)
 
-    # --- Mold Block ---
-    fig.add_trace(go.Mesh3d(
-        x=[mold_x0, mold_x1, mold_x1, mold_x0, mold_x0, mold_x1, mold_x1, mold_x0],
-        y=[mold_y0, mold_y0, mold_y1, mold_y1, mold_y0, mold_y0, mold_y1, mold_y1],
-        z=[mold_z0, mold_z0, mold_z0, mold_z0,
-           mold_z1, mold_z1, mold_z1, mold_z1],
-        opacity=0.7,
-        color='steelblue',
-        name="Mold"
-    ))
-
-    # --- Core/Cavity Split Line ---
-    fig.add_trace(go.Mesh3d(
-        x=[mold_x0, mold_x1, mold_x1, mold_x0],
-        y=[mold_y0, mold_y0, mold_y1, mold_y1],
-        z=[mold_mid, mold_mid, mold_mid, mold_mid],
-        opacity=0.3,
-        color='yellow',
-        name="Split Line"
-    ))
-
-    # --- Tie-bars (restored) ---
-    for cx, cy in tiebar_centers:
-        x, y, z = cylinder(cx, cy, tiebar_radius, 0, tiebar_height)
-        fig.add_trace(go.Mesh3d(
-            x=x, y=y, z=z,
-            opacity=0.4,
-            color='silver',
-            name="Tie-bar"
-        ))
-
-    # --- Ejector Plate ---
-    fig.add_trace(go.Mesh3d(
-        x=[mold_x0, mold_x1, mold_x1, mold_x0, mold_x0, mold_x1, mold_x1, mold_x0],
-        y=[mold_y0, mold_y0, mold_y1, mold_y1, mold_y0, mold_y0, mold_y1, mold_y1],
-        z=[-20]*8,
-        opacity=0.6,
-        color='orange',
-        name="Ejector Plate"
-    ))
-
-    # --- Animation Frames ---
-    # --- Animation Frames ---
-frames = []
-steps = 20
-z_positions = np.linspace(daylight_max, mold_z1, steps)
-
-for z_top in z_positions:
-    frames.append(
-        go.Frame(
-            data=[
-                # Movable platen animation
-                go.Mesh3d(
-                    x=[0, platen_x, platen_x, 0, 0, platen_x, platen_x, 0],
-                    y=[0, 0, platen_y, platen_y, 0, 0, platen_y, platen_y],
-                    z=[z_top, z_top, z_top, z_top,
-                       z_top + 40, z_top + 40, z_top + 40, z_top + 40],
-                    color='darkgray',
-                    opacity=0.35
-                )
-            ]
-        )
+    # 5. Layout
+    fig.update_layout(
+        updatemenus=[{
+            "type": "buttons",
+            "buttons": [{
+                "label": "Play Closing Animation",
+                "method": "animate",
+                "args": [None, {"frame": {"duration": 80}, "fromcurrent": True}]
+            }]
+        }],
+        scene=dict(
+            xaxis_title="X (mm)",
+            yaxis_title="Y (mm)",
+            zaxis_title="Z (mm)",
+            aspectmode="data"
+        ),
+        width=900,
+        height=800
     )
 
+    # 6. Display
     st.plotly_chart(fig, use_container_width=True)
 
 else:
