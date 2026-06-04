@@ -354,6 +354,9 @@ if len(valid) > 0:
     # Calculate utilization
     if machine_shot > 0:
         shot_ratio = actual_shot / machine_shot
+        shot_ratio = int(shot_ratio )
+       
+
     else:
         shot_ratio = 0
 
