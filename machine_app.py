@@ -427,25 +427,26 @@ if len(valid) > 0:
     ))
 
     # --- Animation Frames ---
-    fig.update(frames=frames)
+    # --- Animation Frames ---
+frames = []
+steps = 20
+z_positions = np.linspace(daylight_max, mold_z1, steps)
 
-    fig.update_layout(
-        updatemenus=[{
-            "type": "buttons",
-            "buttons": [{
-                "label": "Play Closing Animation",
-                "method": "animate",
-                "args": [None, {"frame": {"duration": 80}, "fromcurrent": True}]
-            }]
-        }],
-        scene=dict(
-            xaxis_title="X (mm)",
-            yaxis_title="Y (mm)",
-            zaxis_title="Z (mm)",
-            aspectmode="data"
-        ),
-        width=900,
-        height=800
+for z_top in z_positions:
+    frames.append(
+        go.Frame(
+            data=[
+                # Movable platen animation
+                go.Mesh3d(
+                    x=[0, platen_x, platen_x, 0, 0, platen_x, platen_x, 0],
+                    y=[0, 0, platen_y, platen_y, 0, 0, platen_y, platen_y],
+                    z=[z_top, z_top, z_top, z_top,
+                       z_top + 40, z_top + 40, z_top + 40, z_top + 40],
+                    color='darkgray',
+                    opacity=0.35
+                )
+            ]
+        )
     )
 
     st.plotly_chart(fig, use_container_width=True)
