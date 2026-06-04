@@ -37,9 +37,6 @@ selected_oems = st.multiselect(
     options=sorted(df["OEM"].dropna().unique())
 )
 
-
-
-
 col1, col2, col3, col4 = st.columns(4)
 
 selected_oem = None
@@ -78,9 +75,26 @@ if "selected_oem" not in st.session_state:
 if selected_oem:
     st.session_state.selected_oem = selected_oem
 
+#if st.session_state.selected_oem:
+#    st.success(f"Selected OEM: {st.session_state.selected_oem}")
+#    df = df[df["OEM"] == st.session_state.selected_oem]
+
+# ---------------------------
+# FINAL OEM FILTER LOGIC
+# ---------------------------
+final_oem_list = []
+
+# Priority: button selection OR multi-select
 if st.session_state.selected_oem:
-    st.success(f"Selected OEM: {st.session_state.selected_oem}")
-    df = df[df["OEM"] == st.session_state.selected_oem]
+    final_oem_list = [st.session_state.selected_oem]
+elif selected_oems:
+    final_oem_list = selected_oems
+
+# Apply filter
+if final_oem_list:
+    st.success(f"Selected OEM(s): {', '.join(final_oem_list)}")
+    df = df[df["OEM"].isin(final_oem_list)]
+
 
 # ---------------------------
 # INPUTS
