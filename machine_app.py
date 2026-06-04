@@ -131,11 +131,10 @@ c1, c2, c3 = st.columns([1, 1, 1])
 with c1:
     shot_weight = st.number_input(
         "Shot Weight (g)",
-        value=5,
+        value=15,
         label_visibility="collapsed"
     )
-    #shot_weight = st.number_input("", value=15)
-
+   
 # Opening calculation
 safety_clearance = mold_height * 0.1 + 20
 required_opening = mold_height + safety_clearance
