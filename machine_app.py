@@ -295,6 +295,10 @@ if st.button("Click to Run"):
     # ---------------------------
     # 📐 Mold Fit Analysis
     # ---------------------------
+if len(valid) > 0:
+
+    machine_row = df[df["Model"] == best["Model"]].iloc[0]
+    
     platen_x = best["Platen X (mm)"]
     platen_y = best.get("Platen Y (mm)", 1)
     daylight_max = best["Daylight Max (mm)"]
