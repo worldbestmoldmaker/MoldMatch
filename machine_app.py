@@ -266,7 +266,7 @@ if st.button("Click to Run"):
    #         "Fail Reason": reason   # ✅ ADD THIS
    #     })
 
-results_df = pd.DataFrame(results)
+    results_df = pd.DataFrame(results)
 
 # ---------------------------
 # SHOW PASSED
