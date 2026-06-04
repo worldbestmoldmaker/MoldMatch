@@ -370,8 +370,8 @@ if len(valid) > 0:
     cA, cB = st.columns(2)
 
     with cA:
-        st.metric("Shot Utilization (%)", f"{int(shot_ratio*100:.1f)}%")
-
+        #st.metric("Shot Utilization (%)", f"{int(shot_ratio*100:.1f)}%")
+        st.metric("Shot Utilization (%)", f"{int(shot_ratio * 100)}%")
     with cB:
         st.metric("Status", shot_color)
 
