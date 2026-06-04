@@ -246,7 +246,8 @@ if st.button("Click to Run"):
         shot_capacity = m.get("Shot Weight (g)")
 
         if pd.notna(shot_capacity) and shot_capacity > 0:
-            utilization = shot_weight / shot_capacity
+            utilization = int((shot_weight / shot_capacity) * 100)
+            #shot_weight / shot_capacity            
         else:
             utilization = None
 
