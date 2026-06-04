@@ -465,13 +465,30 @@ if len(valid) > 0:
     # 6️⃣ Layout + display
     # -------------------------
     fig.update_layout(
-        updatemenus=[{
+    updatemenus=[
+        {
             "type": "buttons",
-            "buttons": [{
-                "label": "Play Closing Animation",
-                "method": "animate",
-
-    st.plotly_chart(fig, use_container_width=True)
-
-else:
-    st.info("Run compatibility check to visualize machine + mold.")
+            "buttons": [
+                {
+                    "label": "Play Closing Animation",
+                    "method": "animate",
+                    "args": [
+                        None,
+                        {
+                            "frame": {"duration": 80, "redraw": True},
+                            "fromcurrent": True
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    scene=dict(
+        xaxis_title="X (mm)",
+        yaxis_title="Y (mm)",
+        zaxis_title="Z (mm)",
+        aspectmode="data"
+    ),
+    width=900,
+    height=800
+)
