@@ -278,14 +278,14 @@ if st.button("Click to Run"):
 # ---------------------------
 # BEST MACHINE
 # ---------------------------
-if len(passed_df) > 0:
+    if len(passed_df) > 0:
 
-    best = passed_df.sort_values("Clamp (ton)").iloc[0]
+        best = passed_df.sort_values("Clamp (ton)").iloc[0]
 
-    st.success(
-        f"✅ Recommended Machine:\n\n"
-        f"{best['OEM']} - {best['Model']} ({best['Clamp (ton)']} ton)"
-    )
+        st.success(
+            f"✅ Recommended Machine:\n\n"
+            f"{best['OEM']} - {best['Model']} ({best['Clamp (ton)']} ton)"
+        )
 
     # ===========================
     # 📊 RESULTS ANALYSIS
