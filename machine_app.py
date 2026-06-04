@@ -80,6 +80,28 @@ with col4:
     if st.button("SUMITOMO"):
         selected_oem = "SUMITOMO"
 
+# ✅ Second row
+col5, col6, col7, col8 = st.columns(4)
+
+with col5:
+    st.image("https://upload.wikimedia.org/wikipedia/commons/6/6f/Haitian_injection_machine.jpg")  # replace if needed
+    st.write("")
+    if st.button("HAITIAN"):
+        selected_oem = "HAITIAN"
+
+# Optional: leave others empty for spacing
+with col6:
+    st.empty()
+
+with col7:
+    st.empty()
+
+with col8:
+    st.empty()
+
+
+
+
 if "selected_oem" not in st.session_state:
     st.session_state.selected_oem = None
 
