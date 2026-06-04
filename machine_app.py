@@ -31,10 +31,13 @@ df = load_data()
 # ---------------------------
 st.subheader("Select Machine Brand")
 # Multi-select dropdown (add here)
+
 selected_oems = st.multiselect(
-    "S"
-    options=sorted(df["OEM"].dropna().unique())
+    "Select Machine Brands",
+    options=sorted(df["OEM"].dropna().unique()),
+    default=[]    
 )
+
 
 col1, col2, col3, col4 = st.columns(4)
 
