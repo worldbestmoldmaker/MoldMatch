@@ -30,8 +30,26 @@ df = load_data()
 # OEM SELECTION
 # ---------------------------
 st.subheader("Select Machine Brand")
-# Multi-select dropdown (add here)
+st.markdown("""
+<style>
+/* Selected tag (chip) background color */
+div[data-baseweb="tag"] {
+    background-color: #1f77ff !important;  /* blue */
+    color: white !important;
+    border-radius: 6px;
+}
 
+/* Remove default red tone */
+div[data-baseweb="tag"] span {
+    color: white !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+
+
+
+# Multi-select dropdown (add here)
 selected_oems = st.multiselect(
     "",
     options=sorted(df["OEM"].dropna().unique()),
