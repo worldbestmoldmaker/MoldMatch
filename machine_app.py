@@ -342,7 +342,7 @@ if st.button("Click to Run"):
 
 # ✅ Only run if a valid machine exists
 #if len(valid) > 0:
-passed_df = results_df[results_df["Status"] == "PASS"]
+
 if len(passed_df) > 0:
     st.subheader("⚖️ Shot Weight Analysis")
 
