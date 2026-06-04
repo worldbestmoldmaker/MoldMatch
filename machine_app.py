@@ -229,7 +229,7 @@ if st.button("Click to Run"):
             "Tie Bar Y (mm)": m["Tie Bar Y (mm)"],
             "Daylight Max (mm)": m["Daylight Max (mm)"], # shown
             "Shot Weight (g)": m["Shot Weight (g)"],
-             "Screw Size (mm)": m["Screw Size (mm)"],
+            "Screw Size (mm)": m["Screw Size (mm)"],
             "Status": status   
         })
 
