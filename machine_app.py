@@ -159,6 +159,28 @@ def check(machine):
         reasons.append("Insufficient daylight")
 
     return "PASS" if not reasons else "FAIL", ", ".join(set(reasons))
+
+
+    # ---------------------------
+    # Shot Weight Check
+    # ---------------------------
+    shot_capacity = machine.get("Shot Weight (g)")  # or "Shot Size"
+    
+    # Recommended: use 80% max utilization
+    
+    shot_capacity = machine.get("Shot Weight (g)")
+
+    if pd.notna(shot_capacity):
+        utilization = required_shot_weight / shot_capacity
+
+        if utilization > 0.8:
+            reasons.append("Insufficient shot capacity")
+        elif utilization < 0.10:
+            reasons.append("Shot too small")
+    else:
+        reasons.append("No shot data")
+
+
 # ---------------------------
 # RUN BUTTON
 # ---------------------------
