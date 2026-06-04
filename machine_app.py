@@ -158,7 +158,7 @@ def check(machine):
     if pd.notna(daylight_max) and required_opening > daylight_max:
         reasons.append("Insufficient daylight")
 
-    return "PASS" if not reasons else "FAIL", ", ".join(set(reasons))
+    #return "PASS" if not reasons else "FAIL", ", ".join(set(reasons))
 
 
     # ---------------------------
