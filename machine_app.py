@@ -339,7 +339,7 @@ if st.button("Click to Run"):
         cB.markdown(f"### {gap_color}")
         cB.metric("Opening Gap", f"{opening_gap:.1f} mm")
         # Shot Weight Analysis
-# Shot Weight Analysis
+
     st.subheader("⚖️ Shot Weight Analysis")
 
 # Machine data (from your dataset)
@@ -347,8 +347,6 @@ if st.button("Click to Run"):
 
 # User input
     actual_shot = shot_weight
-#st.number_input("Actual Shot Weight (g)", value=50)
-
 # Calculate utilization
     if machine_shot > 0:
         shot_ratio = actual_shot / machine_shot
@@ -372,4 +370,42 @@ if st.button("Click to Run"):
     with cB:
         st.metric("Status", shot_color)
 
-import numpy as np
+
+
+# ✅ Only run if a valid machine exists
+if len(valid) > 0:
+
+    st.subheader("⚖️ Shot Weight Analysis")
+
+    # ✅ Use best machine directly (NO machine_row needed)
+    machine_shot = best["Shot Weight (g)"]
+
+    # User input
+    actual_shot = shot_weight
+
+    # Calculate utilization
+    if machine_shot > 0:
+        shot_ratio = actual_shot / machine_shot
+    else:
+        shot_ratio = 0
+
+    # Status logic
+    if 0.2 <= shot_ratio <= 0.8:
+        shot_color = "🟢 GOOD"
+    elif 0.1 <= shot_ratio < 0.2 or 0.8 < shot_ratio <= 0.9:
+        shot_color = "🟡 MARGINAL"
+    else:
+        shot_color = "🔴 OUT OF RANGE"
+
+    # Display
+    cA, cB = st.columns(2)
+
+    with cA:
+        st.metric("Shot Utilization (%)", f"{shot_ratio*100:.1f}%")
+
+    with cB:
+        st.metric("Status", shot_color)
+
+else:
+    st.warning("No valid machine → Shot analysis skipped")
+
