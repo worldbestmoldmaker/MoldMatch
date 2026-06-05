@@ -5,6 +5,97 @@ import plotly.graph_objects as go
 import time
 import numpy as np
 
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { motion } from "framer-motion";
+
+export default function MoldMatchUI() {
+  const [length, setLength] = useState(636);
+  const [width, setWidth] = useState(396);
+  const [height, setHeight] = useState(458);
+  const [clamp, setClamp] = useState(80);
+  const [result, setResult] = useState(null);
+
+  const handleCheck = () => {
+    // Dummy enterprise-like logic
+    if (clamp < 100) {
+      setResult({
+        status: "PASS",
+        machine: "ENGEL e-mac 180",
+        risk: "Low",
+        message: "Machine is well within safe operating range"
+      });
+    } else {
+      setResult({
+        status: "FAIL",
+        machine: "No suitable machine",
+        risk: "High",
+        message: "Clamp force too high for available machines"
+      });
+    }
+  };
+
+  return (
+    <div className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6 bg-gray-50 min-h-screen">
+      {/* Inputs Panel */}
+      <Card className="rounded-2xl shadow-sm col-span-1">
+        <CardContent className="p-6 space-y-4">
+          <h2 className="text-xl font-semibold">Mold Parameters</h2>
+
+          <Input value={length} onChange={(e) => setLength(e.target.value)} placeholder="Length (mm)" />
+          <Input value={width} onChange={(e) => setWidth(e.target.value)} placeholder="Width (mm)" />
+          <Input value={height} onChange={(e) => setHeight(e.target.value)} placeholder="Height (mm)" />
+          <Input value={clamp} onChange={(e) => setClamp(e.target.value)} placeholder="Clamp Force (ton)" />
+
+          <Button className="w-full" onClick={handleCheck}>Check Machine Match</Button>
+        </CardContent>
+      </Card>
+
+      {/* Results Panel */}
+      <Card className="rounded-2xl shadow-sm col-span-2">
+        <CardContent className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Recommendation</h2>
+
+          {!result && (
+            <p className="text-gray-500">Run a check to see recommended machine</p>
+          )}
+
+          {result && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-4"
+            >
+              <div className={`text-2xl font-bold ${result.status === "PASS" ? "text-green-600" : "text-red-600"}`}>
+                {result.status}
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <Card className="p-4">
+                  <p className="text-sm text-gray-500">Recommended Machine</p>
+                  <p className="text-lg font-semibold">{result.machine}</p>
+                </Card>
+
+                <Card className="p-4">
+                  <p className="text-sm text-gray-500">Risk Level</p>
+                  <p className="text-lg font-semibold">{result.risk}</p>
+                </Card>
+              </div>
+
+              <Card className="p-4 bg-gray-100">
+                <p className="text-sm text-gray-600">Assessment</p>
+                <p className="text-base">{result.message}</p>
+              </Card>
+            </motion.div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
 # ---------------------------
 # TITLE
 # ---------------------------
