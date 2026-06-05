@@ -10,8 +10,7 @@ import numpy as np
 # ---------------------------
 #st.markdown("# MoldMatch”)
 st.markdown(
-    "<h1 style='color:#003366; font-style:italic;'>MoldMatch</h1>",
-    "",
+    "<h1 style='color:#003366; font-style:italic;'>MoldMatch</h1><br>",
     unsafe_allow_html=True
 )
 
