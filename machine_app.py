@@ -349,7 +349,7 @@ if st.button("Click to Run"):
         st.success(
             f"✅ Recommended Machine :\n\n" #(Closest to 50% Shot Utilization)
             f"{best['OEM']} - {best['Model']} "
-            f"({best['Clamp (ton)']} ton"
+            f"({best['Clamp (ton)']} ton)"
             #{best['Shot Utilization (%)']}% utilization)"
         )
     else:
