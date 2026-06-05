@@ -330,15 +330,41 @@ if st.button("Click to Run"):
     # ---------------------------
     # BEST MACHINE
     # ---------------------------
-    valid = passed_df
+    #valid = passed_df
+    #if len(valid) > 0:
+        #best = valid.sort_values("Clamp (ton)").iloc[0]
+        # ===========================
+# NEW BEST MACHINE LOGIC — closest to 50% shot utilization
+# ===========================
+
+    valid = passed_df.copy()
+
     if len(valid) > 0:
-        best = valid.sort_values("Clamp (ton)").iloc[0]
+    # Compute deviation from ideal 50% utilization
+        valid["Utilization Deviation"] = (valid["Shot Utilization (%)"] - 50).abs()
+
+    # Pick machine with smallest deviation
+        best = valid.sort_values("Utilization Deviation").iloc[0]
+
         st.success(
-            f"✅ Recommended Machine:\n\n"
-            f"{best['OEM']} - {best['Model']} ({best['Clamp (ton)']} ton)"
+            f"✅ Recommended Machine (Closest to 50% Shot Utilization):\n\n"
+            f"{best['OEM']} - {best['Model']} "
+            f"({best['Clamp (ton)']} ton, {best['Shot Utilization (%)']}% utilization)"
         )
     else:
         st.error("❌ No compatible machines found")
+        
+        
+        
+        
+        
+        
+        #st.success(
+        #    f"✅ Recommended Machine:\n\n"
+        #    f"{best['OEM']} - {best['Model']} ({best['Clamp (ton)']} ton)"
+        #)
+    #else:
+        #st.error("❌ No compatible machines found")
 
     # ===========================
     # 📊 RESULTS ANALYSIS
