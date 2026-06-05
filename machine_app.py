@@ -347,7 +347,7 @@ if st.button("Click to Run"):
         best = valid.sort_values("Utilization Deviation").iloc[0]
 
         st.success(
-            f"✅ Recommended Machine (Closest to 50% Shot Utilization):\n\n"
+            f"✅ Recommended Machine :\n\n" #(Closest to 50% Shot Utilization)
             f"{best['OEM']} - {best['Model']} "
             f"({best['Clamp (ton)']} ton, {best['Shot Utilization (%)']}% utilization)"
         )
