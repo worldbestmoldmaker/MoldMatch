@@ -672,15 +672,15 @@ else:
 # FULL PDF REPORT
 # -----------------------------------
 
-def generate_pdf(
-    machine_text,
-    fit_status,
-    projected_ratio,
-    opening_gap,
-    shot_utilization,
-    shot_status,
-    fig
-):
+    def generate_pdf(
+        machine_text,
+        fit_status,
+        projected_ratio,
+        opening_gap,
+        shot_utilization,
+        shot_status,
+        fig
+    ):
 
     buffer = BytesIO()
 
