@@ -553,7 +553,7 @@ if 'valid' in locals() and len(valid) > 0:
 # BOTTOM tie bar
     fig.add_shape(
         type="line",  
-        width=12
+        width=12,
         x0=0,
         y0=(platen_width - tie_bar_y) / 2 ,
         x1=platen_height,
