@@ -324,16 +324,16 @@ if st.button("Click to Run"):
 # DISCLAIMER
 # ---------------------------
 
-st.warning(
-    "Engineering screening tool only. "
-    "Final machine approval requires OEM/application engineer validation."
-)
+    st.warning(
+        "Engineering screening tool only. "
+        "Final machine approval requires OEM/application engineer validation."
+    )
 
 # ---------------------------
 # SHOW PASSED
 # ---------------------------
 
-st.subheader("✅ Passed Machines")
+    st.subheader("✅ Passed Machines")
 
 
 
