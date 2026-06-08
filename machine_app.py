@@ -5,6 +5,16 @@ import plotly.graph_objects as go
 import time
 import numpy as np
 
+from datetime import datetime
+import socket
+
+user_ip = socket.gethostbyname(socket.gethostname())
+
+with open("view_log.txt", "a") as f:
+    f.write(
+        f"{datetime.now()} | IP: {user_ip}\n"
+    )
+
 # ---------------------------
 # TITLE
 # ---------------------------
