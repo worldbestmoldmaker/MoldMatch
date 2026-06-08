@@ -537,40 +537,35 @@ if 'valid' in locals() and len(valid) > 0:
         line=dict(color="blue", width=2),
         fillcolor="rgba(173,216,230,0.2)"
     )
-    
 # -----------------------------------
 # OPERATOR SIDE TIE BARS
 # -----------------------------------
 
-const tieBarMaterial = new THREE.MeshStandardMaterial({
-    color: 0x444444,
-    metalness: 0.8,
-    roughness: 0.3
-});
+# TOP tie bar
+fig.add_shape(
+    type="line",
+    x0=-500,
+    y0=200,
+    x1=500,
+    y1=200,
+    line=dict(
+        color="black",
+        width=12
+    )
+)
 
-function createTieBar(y) {
-
-    const geometry = new THREE.CylinderGeometry(4, 4, 140, 32);
-
-    const tieBar = new THREE.Mesh(
-        geometry,
-        tieBarMaterial
-    );
-
-    // horizontal direction
-    tieBar.rotation.z = Math.PI / 2;
-
-    // operator side position
-    tieBar.position.set(0, y, 0);
-
-    scene.add(tieBar);
-}
-
-// TOP tie bar
-createTieBar(40);
-
-// BOTTOM tie bar
-createTieBar(-40);
+# BOTTOM tie bar
+fig.add_shape(
+    type="line",
+    x0=-500,
+    y0=-200,
+    x1=500,
+    y1=-200,
+    line=dict(
+        color="black",
+        width=12
+    )
+)    
 
     # -------------------------
     # CENTER MOLD INSIDE PLATEN
