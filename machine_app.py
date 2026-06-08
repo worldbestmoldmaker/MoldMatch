@@ -385,10 +385,6 @@ if st.button("Click to Run"):
 
     st.subheader("✅ Passed Machines")
 
-
-
-
-    
     passed_df = results_df[results_df["Status"] == "PASS"]
     st.dataframe(passed_df)
 
