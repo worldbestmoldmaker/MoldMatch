@@ -328,6 +328,13 @@ if st.button("Click to Run"):
     st.dataframe(passed_df)
 
     # ---------------------------
+    # SHOW FAILED
+    # ---------------------------
+    st.subheader("❌ Failed Machines")
+    failed_df = results_df[results_df["Status"] == "FAIL"]
+    st.dataframe(failed_df)    
+
+    # ---------------------------
     # BEST MACHINE
     # ---------------------------
     #valid = passed_df
