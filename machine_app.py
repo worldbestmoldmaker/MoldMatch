@@ -550,9 +550,10 @@ if 'valid' in locals() and len(valid) > 0:
 # offset OUTSIDE platen
     tie_bar_offset = tie_bar_y
 
-# TOP tie bar
+# BOTTOM tie bar
     fig.add_shape(
-        type="line",
+        type="line",  
+        width=12
         x0=0,
         y0=(platen_width - tie_bar_y) / 2 ,
         x1=platen_height,
@@ -563,7 +564,7 @@ if 'valid' in locals() and len(valid) > 0:
         )
     )
 
-# BOTTOM tie bar
+# TOP tie bar
     fig.add_shape(
         type="line",
         x0=0,
