@@ -145,85 +145,116 @@ with col2:
 with col3:
     mold_height = st.number_input("Thickness (mm)", value=458)
 
-# ---------------------------
-# MOLD FRONT VIEW VISUAL
-# ROTATED 90°
-# ---------------------------
+# ==========================
+# 🖼️ PLATEN + MOLD FRONT VIEW
+# ==========================
 
-st.subheader("🖼️ Mold Front View")
+st.subheader("🖼️ Mold vs Platen Front View")
 
-fig = go.Figure()
+# Use best machine platen dimensions
+if len(valid) > 0:
 
-# Rotate view:
-# Thickness becomes horizontal
-# Width becomes vertical
+    platen_width = platen_y
+    platen_height = platen_x
 
-fig.add_shape(
-    type="rect",
-    x0=0,
-    y0=0,
-    x1=mold_height,
-    y1=mold_width,
-    line=dict(color="black", width=3),
-    fillcolor="lightgray"
-)
+    fig = go.Figure()
 
-# Horizontal dimension = Thickness
-fig.add_shape(
-    type="line",
-    x0=0,
-    y0=mold_width + 30,
-    x1=mold_height,
-    y1=mold_width + 30,
-    line=dict(color="black", width=2)
-)
+    # -------------------------
+    # PLATEN RECTANGLE
+    # -------------------------
+    fig.add_shape(
+        type="rect",
+        x0=0,
+        y0=0,
+        x1=platen_height,
+        y1=platen_width,
+        line=dict(color="blue", width=2),
+        fillcolor="rgba(173,216,230,0.2)"
+    )
 
-fig.add_annotation(
-    x=mold_height / 2,
-    y=mold_width + 50,
-    text=f"Thickness: {mold_height} mm",
-    showarrow=False,
-    font=dict(size=16)
-)
+    # -------------------------
+    # CENTER MOLD INSIDE PLATEN
+    # Rotated 90°
+    # -------------------------
 
-# Vertical dimension = Width
-fig.add_shape(
-    type="line",
-    x0=mold_height + 30,
-    y0=0,
-    x1=mold_height + 30,
-    y1=mold_width,
-    line=dict(color="black", width=2)
-)
+    mold_x0 = (platen_height - mold_height) / 2
+    mold_y0 = (platen_width - mold_width) / 2
 
-fig.add_annotation(
-    x=mold_height + 60,
-    y=mold_width / 2,
-    text=f"Width: {mold_width} mm",
-    textangle=90,
-    showarrow=False,
-    font=dict(size=16)
-)
+    mold_x1 = mold_x0 + mold_height
+    mold_y1 = mold_y0 + mold_width
 
-# Layout
-fig.update_layout(
-    width=300,
-    height=300,
-    showlegend=False,
-    xaxis=dict(
-        visible=False,
-        range=[-50, mold_height + 120]
-    ),
-    yaxis=dict(
-        visible=False,
-        scaleanchor="x",
-        range=[-50, mold_width + 120]
-    ),
-    margin=dict(l=10, r=10, t=10, b=10)
-)
+    fig.add_shape(
+        type="rect",
+        x0=mold_x0,
+        y0=mold_y0,
+        x1=mold_x1,
+        y1=mold_y1,
+        line=dict(color="black", width=2),
+        fillcolor="rgba(128,128,128,0.5)"
+    )
 
-st.plotly_chart(fig, use_container_width=True)
+    # -------------------------
+    # LABELS
+    # -------------------------
 
+    fig.add_annotation(
+        x=platen_height / 2,
+        y=platen_width + 40,
+        text=f"Platen Width: {platen_width} mm",
+        showarrow=False,
+        font=dict(size=10, color="blue")
+    )
+
+    fig.add_annotation(
+        x=platen_height + 60,
+        y=platen_width / 2,
+        text=f"Platen Height: {platen_height} mm",
+        textangle=90,
+        showarrow=False,
+        font=dict(size=10, color="blue")
+    )
+
+    fig.add_annotation(
+        x=(mold_x0 + mold_x1) / 2,
+        y=mold_y1 + 20,
+        text=f"Mold Thickness: {mold_height} mm",
+        showarrow=False,
+        font=dict(size=10)
+    )
+
+    fig.add_annotation(
+        x=mold_x1 + 20,
+        y=(mold_y0 + mold_y1) / 2,
+        text=f"Mold Width: {mold_width} mm",
+        textangle=90,
+        showarrow=False,
+        font=dict(size=10)
+    )
+
+    # -------------------------
+    # LAYOUT
+    # -------------------------
+
+    fig.update_layout(
+        width=350,
+        height=350,
+        showlegend=False,
+        xaxis=dict(
+            visible=False,
+            range=[-50, platen_height + 120]
+        ),
+        yaxis=dict(
+            visible=False,
+            scaleanchor="x",
+            range=[-50, platen_width + 120]
+        ),
+        margin=dict(l=10, r=10, t=10, b=10)
+    )
+
+    st.plotly_chart(fig, use_container_width=False)
+
+else:
+    st.warning("No valid machine found")
 
 # Clamp Requirement
 st.subheader("🏗️ Clamp Requirement")
