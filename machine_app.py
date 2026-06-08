@@ -628,11 +628,13 @@ else:
 
 machine_text = "No Recommended Machine"
 
-if isinstance(results, list) and len(results) > 0:
-
-    best = results[0]
+try:
 
     machine_text = f"{best['OEM']} - {best['Model']}"
+
+except:
+
+    pass
 
 pdf_file = generate_pdf(machine_text)
 
