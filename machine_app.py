@@ -207,8 +207,8 @@ fig.add_annotation(
 
 # Layout
 fig.update_layout(
-    width=600,
-    height=600,
+    width=300,
+    height=300,
     showlegend=False,
     xaxis=dict(
         visible=False,
@@ -219,7 +219,7 @@ fig.update_layout(
         scaleanchor="x",
         range=[-50, mold_width + 120]
     ),
-    margin=dict(l=20, r=20, t=20, b=20)
+    margin=dict(l=10, r=10, t=10, b=10)
 )
 
 st.plotly_chart(fig, use_container_width=True)
