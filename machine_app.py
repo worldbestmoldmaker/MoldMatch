@@ -540,32 +540,48 @@ if 'valid' in locals() and len(valid) > 0:
 # -----------------------------------
 # OPERATOR SIDE TIE BARS
 # -----------------------------------
+# -----------------------------------
+# GET ACTUAL MACHINE VALUES
+# -----------------------------------
 
-# TOP tie bar
+    tie_bar_x = best["Tie Bar X (mm)"]
+    tie_bar_y = best["Tie Bar Y (mm)"]
+
+# convert to half positions
+    half_x = tie_bar_x / 2
+    half_y = tie_bar_y / 2
+
+# -----------------------------------
+# TOP TIE BAR
+# -----------------------------------
+
     fig.add_shape(
         type="line",
-        x0=-500,
-        y0=200,
-        x1=500,
-        y1=200,
+        x0=-half_x,
+        y0=half_y,
+        x1=half_x,
+        y1=half_y,
         line=dict(
             color="black",
             width=12
         )
     )
 
-# BOTTOM tie bar
+# -----------------------------------
+# BOTTOM TIE BAR
+# -----------------------------------
+
     fig.add_shape(
         type="line",
-        x0=-500,
-        y0=-200,
-        x1=500,
-        y1=-200,
+        x0=-half_x,
+        y0=-half_y,
+        x1=half_x,
+        y1=-half_y,
         line=dict(
             color="black",
             width=12
         )
-    )    
+    )
 
     # -------------------------
     # CENTER MOLD INSIDE PLATEN
