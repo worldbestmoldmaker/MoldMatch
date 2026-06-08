@@ -454,7 +454,7 @@ else:
 # 🖼️ PLATEN + MOLD FRONT VIEW
 # ==========================
 
-st.subheader("🖼️ Mold vs Platen Front View")
+st.subheader("🖼️ Mold vs Platen Operator View")
 
 # Use best machine platen dimensions
 #if len(valid) > 0:
