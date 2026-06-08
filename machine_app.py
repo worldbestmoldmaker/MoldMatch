@@ -339,10 +339,10 @@ if st.button("Click to Run"):
     # ---------------------------
     #valid = passed_df
     #if len(valid) > 0:
-        #best = valid.sort_values("Clamp (ton)").iloc[0]
-        # ===========================
-# NEW BEST MACHINE LOGIC — closest to 50% shot utilization
-# ===========================
+    #best = valid.sort_values("Clamp (ton)").iloc[0]
+    # ===========================
+    # NEW BEST MACHINE LOGIC — closest to 50% shot utilization
+    # ===========================
 
     valid = passed_df.copy()
 
@@ -366,9 +366,9 @@ if st.button("Click to Run"):
     # 📊 RESULTS ANALYSIS
     # ===========================
     st.header("📊 Results Analysis")
-# ===========================
-# 📐 Mold Fit Analysis (guaranteed color)
-# ===========================
+    # ===========================
+    # 📐 Mold Fit Analysis (guaranteed color)
+    # ===========================
     if len(valid) > 0:
 
         machine_row = df[df["Model"] == best["Model"]].iloc[0]
