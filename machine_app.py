@@ -622,7 +622,7 @@ if 'valid' in locals() and len(valid) > 0:
 else:
     st.warning("No valid machine found")
 
-pdf_file = generate_pdf(result_machine)
+pdf_file = generate_pdf(f"{best['OEM']} - {best['Model']} ")
 
 st.download_button(
     label="Download PDF Report",
