@@ -540,43 +540,36 @@ if 'valid' in locals() and len(valid) > 0:
 # -----------------------------------
 # OPERATOR SIDE TIE BARS
 # -----------------------------------
-# -----------------------------------
-# GET ACTUAL MACHINE VALUES
-# -----------------------------------
 
     tie_bar_x = machine_row["Tie Bar X (mm)"]
     tie_bar_y = machine_row["Tie Bar Y (mm)"]
 
-# convert to half positions
     half_x = tie_bar_x / 2
     half_y = tie_bar_y / 2
 
-# -----------------------------------
-# TOP TIE BAR
-# -----------------------------------
+# offset OUTSIDE platen
+    tie_bar_offset = 40
 
+# TOP tie bar
     fig.add_shape(
         type="line",
         x0=-half_x,
-        y0=half_y,
+        y0=half_y + tie_bar_offset,
         x1=half_x,
-        y1=half_y,
+        y1=half_y + tie_bar_offset,
         line=dict(
             color="black",
             width=12
         )
     )
 
-# -----------------------------------
-# BOTTOM TIE BAR
-# -----------------------------------
-
+# BOTTOM tie bar
     fig.add_shape(
         type="line",
         x0=-half_x,
-        y0=-half_y,
+        y0=-half_y - tie_bar_offset,
         x1=half_x,
-        y1=-half_y,
+        y1=-half_y - tie_bar_offset,
         line=dict(
             color="black",
             width=12
