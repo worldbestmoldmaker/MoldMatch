@@ -553,7 +553,7 @@ if 'valid' in locals() and len(valid) > 0:
 # TOP tie bar
     fig.add_shape(
         type="line",
-        x0=-half_x,
+        x0=0,
         y0=half_y + tie_bar_offset,
         x1=half_x,
         y1=half_y + tie_bar_offset,
@@ -566,7 +566,7 @@ if 'valid' in locals() and len(valid) > 0:
 # BOTTOM tie bar
     fig.add_shape(
         type="line",
-        x0=-half_x,
+        x0=0,
         y0=-half_y - tie_bar_offset,
         x1=half_x,
         y1=-half_y - tie_bar_offset,
