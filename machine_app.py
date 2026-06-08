@@ -690,102 +690,102 @@ else:
     # TITLE
     # -----------------------------------
 
-    pdf.setFont("Helvetica-Bold", 20)
-    pdf.drawString(40, 760, "Mold Match Analysis Report")
-
-    # -----------------------------------
-    # MACHINE
-    # -----------------------------------
-
-    pdf.setFont("Helvetica-Bold", 14)
-    pdf.drawString(40, 720, f"Recommended Machine:")
-
-    pdf.setFont("Helvetica", 13)
-    pdf.drawString(220, 720, machine_text)
-
-    # -----------------------------------
-    # MOLD FIT ANALYSIS
-    # -----------------------------------
-
-    pdf.setFont("Helvetica-Bold", 14)
-    pdf.drawString(40, 680, "Mold Fit Analysis")
-
-    pdf.setFont("Helvetica", 12)
-
-    pdf.drawString(
-        60,
-        655,
-        f"Fit Status: {fit_status}"
-    )
-
-    pdf.drawString(
-        60,
-        635,
-        f"Projected Area Ratio: {projected_ratio:.1f}%"
-    )
-
-    pdf.drawString(
-        60,
-        615,
-        f"Opening Gap: {opening_gap:.1f} mm"
-    )
-
-    # -----------------------------------
-    # SHOT ANALYSIS
-    # -----------------------------------
-
-    pdf.setFont("Helvetica-Bold", 14)
-    pdf.drawString(40, 575, "Shot Weight Analysis")
-
-    pdf.setFont("Helvetica", 12)
-
-    pdf.drawString(
-        60,
-        550,
-        f"Shot Utilization: {shot_utilization:.1f}%"
-    )
-
-    pdf.drawString(
-        60,
-        530,
-        f"Shot Status: {shot_status}"
-    )
-
-    # -----------------------------------
-    # PLOTLY IMAGE
-    # -----------------------------------
-
-    img_bytes = pio.to_image(
-        fig,
-        format="png",
-        width=700,
-        height=500
-    )
-
-    img = ImageReader(BytesIO(img_bytes))
-
-    pdf.drawImage(
-        img,
-        40,
-        180,
-        width=300,
-        height=300
-    )
-
-    # -----------------------------------
-    # FOOTNOTE
-    # -----------------------------------
-
-    pdf.setFont("Helvetica-Oblique", 9)
-
-    pdf.drawString(
-        40,
-        120,
-        "Engineering screening tool only. Final approval requires OEM validation."
-    )
-
-    pdf.save()
-
-    buffer.seek(0)
-
-    return buffer
+        pdf.setFont("Helvetica-Bold", 20)
+        pdf.drawString(40, 760, "Mold Match Analysis Report")
+    
+        # -----------------------------------
+        # MACHINE
+        # -----------------------------------
+    
+        pdf.setFont("Helvetica-Bold", 14)
+        pdf.drawString(40, 720, f"Recommended Machine:")
+    
+        pdf.setFont("Helvetica", 13)
+        pdf.drawString(220, 720, machine_text)
+    
+        # -----------------------------------
+        # MOLD FIT ANALYSIS
+        # -----------------------------------
+    
+        pdf.setFont("Helvetica-Bold", 14)
+        pdf.drawString(40, 680, "Mold Fit Analysis")
+    
+        pdf.setFont("Helvetica", 12)
+    
+        pdf.drawString(
+            60,
+            655,
+            f"Fit Status: {fit_status}"
+        )
+    
+        pdf.drawString(
+            60,
+            635,
+            f"Projected Area Ratio: {projected_ratio:.1f}%"
+        )
+    
+        pdf.drawString(
+            60,
+            615,
+            f"Opening Gap: {opening_gap:.1f} mm"
+        )
+    
+        # -----------------------------------
+        # SHOT ANALYSIS
+        # -----------------------------------
+    
+        pdf.setFont("Helvetica-Bold", 14)
+        pdf.drawString(40, 575, "Shot Weight Analysis")
+    
+        pdf.setFont("Helvetica", 12)
+    
+        pdf.drawString(
+            60,
+            550,
+            f"Shot Utilization: {shot_utilization:.1f}%"
+        )
+    
+        pdf.drawString(
+            60,
+            530,
+            f"Shot Status: {shot_status}"
+        )
+    
+        # -----------------------------------
+        # PLOTLY IMAGE
+        # -----------------------------------
+    
+        img_bytes = pio.to_image(
+            fig,
+            format="png",
+            width=700,
+            height=500
+        )
+    
+        img = ImageReader(BytesIO(img_bytes))
+    
+        pdf.drawImage(
+            img,
+            40,
+            180,
+            width=300,
+            height=300
+        )
+    
+        # -----------------------------------
+        # FOOTNOTE
+        # -----------------------------------
+    
+        pdf.setFont("Helvetica-Oblique", 9)
+    
+        pdf.drawString(
+            40,
+            120,
+            "Engineering screening tool only. Final approval requires OEM validation."
+        )
+    
+        pdf.save()
+    
+        buffer.seek(0)
+    
+        return buffer
