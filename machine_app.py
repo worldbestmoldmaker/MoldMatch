@@ -5,7 +5,38 @@ import plotly.graph_objects as go
 import time
 import numpy as np
 
+from reportlab.pdfgen import canvas
+from io import BytesIO
+
 from datetime import datetime
+
+# -----------------------------------
+# PDF REPORT
+# -----------------------------------
+
+def generate_pdf(machine_name):
+
+    buffer = BytesIO()
+
+    pdf = canvas.Canvas(buffer)
+
+    pdf.setFont("Helvetica-Bold", 18)
+    pdf.drawString(100, 750, "Mold Match Analysis Report")
+
+    pdf.setFont("Helvetica", 14)
+    pdf.drawString(
+        100,
+        700,
+        f"Recommended Machine: {machine_name}"
+    )
+
+    pdf.save()
+
+    buffer.seek(0)
+
+    return buffer
+
+
 
 log_path = os.path.join(os.getcwd(), "view_log.txt")
 
@@ -595,6 +626,14 @@ if 'valid' in locals() and len(valid) > 0:
 else:
     st.warning("No valid machine found")
 
+pdf_file = generate_pdf(machine_name)
+
+st.download_button(
+    label="Download PDF Report",
+    data=pdf_file,
+    file_name="moldmatch_report.pdf",
+    mime="application/pdf"
+)
 
 st.markdown("---")
 st.caption(
