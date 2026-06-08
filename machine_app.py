@@ -670,25 +670,15 @@ else:
 
 machine_text = "No Recommended Machine"
 
-tie_bar_text = "N/A"
-
 try:
 
     machine_text = f"{best['OEM']} - {best['Model']}"
-
-    tie_bar_text = (
-        f"{best['Tie Bar X (mm)']} x "
-        f"{best['Tie Bar Y (mm)']} mm"
-    )
 
 except:
 
     pass
 
-pdf_file = generate_pdf(
-    machine_text,
-    tie_bar_text
-)
+pdf_file = generate_pdf(machine_text)
 
 st.download_button(
     label="Download PDF Report",
@@ -703,7 +693,5 @@ st.caption(
     "Engineering screening tool only. Final machine approval "
     "requires OEM/application engineer validation."
 )
-
-
 
     
