@@ -5,15 +5,30 @@ import plotly.graph_objects as go
 import time
 import numpy as np
 
+import pandas as pd
+import streamlit as st
 from datetime import datetime
-import socket
+import os
 
-user_ip = socket.gethostbyname(socket.gethostname())
+# -----------------------------------
+# VIEW LOGGING
+# -----------------------------------
 
-with open("view_log.txt", "a") as f:
-    f.write(
-        f"{datetime.now()} | IP: {user_ip}\n"
-    )
+log_path = os.path.join(os.getcwd(), "view_log.txt")
+
+if "view_logged" not in st.session_state:
+
+    st.session_state.view_logged = True
+
+    with open(log_path, "a") as f:
+        f.write(
+            f"{datetime.now()} | user visited\n"
+        )
+
+st.write("Current directory:", os.getcwd())
+st.write("Log file:", log_path)
+
+
 
 # ---------------------------
 # TITLE
