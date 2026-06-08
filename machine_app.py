@@ -682,9 +682,9 @@ else:
         fig
     ):
 
-    buffer = BytesIO()
-
-    pdf = canvas.Canvas(buffer, pagesize=letter)
+        buffer = BytesIO()
+    
+        pdf = canvas.Canvas(buffer, pagesize=letter)
 
     # -----------------------------------
     # TITLE
