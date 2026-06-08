@@ -5,49 +5,24 @@ import plotly.graph_objects as go
 import time
 import numpy as np
 
-import pandas as pd
-import streamlit as st
 from datetime import datetime
-import os
-
-# -----------------------------------
-# VIEW LOGGING
-# -----------------------------------
 
 log_path = os.path.join(os.getcwd(), "view_log.txt")
 
+# Log visit once per session
 if "view_logged" not in st.session_state:
 
     st.session_state.view_logged = True
 
     with open(log_path, "a") as f:
-        f.write(
-            f"{datetime.now()} | user visited\n"
-        )
+        f.write(f"{datetime.now()} | user visited\n")
 
-st.write("Current directory:", os.getcwd())
-st.write("Log file:", log_path)
+# Count visits
+with open(log_path, "r") as f:
+    visit_count = len(f.readlines())
 
-
-st.write("Current folder:", os.getcwd())
-
-files = os.listdir()
-
-st.write("Files in folder:")
-st.write(files)
-
-log_path = os.path.join(os.getcwd(), "view_log.txt")
-
-if os.path.exists(log_path):
-
-    with open(log_path, "r") as f:
-        logs = f.read()
-
-    st.text(logs)
-
-else:
-
-    st.warning("view_log.txt not found")
+# Show visits
+st.metric("Total Visits", visit_count)
 
 # ---------------------------
 # TITLE
