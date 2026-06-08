@@ -538,9 +538,9 @@ if 'valid' in locals() and len(valid) > 0:
         fillcolor="rgba(173,216,230,0.2)"
     )
     
-// -----------------------------------
-// OPERATOR SIDE TIE BARS
-// -----------------------------------
+# -----------------------------------
+# OPERATOR SIDE TIE BARS
+# -----------------------------------
 
 const tieBarMaterial = new THREE.MeshStandardMaterial({
     color: 0x444444,
