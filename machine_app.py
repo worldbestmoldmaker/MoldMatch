@@ -145,6 +145,88 @@ with col2:
 with col3:
     mold_height = st.number_input("Thickness (mm)", value=458)
 
+# ---------------------------
+# MOLD FRONT VIEW VISUAL
+# ---------------------------
+
+st.subheader("🖼️ Mold Front View")
+
+fig = go.Figure()
+
+# Draw mold rectangle
+fig.add_shape(
+    type="rect",
+    x0=0,
+    y0=0,
+    x1=mold_width,
+    y1=mold_height,
+    line=dict(color="black", width=3),
+    fillcolor="lightgray"
+)
+
+# Width dimension line
+fig.add_annotation(
+    x=mold_width / 2,
+    y=mold_height + (mold_height * 0.08),
+    text=f"Width: {mold_width} mm",
+    showarrow=False,
+    font=dict(size=16)
+)
+
+fig.add_shape(
+    type="line",
+    x0=0,
+    y0=mold_height + (mold_height * 0.03),
+    x1=mold_width,
+    y1=mold_height + (mold_height * 0.03),
+    line=dict(color="black", width=2)
+)
+
+# Thickness dimension line
+fig.add_annotation(
+    x=mold_width + (mold_width * 0.12),
+    y=mold_height / 2,
+    text=f"Thickness: {mold_height} mm",
+    textangle=90,
+    showarrow=False,
+    font=dict(size=16)
+)
+
+fig.add_shape(
+    type="line",
+    x0=mold_width + (mold_width * 0.05),
+    y0=0,
+    x1=mold_width + (mold_width * 0.05),
+    y1=mold_height,
+    line=dict(color="black", width=2)
+)
+
+# Layout
+fig.update_layout(
+    width=600,
+    height=600,
+    showlegend=False,
+    xaxis=dict(
+        visible=False,
+        range=[
+            -mold_width * 0.1,
+            mold_width * 1.3
+        ]
+    ),
+    yaxis=dict(
+        visible=False,
+        scaleanchor="x",
+        range=[
+            -mold_height * 0.1,
+            mold_height * 1.2
+        ]
+    ),
+    margin=dict(l=20, r=20, t=20, b=20)
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
+
 # Clamp Requirement
 st.subheader("🏗️ Clamp Requirement")
 
