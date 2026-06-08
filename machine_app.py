@@ -505,7 +505,7 @@ if 'valid' in locals() and len(valid) > 0:
     fig.add_annotation(
         x=platen_height / 2,
         y=platen_width + 40,
-        text=f"Platen Width: {platen_width} mm",
+        text=f"Platen Daylight Max: {platen_width} mm",
         showarrow=False,
         font=dict(size=10, color="blue")
     )
@@ -513,7 +513,7 @@ if 'valid' in locals() and len(valid) > 0:
     fig.add_annotation(
         x=platen_height + 60,
         y=platen_width / 2,
-        text=f"Platen Daylight Max: {platen_height} mm",
+        text=f"Platen Width: {platen_height} mm",
         textangle=90,
         showarrow=False,
         font=dict(size=10, color="blue")
