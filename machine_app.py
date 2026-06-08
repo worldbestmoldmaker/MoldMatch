@@ -29,6 +29,25 @@ st.write("Current directory:", os.getcwd())
 st.write("Log file:", log_path)
 
 
+st.write("Current folder:", os.getcwd())
+
+files = os.listdir()
+
+st.write("Files in folder:")
+st.write(files)
+
+log_path = os.path.join(os.getcwd(), "view_log.txt")
+
+if os.path.exists(log_path):
+
+    with open(log_path, "r") as f:
+        logs = f.read()
+
+    st.text(logs)
+
+else:
+
+    st.warning("view_log.txt not found")
 
 # ---------------------------
 # TITLE
