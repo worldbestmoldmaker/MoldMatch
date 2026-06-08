@@ -555,7 +555,7 @@ if 'valid' in locals() and len(valid) > 0:
         type="line",
         x0=0,
         y0=half_y + tie_bar_offset,
-        x1=half_x,
+        x1=platen_height,
         y1=half_y + tie_bar_offset,
         line=dict(
             color="black",
@@ -568,7 +568,7 @@ if 'valid' in locals() and len(valid) > 0:
         type="line",
         x0=0,
         y0=-half_y - tie_bar_offset,
-        x1=half_x,
+        x1=platen_height,
         y1=-half_y - tie_bar_offset,
         line=dict(
             color="black",
