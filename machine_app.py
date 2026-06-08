@@ -548,15 +548,15 @@ if 'valid' in locals() and len(valid) > 0:
     half_y = tie_bar_y / 2
 
 # offset OUTSIDE platen
-    tie_bar_offset = 0
+    tie_bar_offset = tie_bar_y
 
 # TOP tie bar
     fig.add_shape(
         type="line",
         x0=0,
-        y0=(platen_width - tie_bar_y) / 2 + tie_bar_offset,
+        y0=(platen_width - tie_bar_y) / 2 ,
         x1=platen_height,
-        y1=(platen_width - tie_bar_y) / 2 + tie_bar_offset,
+        y1=(platen_width - tie_bar_y) / 2 ,
         line=dict(
             color="black",
             width=12
