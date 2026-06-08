@@ -560,7 +560,7 @@ if 'valid' in locals() and len(valid) > 0:
         y1=(platen_width - tie_bar_y) / 2 - d,
         line=dict(
             color="black",
-            width=12
+            width=d
         )
     )
 
