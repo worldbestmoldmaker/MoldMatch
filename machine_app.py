@@ -147,58 +147,62 @@ with col3:
 
 # ---------------------------
 # MOLD FRONT VIEW VISUAL
+# ROTATED 90°
 # ---------------------------
 
 st.subheader("🖼️ Mold Front View")
 
 fig = go.Figure()
 
-# Draw mold rectangle
+# Rotate view:
+# Thickness becomes horizontal
+# Width becomes vertical
+
 fig.add_shape(
     type="rect",
     x0=0,
     y0=0,
-    x1=mold_width,
-    y1=mold_height,
+    x1=mold_height,
+    y1=mold_width,
     line=dict(color="black", width=3),
     fillcolor="lightgray"
 )
 
-# Width dimension line
-fig.add_annotation(
-    x=mold_width / 2,
-    y=mold_height + (mold_height * 0.08),
-    text=f"Width: {mold_width} mm",
-    showarrow=False,
-    font=dict(size=16)
-)
-
+# Horizontal dimension = Thickness
 fig.add_shape(
     type="line",
     x0=0,
-    y0=mold_height + (mold_height * 0.03),
-    x1=mold_width,
-    y1=mold_height + (mold_height * 0.03),
+    y0=mold_width + 30,
+    x1=mold_height,
+    y1=mold_width + 30,
     line=dict(color="black", width=2)
 )
 
-# Thickness dimension line
 fig.add_annotation(
-    x=mold_width + (mold_width * 0.12),
-    y=mold_height / 2,
+    x=mold_height / 2,
+    y=mold_width + 50,
     text=f"Thickness: {mold_height} mm",
-    textangle=90,
     showarrow=False,
     font=dict(size=16)
 )
 
+# Vertical dimension = Width
 fig.add_shape(
     type="line",
-    x0=mold_width + (mold_width * 0.05),
+    x0=mold_height + 30,
     y0=0,
-    x1=mold_width + (mold_width * 0.05),
-    y1=mold_height,
+    x1=mold_height + 30,
+    y1=mold_width,
     line=dict(color="black", width=2)
+)
+
+fig.add_annotation(
+    x=mold_height + 60,
+    y=mold_width / 2,
+    text=f"Width: {mold_width} mm",
+    textangle=90,
+    showarrow=False,
+    font=dict(size=16)
 )
 
 # Layout
@@ -208,18 +212,12 @@ fig.update_layout(
     showlegend=False,
     xaxis=dict(
         visible=False,
-        range=[
-            -mold_width * 0.1,
-            mold_width * 1.3
-        ]
+        range=[-50, mold_height + 120]
     ),
     yaxis=dict(
         visible=False,
         scaleanchor="x",
-        range=[
-            -mold_height * 0.1,
-            mold_height * 1.2
-        ]
+        range=[-50, mold_width + 120]
     ),
     margin=dict(l=20, r=20, t=20, b=20)
 )
