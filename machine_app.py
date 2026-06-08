@@ -561,3 +561,9 @@ if 'valid' in locals() and len(valid) > 0:
 else:
     st.warning("No valid machine found")
 
+
+st.markdown("---")
+st.caption(
+    "Engineering screening tool only. Final machine approval "
+    "requires OEM/application engineer validation."
+)
