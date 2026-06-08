@@ -6,7 +6,10 @@ import time
 import numpy as np
 
 from reportlab.pdfgen import canvas
+from reportlab.lib.utils import ImageReader
+from reportlab.lib.pagesizes import letter
 from io import BytesIO
+import plotly.io as pio
 
 from datetime import datetime
 
@@ -664,11 +667,6 @@ else:
 # -----------------------------------
 # PDF EXPORT
 # -----------------------------------
-from reportlab.pdfgen import canvas
-from reportlab.lib.utils import ImageReader
-from reportlab.lib.pagesizes import letter
-from io import BytesIO
-import plotly.io as pio
 
 # -----------------------------------
 # FULL PDF REPORT
