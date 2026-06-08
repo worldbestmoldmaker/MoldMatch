@@ -668,6 +668,36 @@ else:
 # PDF EXPORT
 # -----------------------------------
 
+machine_text = "No Recommended Machine"
+
+try:
+
+    machine_text = f"{best['OEM']} - {best['Model']}"
+
+except:
+
+    pass
+
+pdf_file = generate_pdf(machine_text)
+
+st.download_button(
+    label="Download PDF Report",
+    data=pdf_file,
+    file_name="moldmatch_report.pdf",
+    mime="application/pdf"
+)
+
+st.markdown("---")
+
+st.caption(
+    "Engineering screening tool only. Final machine approval "
+    "requires OEM/application engineer validation."
+)
+
+
+
+
+    
 # -----------------------------------
 # FULL PDF REPORT
 # -----------------------------------
