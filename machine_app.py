@@ -544,8 +544,8 @@ if 'valid' in locals() and len(valid) > 0:
 # GET ACTUAL MACHINE VALUES
 # -----------------------------------
 
-    tie_bar_x = best["Tie Bar X (mm)"]
-    tie_bar_y = best["Tie Bar Y (mm)"]
+    tie_bar_x = machine_row["Tie Bar X (mm)"]
+    tie_bar_y = machine_row["Tie Bar Y (mm)"]
 
 # convert to half positions
     half_x = tie_bar_x / 2
