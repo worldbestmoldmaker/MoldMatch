@@ -626,15 +626,13 @@ else:
 # PDF EXPORT
 # -----------------------------------
 
-if len(results) > 0:
+machine_text = "No Recommended Machine"
 
-    best = results.iloc[0]
+if isinstance(results, list) and len(results) > 0:
+
+    best = results[0]
 
     machine_text = f"{best['OEM']} - {best['Model']}"
-
-else:
-
-    machine_text = "No Recommended Machine"
 
 pdf_file = generate_pdf(machine_text)
 
