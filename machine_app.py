@@ -542,30 +542,30 @@ if 'valid' in locals() and len(valid) > 0:
 # -----------------------------------
 
 # TOP tie bar
-fig.add_shape(
-    type="line",
-    x0=-500,
-    y0=200,
-    x1=500,
-    y1=200,
-    line=dict(
-        color="black",
-        width=12
+    fig.add_shape(
+        type="line",
+        x0=-500,
+        y0=200,
+        x1=500,
+        y1=200,
+        line=dict(
+            color="black",
+            width=12
+        )
     )
-)
 
 # BOTTOM tie bar
-fig.add_shape(
-    type="line",
-    x0=-500,
-    y0=-200,
-    x1=500,
-    y1=-200,
-    line=dict(
-        color="black",
-        width=12
-    )
-)    
+    fig.add_shape(
+        type="line",
+        x0=-500,
+        y0=-200,
+        x1=500,
+        y1=-200,
+        line=dict(
+            color="black",
+            width=12
+        )
+    )    
 
     # -------------------------
     # CENTER MOLD INSIDE PLATEN
