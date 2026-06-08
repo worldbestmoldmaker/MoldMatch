@@ -320,10 +320,25 @@ if st.button("Click to Run"):
 
     results_df = pd.DataFrame(results)
 
-    # ---------------------------
-    # SHOW PASSED
-    # ---------------------------
-    st.subheader("✅ Passed Machines")
+# ---------------------------
+# DISCLAIMER
+# ---------------------------
+
+st.warning(
+    "Engineering screening tool only. "
+    "Final machine approval requires OEM/application engineer validation."
+)
+
+# ---------------------------
+# SHOW PASSED
+# ---------------------------
+
+st.subheader("✅ Passed Machines")
+
+
+
+
+    
     passed_df = results_df[results_df["Status"] == "PASS"]
     st.dataframe(passed_df)
 
