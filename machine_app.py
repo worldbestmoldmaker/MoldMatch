@@ -568,12 +568,12 @@ if 'valid' in locals() and len(valid) > 0:
     fig.add_shape(
         type="line",
         x0=0,
-        y0=(platen_width - tie_bar_y) / 2 + tie_bar_offset,
+        y0=(platen_width - tie_bar_y) / 2 + tie_bar_offset + d,
         x1=platen_height,
-        y1=(platen_width - tie_bar_y) / 2 + tie_bar_offset,
+        y1=(platen_width - tie_bar_y) / 2 + tie_bar_offset + d,
         line=dict(
             color="black",
-            width=12
+            width=d
         )
     )
 
