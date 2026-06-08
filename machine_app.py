@@ -664,29 +664,130 @@ else:
 # -----------------------------------
 # PDF EXPORT
 # -----------------------------------
+from reportlab.pdfgen import canvas
+from reportlab.lib.utils import ImageReader
+from reportlab.lib.pagesizes import letter
+from io import BytesIO
+import plotly.io as pio
 
-machine_text = "No Recommended Machine"
+# -----------------------------------
+# FULL PDF REPORT
+# -----------------------------------
 
-try:
+def generate_pdf(
+    machine_text,
+    fit_status,
+    projected_ratio,
+    opening_gap,
+    shot_utilization,
+    shot_status,
+    fig
+):
 
-    machine_text = f"{best['OEM']} - {best['Model']}"
+    buffer = BytesIO()
 
-except:
+    pdf = canvas.Canvas(buffer, pagesize=letter)
 
-    pass
+    # -----------------------------------
+    # TITLE
+    # -----------------------------------
 
-pdf_file = generate_pdf(machine_text)
+    pdf.setFont("Helvetica-Bold", 20)
+    pdf.drawString(40, 760, "Mold Match Analysis Report")
 
-st.download_button(
-    label="Download PDF Report",
-    data=pdf_file,
-    file_name="moldmatch_report.pdf",
-    mime="application/pdf"
-)
+    # -----------------------------------
+    # MACHINE
+    # -----------------------------------
 
-st.markdown("---")
+    pdf.setFont("Helvetica-Bold", 14)
+    pdf.drawString(40, 720, f"Recommended Machine:")
 
-st.caption(
-    "Engineering screening tool only. Final machine approval "
-    "requires OEM/application engineer validation."
-)
+    pdf.setFont("Helvetica", 13)
+    pdf.drawString(220, 720, machine_text)
+
+    # -----------------------------------
+    # MOLD FIT ANALYSIS
+    # -----------------------------------
+
+    pdf.setFont("Helvetica-Bold", 14)
+    pdf.drawString(40, 680, "Mold Fit Analysis")
+
+    pdf.setFont("Helvetica", 12)
+
+    pdf.drawString(
+        60,
+        655,
+        f"Fit Status: {fit_status}"
+    )
+
+    pdf.drawString(
+        60,
+        635,
+        f"Projected Area Ratio: {projected_ratio:.1f}%"
+    )
+
+    pdf.drawString(
+        60,
+        615,
+        f"Opening Gap: {opening_gap:.1f} mm"
+    )
+
+    # -----------------------------------
+    # SHOT ANALYSIS
+    # -----------------------------------
+
+    pdf.setFont("Helvetica-Bold", 14)
+    pdf.drawString(40, 575, "Shot Weight Analysis")
+
+    pdf.setFont("Helvetica", 12)
+
+    pdf.drawString(
+        60,
+        550,
+        f"Shot Utilization: {shot_utilization:.1f}%"
+    )
+
+    pdf.drawString(
+        60,
+        530,
+        f"Shot Status: {shot_status}"
+    )
+
+    # -----------------------------------
+    # PLOTLY IMAGE
+    # -----------------------------------
+
+    img_bytes = pio.to_image(
+        fig,
+        format="png",
+        width=700,
+        height=500
+    )
+
+    img = ImageReader(BytesIO(img_bytes))
+
+    pdf.drawImage(
+        img,
+        40,
+        180,
+        width=300,
+        height=300
+    )
+
+    # -----------------------------------
+    # FOOTNOTE
+    # -----------------------------------
+
+    pdf.setFont("Helvetica-Oblique", 9)
+
+    pdf.drawString(
+        40,
+        120,
+        "Engineering screening tool only. Final approval requires OEM validation."
+    )
+
+    pdf.save()
+
+    buffer.seek(0)
+
+    return buffer
