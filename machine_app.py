@@ -713,6 +713,17 @@ if 'valid' in locals() and len(valid) > 0:
         height=350,
         width=950,
         showlegend=False
+        showlegend=False,
+        xaxis=dict(
+            visible=False,
+            range=[-50, platen_height + 120]
+        ),
+        yaxis=dict(
+            visible=False,
+            scaleanchor="x",
+            range=[-50, platen_width + 120]
+        ),
+        margin=dict(l=10, r=10, t=10, b=10)
     )
 
     st.plotly_chart(fig, use_container_width=False)
