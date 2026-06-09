@@ -712,7 +712,6 @@ if 'valid' in locals() and len(valid) > 0:
     fig.update_layout(
         height=350,
         width=950,
-        showlegend=False
         showlegend=False,
         xaxis=dict(
             visible=False,
