@@ -153,19 +153,11 @@ with col7:
 with col8:
     st.empty()
 
-
-
-
 if "selected_oem" not in st.session_state:
     st.session_state.selected_oem = None
 
 if selected_oem:
     st.session_state.selected_oem = selected_oem
-
-#if st.session_state.selected_oem:
-#    st.success(f"Selected OEM: {st.session_state.selected_oem}")
-#    df = df[df["OEM"] == st.session_state.selected_oem]
-
 # ---------------------------
 # FINAL OEM FILTER LOGIC
 # ---------------------------
@@ -181,7 +173,6 @@ elif selected_oems:
 if final_oem_list:
     st.success(f"Selected OEM(s): {', '.join(final_oem_list)}")
     df = df[df["OEM"].isin(final_oem_list)]
-
 
 # ---------------------------
 # INPUTS
@@ -264,7 +255,6 @@ def check(machine):
 
     #return "PASS" if not reasons else "FAIL", ", ".join(set(reasons))
 
-
     # ---------------------------
     # Shot Weight Check
     # ---------------------------
@@ -284,7 +274,6 @@ def check(machine):
     else:
         reasons.append("No shot data")
     return "PASS" if not reasons else "FAIL", ", ".join(set(reasons))
-
 
 # ---------------------------
 # RUN BUTTON
@@ -348,31 +337,7 @@ if st.button("Click to Run"):
             "Fail Reason": reason
         })
     
-   # for _, m in df.iterrows():
-   #     status, reason = check(m)
-        
-   # shot_capacity = m.get("Shot Weight (g)")
-   # if pd.notna(shot_capacity) and shot_capacity > 0:
-   #     utilization = shot_weight / shot_capacity
-   # else:
-   #     utilization = None
-
-   #     results.append({
-   #         "OEM": m["OEM"],
-   #         "Model": m["Model"],
-   #         "Clamp (ton)": m["Clamp Force (ton)"],
-   #         "Platen X (mm)": m["Platen X (mm)"], 
-   #        "Platen Y (mm)": m["Platen Y (mm)"], 
-   #         "Tie Bar Y (mm)": m["Tie Bar Y (mm)"],
-   #         "Daylight Max (mm)": m["Daylight Max (mm)"], # shown
-   #         "Shot Weight (g)": m["Shot Weight (g)"],
-   #         "Screw Size (mm)": m["Screw Size (mm)"],
-   #         "Status": status,   
-   #         "Fail Reason": reason   # ✅ ADD THIS
-   #     })
-
-
-    results_df = pd.DataFrame(results)
+     results_df = pd.DataFrame(results)
 
 # ---------------------------
 # DISCLAIMER
