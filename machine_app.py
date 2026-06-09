@@ -710,6 +710,21 @@ if 'valid' in locals() and len(valid) > 0:
     )
 
     fig.update_layout(
+        fig.update_xaxes(
+        range=[0, platen_height],
+        row=1,
+        col=2
+    )
+
+    fig.update_yaxes(
+        range=[0, platen_width],
+        scaleanchor="x",
+        scaleratio=1,
+        row=1,
+        col=2
+    )
+
+        
         height=350,
         width=950,
         showlegend=False,
