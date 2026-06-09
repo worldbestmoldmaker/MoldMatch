@@ -693,54 +693,73 @@ if 'valid' in locals() and len(valid) > 0:
     # LAYOUT
     # -------------------------
 
+    # -----------------------------------
+    # LAYOUT
+    # -----------------------------------
+    
     fig.update_layout(
-        width=350,
         height=350,
+        width=950,
         showlegend=False,
-        xaxis=dict(
-            visible=False,
-            range=[-50, platen_height + 120]
-        ),
-        yaxis=dict(
-            visible=False,
-            scaleanchor="x",
-            range=[-50, platen_width + 120]
-        ),
-        margin=dict(l=10, r=10, t=10, b=10)
+        margin=dict(
+            l=10,
+            r=10,
+            t=40,
+            b=10
+        )
     )
-
-    fig.update_layout(
-        fig.update_xaxes(
-        range=[0, platen_height],
+    
+    # -----------------------------------
+    # FRONT VIEW AXES
+    # -----------------------------------
+    
+    fig.update_xaxes(
+        visible=False,
+        range=[-50, platen_height + 120],
+        row=1,
+        col=1
+    )
+    
+    fig.update_yaxes(
+        visible=False,
+        range=[-50, platen_width + 120],
+        scaleanchor="x",
+        scaleratio=1,
+        row=1,
+        col=1
+    )
+    
+    # -----------------------------------
+    # TOP VIEW AXES
+    # -----------------------------------
+    
+    fig.update_xaxes(
+        visible=False,
+        range=[-50, platen_height + 120],
         row=1,
         col=2
     )
-
+    
     fig.update_yaxes(
-        range=[0, platen_width],
+        visible=False,
+        range=[-50, platen_width + 120],
         scaleanchor="x",
         scaleratio=1,
         row=1,
         col=2
     )
-
-        
-        height=350,
-        width=950,
-        showlegend=False,
-        xaxis=dict(
-            visible=False,
-            range=[-50, platen_height + 120]
-        ),
-        yaxis=dict(
-            visible=False,
-            scaleanchor="x",
-            range=[-50, platen_width + 120]
-        ),
-        margin=dict(l=10, r=10, t=10, b=10)
+    
+    # -----------------------------------
+    # SHOW FIGURE
+    # -----------------------------------
+    
+    st.plotly_chart(
+        fig,
+        use_container_width=False
     )
-
-    st.plotly_chart(fig, use_container_width=False)
+    
+    
+        st.plotly_chart(fig, use_container_width=False)
 
 else:
     st.warning("No valid machine found")
