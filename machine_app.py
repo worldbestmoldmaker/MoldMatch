@@ -567,6 +567,10 @@ if 'valid' in locals() and len(valid) > 0:
     d = 15
 
 # BOTTOM tie bar
+    
+    y0_value = (platen_width - tie_bar_y) / 2 - d
+    print("y0 =", y0_value)
+
     #fig.add_shape(
     fig.add_shape(
         row=1,
