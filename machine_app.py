@@ -569,7 +569,7 @@ if 'valid' in locals() and len(valid) > 0:
 # BOTTOM tie bar
     
     y0_value = (platen_width - tie_bar_y) / 2 - d
-    st.info(f": {y0 = y0_value} mm")
+    #st.info(f": {y0 = y0_value} mm")
     #print("y0 =", y0_value)
 
     #fig.add_shape(
