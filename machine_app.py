@@ -335,9 +335,9 @@ if st.button("Click to Run"):
             "Shot Utilization (%)": utilization if utilization else None,
             "Status": status,
             "Fail Reason": reason
-        })
-    
-     results_df = pd.DataFrame(results)
+    })
+    results_df = pd.DataFrame(results)
+
 
 # ---------------------------
 # DISCLAIMER
