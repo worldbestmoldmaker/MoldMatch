@@ -568,7 +568,7 @@ if 'valid' in locals() and len(valid) > 0:
 
 # BOTTOM tie bar
     #fig.add_shape(
-        fig.add_shape(
+    fig.add_shape(
         row=1,
         col=1, 
         type="line",  
