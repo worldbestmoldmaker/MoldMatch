@@ -755,11 +755,11 @@ if 'valid' in locals() and len(valid) > 0:
     
     st.plotly_chart(
         fig,
-        use_container_width=False
+        use_container_width=False,
+        key="mold_platen_views"
     )
     
-    
-    st.plotly_chart(fig, use_container_width=False)
+    #st.plotly_chart(fig, use_container_width=False)
 
 else:
     st.warning("No valid machine found")
