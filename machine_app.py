@@ -10,6 +10,7 @@ from reportlab.lib.utils import ImageReader
 from reportlab.lib.pagesizes import letter
 from io import BytesIO
 import plotly.io as pio
+from plotly.subplots import make_subplots
 
 from datetime import datetime
 
@@ -526,12 +527,23 @@ if 'valid' in locals() and len(valid) > 0:
     platen_width = daylight_max
     platen_height = platen_y
 
-    fig = go.Figure()
+    #fig = go.Figure()
+    fig = make_subplots(
+        rows=1,
+        cols=2,
+        subplot_titles=(
+            "Front View",
+            "Top View"
+        )
+    )
 
     # -------------------------
     # PLATEN RECTANGLE
     # -------------------------
+    #fig.add_shape(
     fig.add_shape(
+        row=1,
+        col=1,
         type="rect",
         x0=0,
         y0=0,
@@ -555,7 +567,10 @@ if 'valid' in locals() and len(valid) > 0:
     d = 15
 
 # BOTTOM tie bar
-    fig.add_shape(
+    #fig.add_shape(
+        fig.add_shape(
+        row=1,
+        col=1, 
         type="line",  
         x0=0,
         y0=(platen_width - tie_bar_y) / 2 - d,
@@ -568,7 +583,10 @@ if 'valid' in locals() and len(valid) > 0:
     )
 
 # TOP tie bar
+    #fig.add_shape(
     fig.add_shape(
+        row=1,
+        col=1,
         type="line",
         x0=0,
         y0=(platen_width - tie_bar_y) / 2 + tie_bar_offset + d,
@@ -592,6 +610,8 @@ if 'valid' in locals() and len(valid) > 0:
     mold_y1 = mold_y0 + mold_width
 
     fig.add_shape(
+        row=1,
+        col=1,
         type="rect",
         x0=mold_x0,
         y0=mold_y0,
@@ -639,6 +659,36 @@ if 'valid' in locals() and len(valid) > 0:
         font=dict(size=10)
     )
 
+    # -----------------------------------
+    # TOP VIEW
+    # -----------------------------------
+    
+    # platen top view
+    fig.add_shape(
+        type="rect",
+        x0=0,
+        y0=0,
+        x1=platen_height,
+        y1=platen_depth,
+        line=dict(color="blue", width=3),
+        fillcolor="lightblue",
+        row=1,
+        col=2
+    )
+    
+    # mold top view
+    fig.add_shape(
+        type="rect",
+        x0=(platen_height - mold_height) / 2,
+        y0=(platen_depth - mold_depth) / 2,
+        x1=(platen_height + mold_height) / 2,
+        y1=(platen_depth + mold_depth) / 2,
+        line=dict(color="green", width=3),
+        fillcolor="lightgreen",
+        row=1,
+        col=2
+    )
+
     # -------------------------
     # LAYOUT
     # -------------------------
@@ -657,6 +707,12 @@ if 'valid' in locals() and len(valid) > 0:
             range=[-50, platen_width + 120]
         ),
         margin=dict(l=10, r=10, t=10, b=10)
+    )
+
+    fig.update_layout(
+        height=600,
+        width=1200,
+        showlegend=False
     )
 
     st.plotly_chart(fig, use_container_width=False)
