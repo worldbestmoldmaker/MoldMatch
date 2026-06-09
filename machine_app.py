@@ -710,8 +710,8 @@ if 'valid' in locals() and len(valid) > 0:
     )
 
     fig.update_layout(
-        height=600,
-        width=1200,
+        height=350,
+        width=350,
         showlegend=False
     )
 
