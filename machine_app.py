@@ -400,10 +400,10 @@ if st.button("Click to Run"):
             ratio_color = "🔴 RISK"
 
         opening_gap = daylight_max - mold_height
-
-        if opening_gap >= 0:
+        
+        if opening_gap >= safety_clearance:
             gap_color = "🟢 SAFE"
-        elif opening_gap > -20:
+        elif opening_gap > 0:
             gap_color = "🟡 TIGHT"
         else:
             gap_color = "🔴 TOO TALL"
