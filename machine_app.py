@@ -268,8 +268,7 @@ def check(machine):
 # ---------------------------
 # RUN BUTTON
 # ---------------------------
-#if st.button("Run Compatibility Check"):
-#st.markdown("**Run Compatibility Check**")
+
 valid = pd.DataFrame()
 st.markdown(
     "<span style='font-size:24px; font-weight:bold;'>Run Compatibility Check</span>",
@@ -296,7 +295,6 @@ div.stButton > button:hover {
 
 if st.button("Click to Run"):
 
-#if st.button("Run Compatibility Check"):
     st.write("Running...")
 
     results = []
@@ -307,8 +305,7 @@ if st.button("Click to Run"):
         shot_capacity = m.get("Shot Weight (g)")
 
         if pd.notna(shot_capacity) and shot_capacity > 0:
-            utilization = int((shot_weight / shot_capacity) * 100)
-            #shot_weight / shot_capacity            
+            utilization = int((shot_weight / shot_capacity) * 100)        
         else:
             utilization = None
 
@@ -322,12 +319,10 @@ if st.button("Click to Run"):
             "Shot Weight (g)": m["Shot Weight (g)"],
             "Screw Size (mm)": m["Screw Size (mm)"],
             "Status": status,   
-            "Shot Utilization (%)": utilization if utilization else None,
-            "Status": status,
+            "Shot Utilization (%)": utilization if utilization else None,            
             "Fail Reason": reason
     })
     results_df = pd.DataFrame(results)
-
 
 # ---------------------------
 # DISCLAIMER
