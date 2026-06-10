@@ -389,8 +389,7 @@ if st.button("Click to Run"):
         platen_area = platen_x * platen_y
         area_ratio = (mold_area / platen_area) * 100
 
-    # Safety color logic
-        #if area_ratio < 40:
+    # Safety color logic        
         if 20 <= area_ratio <= 40:
             ratio_color = "🟡 WARNING"        
         elif area_ratio < 65:
