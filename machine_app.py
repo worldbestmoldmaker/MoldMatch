@@ -464,7 +464,7 @@ else:
 st.subheader("🖼️ Mold vs Platen Operator View")
 
 # Use best machine platen dimensions
-#if len(valid) > 0:
+
 if 'valid' in locals() and len(valid) > 0:
     platen_width = daylight_max
     platen_height = platen_y
