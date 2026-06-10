@@ -227,8 +227,8 @@ def check(machine):
 
     if pd.notna(tie_y) and mold_width > tie_y:
         reasons.append("Too wide")
-    elif pd.notna(platen_y) and mold_width > platen_y:
-        reasons.append("Too wide")
+    #elif pd.notna(platen_y) and mold_width > platen_y:
+    #    reasons.append("Too wide")
 
     mold_min = machine.get("Mold Min (mm)", 0)
     daylight_max = machine.get("Daylight Max (mm)", 9999)
