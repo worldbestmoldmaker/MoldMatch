@@ -348,15 +348,9 @@ if st.button("Click to Run"):
     st.subheader("❌ Failed Machines")
     failed_df = results_df[results_df["Status"] == "FAIL"]
     st.dataframe(failed_df)    
-
-    # ---------------------------
-    # BEST MACHINE
-    # ---------------------------
-    #valid = passed_df
-    #if len(valid) > 0:
-    #best = valid.sort_values("Clamp (ton)").iloc[0]
+       
     # ===========================
-    # NEW BEST MACHINE LOGIC — closest to 50% shot utilization
+    # BEST MACHINE LOGIC — closest to 50% shot utilization
     # ===========================
 
     valid = passed_df.copy()
