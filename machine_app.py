@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import streamlit as st
 import plotly.graph_objects as go
+import plotly.io as pio
 import time
 import numpy as np
 
@@ -9,9 +10,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
 from reportlab.lib.pagesizes import letter
 from io import BytesIO
-import plotly.io as pio
 from plotly.subplots import make_subplots
-
 from datetime import datetime
 
 # -----------------------------------
