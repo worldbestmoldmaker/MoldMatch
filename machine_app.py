@@ -74,8 +74,8 @@ df = load_data()
 # ---------------------------
 # OEM SELECTION
 # ---------------------------
-st.subheader("Select Machine Brand")
 
+st.subheader("Select Machine Brand")
 st.markdown("""
 <style>
 [data-baseweb="tag"] {
@@ -84,8 +84,8 @@ st.markdown("""
 }
 </style>
 """, unsafe_allow_html=True)
-# Multi-select dropdown (add here)
 
+# Multi-select dropdown (add here)
 selected_oems = st.multiselect(
     "OEM",  # still required
     options=sorted(df["OEM"].dropna().unique()),
@@ -149,6 +149,7 @@ if "selected_oem" not in st.session_state:
 
 if selected_oem:
     st.session_state.selected_oem = selected_oem
+    
 # ---------------------------
 # FINAL OEM FILTER LOGIC
 # ---------------------------
