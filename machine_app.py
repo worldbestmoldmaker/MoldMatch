@@ -20,12 +20,9 @@ from datetime import datetime
 def generate_pdf(machine_name):
 
     buffer = BytesIO()
-
     pdf = canvas.Canvas(buffer)
-
     pdf.setFont("Helvetica-Bold", 18)
     pdf.drawString(100, 750, "Mold Match Analysis Report")
-
     pdf.setFont("Helvetica", 14)
     pdf.drawString(
         100,
@@ -34,12 +31,8 @@ def generate_pdf(machine_name):
     )
 
     pdf.save()
-
     buffer.seek(0)
-
     return buffer
-
-
 
 log_path = os.path.join(os.getcwd(), "view_log.txt")
 
@@ -77,8 +70,7 @@ def load_data():
     return pd.read_excel(file_path, engine="openpyxl")
 
 df = load_data()
-#st.write(df.columns.tolist())
-#st.write("COLUMNS:", df.columns.tolist())
+
 # ---------------------------
 # OEM SELECTION
 # ---------------------------
