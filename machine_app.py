@@ -246,7 +246,7 @@ def check(machine):
     if pd.notna(daylight_max) and required_opening > daylight_max:
         reasons.append("Insufficient daylight")
 
-    #return "PASS" if not reasons else "FAIL", ", ".join(set(reasons))
+    #Return "PASS" if not reasons else "FAIL", ", ".join(set(reasons))
 
     # ---------------------------
     # Shot Weight Check
@@ -255,7 +255,7 @@ def check(machine):
     
     # Recommended: use 80% max utilization
     
-    shot_capacity = machine.get("Shot Weight (g)")
+    #shot_capacity = machine.get("Shot Weight (g)")
 
     if pd.notna(shot_capacity):
         #utilization = required_shot_weight / shot_capacity
