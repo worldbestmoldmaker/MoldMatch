@@ -255,14 +255,11 @@ def check(machine):
     
     # Recommended: use 80% max utilization
     
-    #shot_capacity = machine.get("Shot Weight (g)")
-
     if pd.notna(shot_capacity):
-        #utilization = required_shot_weight / shot_capacity
         utilization = shot_weight / shot_capacity
         if utilization > 0.8:
             reasons.append("Insufficient shot capacity")
-        elif utilization < 0.10:
+        elif utilization < 0.15:
             reasons.append("Shot too small")
     else:
         reasons.append("No shot data")
