@@ -582,8 +582,8 @@ if 'valid' in locals() and len(valid) > 0:
     )
 
     fig.add_annotation(
-        x=platen_height + 60,
-        y=platen_open / 2,
+        x=platen_open + 60,
+        y=platen_height / 2,
         text=f"Platen Width: {platen_height} mm",
         textangle=90,
         showarrow=False,
