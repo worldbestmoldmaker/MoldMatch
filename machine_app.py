@@ -513,6 +513,7 @@ if 'valid' in locals() and len(valid) > 0:
     y0_value = (platen_height - tie_bar_y) / 2
     st.write("Platen_open =", platen_open)
     st.write("mold_y0 =", y0_value)
+    st.write("mold_height =", mold_height)
     
     fig.add_shape(
         row=1,
@@ -552,9 +553,7 @@ if 'valid' in locals() and len(valid) > 0:
     mold_x0=0,
     #(platen_open - mold_height) / 2
     mold_y0 = (platen_height - mold_width) / 2
-
-    mold_x1 = mold_x0 + mold_height
-    st.write("mold_height =", mold_height)
+    mold_x1 = mold_x0 + mold_height    
     mold_y1 = mold_y0 + mold_width
 
     fig.add_shape(
