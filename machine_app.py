@@ -629,7 +629,7 @@ if 'valid' in locals() and len(valid) > 0:
         type="rect",
         x0=(platen_x - mold_length) / 2,
         y0=0,
-        x1=(platen_x + mold_length) / 2
+        x1=(platen_x + mold_length) / 2,
         y1=mold_height,
         line=dict(color="green", width=3),
         fillcolor="lightgreen",
