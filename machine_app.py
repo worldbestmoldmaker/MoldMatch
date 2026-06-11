@@ -627,7 +627,7 @@ if 'valid' in locals() and len(valid) > 0:
     # mold top view
     fig.add_shape(
         type="rect",
-        x0=(platen_height - mold_height) / 2,
+        x0=(platen_x - mold_length) / 2,
         y0=0,
         x1=(platen_height + mold_height) / 2,
         y1=(platen_open + mold_width) / 2,
