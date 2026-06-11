@@ -510,7 +510,7 @@ if 'valid' in locals() and len(valid) > 0:
 
 # BOTTOM tie bar
     
-    y0_value = (platen_width - tie_bar_y) / 2 - d
+    y0_value = (platen_open - tie_bar_y) / 2 - d
     st.write("platen_width =", platen_width)
     st.write("mold_y0 =", y0_value)
     
@@ -519,9 +519,9 @@ if 'valid' in locals() and len(valid) > 0:
         col=1, 
         type="line",  
         x0=0,
-        y0=(platen_width - tie_bar_y) / 2 - d,
+        y0=(platen_open - tie_bar_y) / 2 - d,
         x1=platen_height,
-        y1=(platen_width - tie_bar_y) / 2 - d,
+        y1=(platen_open - tie_bar_y) / 2 - d,
         line=dict(
             color="black",
             width=d
@@ -535,9 +535,9 @@ if 'valid' in locals() and len(valid) > 0:
         col=1,
         type="line",
         x0=0,
-        y0=(platen_width - tie_bar_y) / 2 + tie_bar_offset + d,
+        y0=(platen_open - tie_bar_y) / 2 + tie_bar_offset + d,
         x1=platen_height,
-        y1=(platen_width - tie_bar_y) / 2 + tie_bar_offset + d,
+        y1=(platen_open - tie_bar_y) / 2 + tie_bar_offset + d,
         line=dict(
             color="black",
             width=d
