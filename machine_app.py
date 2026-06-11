@@ -649,7 +649,7 @@ if 'valid' in locals() and len(valid) > 0:
         type="line",
         x0=(platen_x - tie_bar_x) / 2 - d,
         y0=0,
-        x1=x0,
+        x1=(platen_x - tie_bar_x) / 2 - d,
         y1=platen_open,
         line=dict(
             color="black",
