@@ -618,7 +618,7 @@ if 'valid' in locals() and len(valid) > 0:
         y0=0,
         x1=platen_y,
         y1=platen_x,
-        line=dict(color="blue", width=3),
+        line=dict(color="blue", width=2),
         fillcolor="lightblue",
         row=1,
         col=2
