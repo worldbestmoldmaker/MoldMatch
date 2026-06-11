@@ -581,7 +581,7 @@ if 'valid' in locals() and len(valid) > 0:
 
     fig.add_annotation(
         x=platen_height + 60,
-        y=platen_width / 2,
+        y=platen_open / 2,
         text=f"Platen Width: {platen_height} mm",
         textangle=90,
         showarrow=False,
@@ -626,9 +626,9 @@ if 'valid' in locals() and len(valid) > 0:
     fig.add_shape(
         type="rect",
         x0=(platen_height - mold_height) / 2,
-        y0=(platen_width - mold_width) / 2,
+        y0=(platen_open - mold_width) / 2,
         x1=(platen_height + mold_height) / 2,
-        y1=(platen_width + mold_width) / 2,
+        y1=(platen_open + mold_width) / 2,
         line=dict(color="green", width=3),
         fillcolor="lightgreen",
         row=1,
