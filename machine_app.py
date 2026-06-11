@@ -639,7 +639,7 @@ if 'valid' in locals() and len(valid) > 0:
     )
 
     
-    # BOTTOM tie bar
+    # Left tie bar
     
     y0_value = (platen_height - tie_bar_y) / 2
     st.write("Platen_open =", platen_open)
@@ -656,8 +656,10 @@ if 'valid' in locals() and len(valid) > 0:
         y1=platen_open,
         line=dict(
             color="black",
-            width=d
-        )
+            width=d,
+        )    
+        row=1,
+        col=2         
     )
 
     
