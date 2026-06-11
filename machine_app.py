@@ -544,7 +544,7 @@ if 'valid' in locals() and len(valid) > 0:
             width=d
         )
     )
-
+    
     # -------------------------
     # CENTER MOLD INSIDE PLATEN
     # Rotated 90°
@@ -639,8 +639,7 @@ if 'valid' in locals() and len(valid) > 0:
     )
 
     # Left tie bar
-
-    y0_value = (platen_height - tie_bar_y) / 2
+    
     #st.write("Platen_open =", platen_open)
     #st.write("mold_y0 =", y0_value)
     #st.write("mold_height =", mold_height)
@@ -658,7 +657,22 @@ if 'valid' in locals() and len(valid) > 0:
         row=1,
         col=2
     )
-        
+    
+    # Right tie bar
+    
+    fig.add_shape(
+        type="line",
+        x0=(platen_x + tie_bar_x) / 2,
+        y0=0,
+        x1=(platen_x + tie_bar_x) / 2 + d,
+        y1=platen_open,
+        line=dict(
+            color="black",
+            width=d,
+        ),
+        row=1,
+        col=2
+    )        
     # -----------------------------------
     # LAYOUT
     # -----------------------------------
