@@ -648,12 +648,12 @@ if 'valid' in locals() and len(valid) > 0:
     
     fig.add_shape(
         row=1,
-        col=1, 
+        col=2, 
         type="line",  
-        x0=0,
-        y0=y0_value - d,        
-        x1=platen_open,
-        y1=y0_value - d,
+        x0=60,
+        y0=60,        
+        x1=120,
+        y1=platen_open,
         line=dict(
             color="black",
             width=d
