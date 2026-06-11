@@ -619,7 +619,7 @@ if 'valid' in locals() and len(valid) > 0:
         x1=platen_y,
         y1=platen_x,
         line=dict(color="blue", width=2),
-        fillcolor="lightblue",
+        fillcolor="rgba(173,216,230,0.2)",
         row=1,
         col=2
     )
