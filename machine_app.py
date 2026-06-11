@@ -519,7 +519,8 @@ if 'valid' in locals() and len(valid) > 0:
         col=1, 
         type="line",  
         x0=0,
-        y0=(platen_open - tie_bar_y) / 2 - d,
+        y0=y0_value,
+        #(platen_open - tie_bar_y) / 2 - d,
         x1=platen_open,
         y1=(platen_height - tie_bar_y) / 2 - d,
         line=dict(
