@@ -657,6 +657,7 @@ if 'valid' in locals() and len(valid) > 0:
         row=1,
         col=2
     )
+    st.write("Lx0 =", x0)
     
     # Right tie bar
     
@@ -672,7 +673,8 @@ if 'valid' in locals() and len(valid) > 0:
         ),
         row=1,
         col=2
-    )        
+    )      
+    st.write("Rx0 =", x0)
     # -----------------------------------
     # LAYOUT
     # -----------------------------------
