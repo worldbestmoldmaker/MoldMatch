@@ -506,7 +506,7 @@ if 'valid' in locals() and len(valid) > 0:
 
 # offset OUTSIDE platen
     tie_bar_offset = tie_bar_y
-    d = 55
+    d = 15
 
 # BOTTOM tie bar
     
@@ -664,9 +664,9 @@ if 'valid' in locals() and len(valid) > 0:
     
     fig.add_shape(
         type="line",
-        x0=(platen_x + tie_bar_x) / 2,
+        x0=(platen_x + tie_bar_x) / 2 + d,
         y0=0,
-        x1=(platen_x + tie_bar_x) / 2,
+        x1=(platen_x + tie_bar_x) / 2 + d,
         y1=platen_open,
         line=dict(
             color="black",
@@ -675,7 +675,7 @@ if 'valid' in locals() and len(valid) > 0:
         row=1,
         col=2
     )      
-    x0=(platen_x + tie_bar_x) / 2,
+    x0=(platen_x + tie_bar_x) / 2 + d,
     st.write("Rx0 =", x0)
     # -----------------------------------
     # LAYOUT
