@@ -599,7 +599,7 @@ if 'valid' in locals() and len(valid) > 0:
     )
 
     fig.add_annotation(
-        x=mold_x1 + 20,
+        x=mold_x0 - 20,
         y=(mold_y0 + mold_y1) / 2,
         text=f"Mold Width: {mold_width} mm",
         textangle=90,
@@ -636,10 +636,6 @@ if 'valid' in locals() and len(valid) > 0:
         row=1,
         col=2
     )
-
-    # -------------------------
-    # LAYOUT
-    # -------------------------
 
     # -----------------------------------
     # LAYOUT
