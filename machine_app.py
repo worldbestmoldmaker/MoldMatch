@@ -647,7 +647,7 @@ if 'valid' in locals() and len(valid) > 0:
     
     fig.add_shape(
         type="line",
-        x0=60,
+        x0=(platen_x - mold_length) / 2 - d,
         y0=0,
         x1=120,
         y1=platen_open,
