@@ -550,7 +550,7 @@ if 'valid' in locals() and len(valid) > 0:
     # Rotated 90°
     # -------------------------
 
-    mold_x0 = 0
+    mold_x0 = platen_open - mold_height  
 
     #(platen_open - mold_height) / 2
     mold_y0 = (platen_height - mold_width) / 2
