@@ -510,7 +510,7 @@ if 'valid' in locals() and len(valid) > 0:
 
 # BOTTOM tie bar
     
-    y0_value = (platen_open - tie_bar_y) / 2 - d
+    y0_value = (platen_height - tie_bar_y) / 2 - d
     st.write("Platen_open =", platen_open)
     st.write("mold_y0 =", y0_value)
     
