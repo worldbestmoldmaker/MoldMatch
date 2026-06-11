@@ -554,6 +554,7 @@ if 'valid' in locals() and len(valid) > 0:
     mold_y0 = (platen_height - mold_width) / 2
 
     mold_x1 = mold_x0 + mold_height
+    st.write("mold_height =", mold_height)
     mold_y1 = mold_y0 + mold_width
 
     fig.add_shape(
