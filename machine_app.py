@@ -592,14 +592,14 @@ if 'valid' in locals() and len(valid) > 0:
 
     fig.add_annotation(
         x=(mold_x0 + mold_x1) / 2,
-        y=mold_y1 + 20,
+        y=mold_y1 + 40,
         text=f"Mold Thickness: {mold_height} mm",
         showarrow=False,
         font=dict(size=10)
     )
 
     fig.add_annotation(
-        x=mold_x0 - 20,
+        x=mold_x0 - 40,
         y=(mold_y0 + mold_y1) / 2,
         text=f"Mold Width: {mold_width} mm",
         textangle=90,
