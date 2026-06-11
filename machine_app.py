@@ -688,7 +688,7 @@ if 'valid' in locals() and len(valid) > 0:
     
     fig.update_yaxes(
         visible=False,
-        range=[-50, platen_width + 120],
+        range=[-50, platen_open + 120],
         scaleanchor="x",
         scaleratio=1,
         row=1,
