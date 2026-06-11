@@ -506,7 +506,7 @@ if 'valid' in locals() and len(valid) > 0:
 
 # offset OUTSIDE platen
     tie_bar_offset = tie_bar_y
-    d = 35
+    d = 55
 
 # BOTTOM tie bar
     
