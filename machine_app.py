@@ -511,7 +511,7 @@ if 'valid' in locals() and len(valid) > 0:
 # BOTTOM tie bar
     
     y0_value = (platen_open - tie_bar_y) / 2 - d
-    st.write("platen_width =", platen_open)
+    st.write("Platen_open =", platen_open)
     st.write("mold_y0 =", y0_value)
     
     fig.add_shape(
