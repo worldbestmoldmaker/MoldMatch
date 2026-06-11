@@ -629,7 +629,7 @@ if 'valid' in locals() and len(valid) > 0:
         type="rect",
         x0=(platen_x - mold_length) / 2,
         y0=0,
-        x1=(platen_x + "Tie Bar X (mm)") / 2,
+        x1=(platen_x + mold_length) / 2,
         y1=mold_height,
         line=dict(color="black", width=3),
         #fillcolor="lightgreen",
@@ -647,7 +647,7 @@ if 'valid' in locals() and len(valid) > 0:
     
     fig.add_shape(
         type="line",
-        x0=(platen_x - mold_length) / 2 - d,
+        x0=(platen_x - tie_bar_x) / 2 - d,
         y0=0,
         x1=120,
         y1=platen_open,
