@@ -633,7 +633,7 @@ if 'valid' in locals() and len(valid) > 0:
         y1=mold_height,
         line=dict(color="green", width=3),
         #fillcolor="lightgreen",
-        fillcolor="rgba(128,128,128,0.5)"
+        fillcolor="rgba(128,128,128,0.5)",
         row=1,
         col=2
     )
