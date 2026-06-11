@@ -628,7 +628,7 @@ if 'valid' in locals() and len(valid) > 0:
     fig.add_shape(
         type="rect",
         x0=(platen_height - mold_height) / 2,
-        y0=(platen_open - mold_width) / 2,
+        y0=0,
         x1=(platen_height + mold_height) / 2,
         y1=(platen_open + mold_width) / 2,
         line=dict(color="green", width=3),
