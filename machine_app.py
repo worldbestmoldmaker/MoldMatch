@@ -641,14 +641,14 @@ if 'valid' in locals() and len(valid) > 0:
     # Left tie bar
 
     y0_value = (platen_height - tie_bar_y) / 2
-    st.write("Platen_open =", platen_open)
-    st.write("mold_y0 =", y0_value)
-    st.write("mold_height =", mold_height)
+    #st.write("Platen_open =", platen_open)
+    #st.write("mold_y0 =", y0_value)
+    #st.write("mold_height =", mold_height)
     
     fig.add_shape(
         type="line",
         x0=60,
-        y0=60,
+        y0=0,
         x1=120,
         y1=platen_open,
         line=dict(
@@ -658,9 +658,7 @@ if 'valid' in locals() and len(valid) > 0:
         row=1,
         col=2
     )
-    
-
-    
+        
     # -----------------------------------
     # LAYOUT
     # -----------------------------------
