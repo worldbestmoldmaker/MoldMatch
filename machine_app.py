@@ -772,9 +772,7 @@ if 'best' in locals() and best is not None:
         machine_data = {
             "oem": best.get("OEM", "Unknown OEM"),
             "model": best.get("Model", "Unknown Model"),
-        }  
         
-        machine_data = {
             "platen_x": best.get("Platen X (mm)", "N/A"),
             "platen_y": best.get("Platen Y (mm)") or "N/A",
             #"platen_y": best.get("Platen Y (mm)", "N/A"),
