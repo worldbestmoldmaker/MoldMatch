@@ -806,6 +806,24 @@ if 'best' in locals() and best is not None:
             "tie_bar_y": best.get("Tie Bar Y (mm)", "N/A"),
             "shot_utilization": best.get("Shot Utilization (%)", "N/A")
         }
+
+        import pandas as pd
+
+    def clean(val):
+        return val if pd.notna(val) else "N/A"
+    
+    machine_data = {
+        "oem": best.get("OEM", "Unknown OEM"),
+        "model": best.get("Model", "Unknown Model"),
+        "platen_x": clean(best.get("Platen X (mm)")),
+        "platen_y": clean(best.get("Platen Y (mm)")),
+        "tie_bar_x": clean(best.get("Tie Bar X (mm)")),
+        "tie_bar_y": clean(best.get("Tie Bar Y (mm)")),
+        "shot_utilization": clean(best.get("Shot Utilization (%)"))
+    }
+
+
+
         
         tie_bar_x = machine_row["Tie Bar X (mm)"]
         tie_bar_y = machine_row["Tie Bar Y (mm)"]
