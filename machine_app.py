@@ -794,21 +794,21 @@ machine_data = {
 if 'best' in locals() and best is not None:
     try:
         # ✅ Extract correct fields     
+        machine_data = {
+            "oem": best.get("OEM", "Unknown OEM"),
+            "model": best.get("Model", "Unknown Model"),
+        
+            "platen_x": best.get("Platen X (mm)", "N/A"),
+            "platen_y": best.get("Platen Y (mm)") or "N/A",
+            #"platen_y": best.get("Platen Y (mm)", "N/A"),
+            "tie_bar_x": best.get("Tie Bar X (mm)") or "N/A",
+            #"tie_bar_x": best.get("Tie Bar X (mm)", "N/A"),
+            "tie_bar_y": best.get("Tie Bar Y (mm)", "N/A"),
+            "shot_utilization": best.get("Shot Utilization (%)", "N/A")
+        }
+        
+ 
     
-    def clean(val):
-        if pd.isna(val):
-            return "N/A"
-        return round(val, 1) if isinstance(val, (int, float)) else val
-    
-    machine_data = {
-        "oem": best.get("OEM", "Unknown OEM"),
-        "model": best.get("Model", "Unknown Model"),
-        "platen_x": clean(best.get("Platen X (mm)")),
-        "platen_y": clean(best.get("Platen Y (mm)")),
-        "tie_bar_x": clean(best.get("Tie Bar X (mm)")),
-        "tie_bar_y": clean(best.get("Tie Bar Y (mm)")),
-        "shot_utilization": clean(best.get("Shot Utilization (%)"))
-    }
 
 
 
