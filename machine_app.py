@@ -511,9 +511,9 @@ if 'valid' in locals() and len(valid) > 0:
 # BOTTOM tie bar
     
     y0_value = (platen_height - tie_bar_y) / 2
-    st.write("Platen_open =", platen_open)
-    st.write("mold_y0 =", y0_value)
-    st.write("mold_height =", mold_height)
+    #st.write("Platen_open =", platen_open)
+    #st.write("mold_y0 =", y0_value)
+    #st.write("mold_height =", mold_height)
     
     fig.add_shape(
         row=1,
@@ -590,13 +590,13 @@ if 'valid' in locals() and len(valid) > 0:
         font=dict(size=10, color="blue")
     )
 
-    fig.add_annotation(
-        x=(mold_x0 + mold_x1) / 2,
-        y=mold_y1 + 40,
-        text=f"Mold Thickness: {mold_height} mm",
-        showarrow=False,
-        font=dict(size=10)
-    )
+    #fig.add_annotation(
+    #    x=(mold_x0 + mold_x1) / 2,
+    #    y=mold_y1 + 40,
+    #    text=f"Mold Thickness: {mold_height} mm",
+    #    showarrow=False,
+    #    font=dict(size=10)
+    #)
 
     fig.add_annotation(
         x=mold_x0 - 40,
