@@ -780,7 +780,8 @@ if 'best' in locals() and best is not None:
         st.warning(f"Could not load machine data: {e}")
 
 # Generate PDF
-pdf_file = generate_pdf(machine_data)
+#pdf_file = generate_pdf(machine_data)
+machine_name = f"{machine_data['oem']} - {machine_data['model']}"
 
 # Download button
 st.download_button(
