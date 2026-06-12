@@ -385,7 +385,7 @@ if st.button("Click to Run"):
         platen_y = machine_row["Platen Y (mm)"]
         daylight_max = machine_row["Daylight Max (mm)"]
         
-        st.write(f"Platen: {machine_data['platen_y']} mm")
+        st.write(f"Platen: {machine_row['platen_y']} mm")
         
         mold_area = mold_length * mold_width
         platen_area = platen_x * platen_y
