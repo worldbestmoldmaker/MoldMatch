@@ -750,18 +750,49 @@ else:
 # PDF EXPORT
 # -----------------------------------
 
-# Default text
-machine_text = "No Recommended Machine"
+# Default values
+machine_data = {
+    "oem": "N/A",
+    "model": "N/A",
+    "platen_x": "N/A",
+    "platen_y": "N/A",
+    "tie_bar_x": "N/A",
+    "tie_bar_y": "N/A",
+    "shot_utilization": "N/A"
+}
 
-# Safely build machine description
+# Populate safely
 if 'best' in locals() and best is not None:
     try:
-        machine_text = f"{best.get('OEM', 'Unknown OEM')} - {best.get('Model', 'Unknown Model')}"
+        machine_data = {
+            "oem": best.get("OEM", "Unknown OEM"),
+            "model": best.get("Model", "Unknown Model"),
+            "platen_x": best.get("platen_x", "N/A"),
+            "platen_y": best.get("platen_y", "N/A"),
+            "tie_bar_x": best.get("tie_bar_x", "N/A"),
+            "tie_bar_y": best.get("tie_bar_y", "N/A"),
+            "shot_utilization": best.get("shot_utilization", "N/A")
+        }
     except Exception:
-        machine_text = "No Recommended Machine"
+        pass
+
+# Optional: Display in UI before export
+st.subheader("Recommended Machine")
+
+st.write(f"**Machine:** {machine_data['oem']} - {machine_data['model']}")
+st.write(f"Platen (X × Y): {machine_data['platen_x']} × {machine_data['platen_y']} mm")
+st.write(f"Tie Bar Spacing (X × Y): {machine_data['tie_bar_x']} × {machine_data['tie_bar_y']} mm")
+
+# Format shot utilization nicely
+if isinstance(machine_data["shot_utilization"], (int, float)):
+    shot_util = f"{machine_data['shot_utilization']:.1%}"
+else:
+    shot_util = machine_data["shot_utilization"]
+
+st.write(f"Shot Utilization: {shot_util}")
 
 # Generate PDF
-pdf_file = generate_pdf(machine_text)
+pdf_file = generate_pdf(machine_data)
 
 # Download button
 st.download_button(
@@ -773,7 +804,6 @@ st.download_button(
 
 # Footer
 st.markdown("---")
-
 st.caption(
     "Engineering screening tool only. Final machine approval "
     "requires OEM/application engineer validation."
