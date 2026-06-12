@@ -776,14 +776,6 @@ if 'best' in locals() and best is not None:
 
         st.subheader("Recommended Machine")
 
-                # Format shot utilization nicely
-        if isinstance(machine_data["shot_utilization"], (int, float)):
-            shot_util = f"{machine_data['shot_utilization']:.1%}"
-        else:
-            shot_util = machine_data["shot_utilization"]
-
-        st.write(f"Shot Utilization: {shot_util}")
-
     except Exception as e:
         st.warning(f"Could not load machine data: {e}")
 
