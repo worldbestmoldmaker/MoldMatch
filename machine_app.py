@@ -17,21 +17,46 @@ from datetime import datetime
 # PDF REPORT
 # -----------------------------------
 
-def generate_pdf(machine_name):
+def generate_pdf(machine_data):
 
     buffer = BytesIO()
-    pdf = canvas.Canvas(buffer)
+    pdf = canvas.Canvas(buffer, pagesize=letter)
+
+    # Title
     pdf.setFont("Helvetica-Bold", 18)
     pdf.drawString(100, 750, "Mold Match Analysis Report")
-    pdf.setFont("Helvetica", 14)
+
+    pdf.setFont("Helvetica", 12)
+
+    # ✅ Correct formatting (NO dictionary printing)
     pdf.drawString(
-        100,
-        700,
-        f"Recommended Machine: {machine_name}"
+        100, 700,
+        f"Machine: {machine_data['oem']} - {machine_data['model']}"
+    )
+
+    pdf.drawString(
+        100, 670,
+        f"Platen: {machine_data['platen_x']} × {machine_data['platen_y']} mm"
+    )
+
+    pdf.drawString(
+        100, 650,
+        f"Tie Bars: {machine_data['tie_bar_x']} × {machine_data['tie_bar_y']} mm"
+    )
+
+    # Format shot
+    shot = machine_data["shot_utilization"]
+    if isinstance(shot, (int, float)):
+        shot = f"{shot:.1f}%"
+
+    pdf.drawString(
+        100, 630,
+        f"Shot Utilization: {shot}"
     )
 
     pdf.save()
     buffer.seek(0)
+
     return buffer
 
 log_path = os.path.join(os.getcwd(), "view_log.txt")
