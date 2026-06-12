@@ -772,6 +772,9 @@ if 'best' in locals() and best is not None:
         machine_data = {
             "oem": best.get("OEM", "Unknown OEM"),
             "model": best.get("Model", "Unknown Model"),
+        }  
+        
+        machine_data = {
             "platen_x": best.get("Platen X (mm)", "N/A"),
             "platen_y": best.get("Platen Y (mm)") or "N/A",
             #"platen_y": best.get("Platen Y (mm)", "N/A"),
@@ -780,6 +783,7 @@ if 'best' in locals() and best is not None:
             "tie_bar_y": best.get("Tie Bar Y (mm)", "N/A"),
             "shot_utilization": best.get("Shot Utilization (%)", "N/A")
         }
+        
         tie_bar_x = machine_row["Tie Bar X (mm)"]
         tie_bar_y = machine_row["Tie Bar Y (mm)"]
         #st.write(f"Platen Y: {machine_row['Platen Y (mm)']} mm")
