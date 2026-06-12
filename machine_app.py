@@ -747,12 +747,12 @@ else:
     st.warning("No valid machine found")
 
 # -----------------------------------
-# PDF EXPORT (FINAL SAFE VERSION)
+# PDF EXPORT (FULL WORKING VERSION)
 # -----------------------------------
 
+# ✅ Default values (prevents crashes before run)
 pdf_file = None
 
-# Default values
 machine_data = {
     "oem": "N/A",
     "model": "N/A",
@@ -763,10 +763,10 @@ machine_data = {
     "shot_utilization": "N/A"
 }
 
-# Only create PDF if best machine exists
+# ✅ Only run if best machine exists
 if 'best' in locals() and best is not None:
     try:
-        # ✅ Pull correct column names
+        # ✅ Extract correct fields
         machine_data = {
             "oem": best.get("OEM", "Unknown OEM"),
             "model": best.get("Model", "Unknown Model"),
@@ -777,33 +777,29 @@ if 'best' in locals() and best is not None:
             "shot_utilization": best.get("Shot Utilization (%)", "N/A")
         }
 
-        # ✅ Show clean UI header (no dict dump issue)
-        st.subheader("📄 Export Report")
+        # ✅ DISPLAY (each item on new row — FIXED)
+        st.subheader("📄 Recommended Machine")
 
-        st.markdown(
-            f"**Selected Machine:** {machine_data['oem']} - {machine_data['model']}"
-        )
+        st.write(f"Machine: {machine_data['oem']} - {machine_data['model']}")
+        st.write(f"Platen: {machine_data['platen_x']} × {machine_data['platen_y']} mm")
+        st.write(f"Tie Bars: {machine_data['tie_bar_x']} × {machine_data['tie_bar_y']} mm")
 
-        # ✅ Generate PDF safely
+        # Format shot utilization nicely
+        shot_util = machine_data["shot_utilization"]
+        if isinstance(shot_util, (int, float)):
+            shot_util = f"{shot_util:.1f}%"
+
+        st.write(f"Shot Utilization: {shot_util}")
+
+        # ✅ GENERATE PDF
         pdf_file = generate_pdf(machine_data)
 
     except Exception as e:
         st.warning(f"PDF generation error: {e}")
 
-# ✅ Download button ONLY if PDF exists
+# ✅ DOWNLOAD BUTTON ONLY WHEN READY
 if pdf_file is not None:
     st.download_button(
         label="⬇️ Download PDF Report",
         data=pdf_file,
         file_name="moldmatch_report.pdf",
-        mime="application/pdf"
-    )
-else:
-    st.info("Run analysis to enable PDF export")
-
-# Footer
-st.markdown("---")
-st.caption(
-    "Engineering screening tool only. Final machine approval "
-    "requires OEM/application engineer validation."
-)
