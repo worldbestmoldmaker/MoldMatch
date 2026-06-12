@@ -790,8 +790,9 @@ if 'best' in locals() and best is not None:
 
         st.write(f"Machine: {machine_data['oem']} - {machine_data['model']}")
         st.write(f"Platen: {machine_data['platen_x']} × {machine_row['Platen Y (mm)']} mm") #{machine_data['platen_y']} mm")
-        st.write(f"Tie Bars: {machine_data['tie_bar_x']} × {machine_data['tie_bar_y']} mm")
-
+        #st.write(f"Tie Bars: {machine_data['tie_bar_x']} × {machine_data['tie_bar_y']} mm")
+        st.write(f"Tie Bars: {machine_row['Tie Bar X (mm)']} × {machine_data['tie_bar_y']} mm")
+        
         # Format shot utilization nicely
         shot_util = machine_data["shot_utilization"]
         if isinstance(shot_util, (int, float)):
