@@ -384,9 +384,8 @@ if st.button("Click to Run"):
         platen_x = machine_row["Platen X (mm)"]
         platen_y = machine_row["Platen Y (mm)"]
         daylight_max = machine_row["Daylight Max (mm)"]
-        
-        #st.write(f"Platen: {machine_row['platen_y']} mm")
-        st.write(f"Platen Y: {machine_row['Platen Y (mm)']} mm")
+            
+        #st.write(f"Platen Y: {machine_row['Platen Y (mm)']} mm")
 
         mold_area = mold_length * mold_width
         platen_area = platen_x * platen_y
@@ -784,6 +783,7 @@ if 'best' in locals() and best is not None:
         tie_bar_x = machine_row["Tie Bar X (mm)"]
         tie_bar_y = machine_row["Tie Bar Y (mm)"]
         st.write(f"Platen: {machine_data['tie_bar_x']} mm")
+        st.write(f"Platen Y: {machine_row['Platen Y (mm)']} mm")
         
         # ✅ DISPLAY (each item on new row — FIXED)
         st.subheader("📄 Recommended Machine")
