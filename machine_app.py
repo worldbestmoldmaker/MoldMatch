@@ -782,14 +782,14 @@ if 'best' in locals() and best is not None:
         }
         tie_bar_x = machine_row["Tie Bar X (mm)"]
         tie_bar_y = machine_row["Tie Bar Y (mm)"]
-        st.write(f"Platen: {machine_data['tie_bar_x']} mm")
+        #st.write(f"Platen: {machine_data['tie_bar_x']} mm")
         st.write(f"Platen Y: {machine_row['Platen Y (mm)']} mm")
         
         # ✅ DISPLAY (each item on new row — FIXED)
         st.subheader("📄 Recommended Machine")
 
         st.write(f"Machine: {machine_data['oem']} - {machine_data['model']}")
-        st.write(f"Platen: {machine_data['platen_x']} × {machine_data['platen_y']} mm")
+        st.write(f"Platen: {machine_data['platen_x']} × {machine_row['Platen Y (mm)']} mm") #{machine_data['platen_y']} mm")
         st.write(f"Tie Bars: {machine_data['tie_bar_x']} × {machine_data['tie_bar_y']} mm")
 
         # Format shot utilization nicely
