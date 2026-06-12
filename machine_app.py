@@ -793,10 +793,8 @@ machine_data = {
 # ✅ Only run if best machine exists
 if 'best' in locals() and best is not None:
     try:
-        # ✅ Extract correct fields
-        
-    import pandas as pd
-
+        # ✅ Extract correct fields     
+    
     def clean(val):
         if pd.isna(val):
             return "N/A"
