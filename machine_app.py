@@ -750,18 +750,20 @@ else:
 # PDF EXPORT
 # -----------------------------------
 
+# Default text
 machine_text = "No Recommended Machine"
 
-try:
+# Safely build machine description
+if 'best' in locals() and best is not None:
+    try:
+        machine_text = f"{best.get('OEM', 'Unknown OEM')} - {best.get('Model', 'Unknown Model')}"
+    except Exception:
+        machine_text = "No Recommended Machine"
 
-    machine_text = f"{best['OEM']} - {best['Model']}"
-
-except:
-
-    pass
-
+# Generate PDF
 pdf_file = generate_pdf(machine_text)
 
+# Download button
 st.download_button(
     label="Download PDF Report",
     data=pdf_file,
@@ -769,11 +771,10 @@ st.download_button(
     mime="application/pdf"
 )
 
+# Footer
 st.markdown("---")
 
 st.caption(
     "Engineering screening tool only. Final machine approval "
     "requires OEM/application engineer validation."
 )
-
-    
