@@ -803,3 +803,14 @@ if pdf_file is not None:
         label="⬇️ Download PDF Report",
         data=pdf_file,
         file_name="moldmatch_report.pdf",
+        mime="application/pdf"
+    )
+else:
+    st.info("Run analysis to enable PDF export")
+
+# Footer
+st.markdown("---")
+st.caption(
+    "Engineering screening tool only. Final machine approval "
+    "requires OEM/application engineer validation."
+)
