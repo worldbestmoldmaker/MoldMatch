@@ -195,7 +195,7 @@ with c2:
     clamp_max = st.number_input("Max Clamp (ton)", value=200)
 
 # Shot Weight
-st.subheader("⚖️ Shot Weight (g)")
+st.subheader("⚖️ Shot Weight (g PS)")
 
 c1, c2, c3 = st.columns([1, 1, 1])
 
