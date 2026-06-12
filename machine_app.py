@@ -782,8 +782,7 @@ if 'best' in locals() and best is not None:
         }
         tie_bar_x = machine_row["Tie Bar X (mm)"]
         tie_bar_y = machine_row["Tie Bar Y (mm)"]
-        #st.write(f"Platen: {machine_data['tie_bar_x']} mm")
-        st.write(f"Platen Y: {machine_row['Platen Y (mm)']} mm")
+        #st.write(f"Platen Y: {machine_row['Platen Y (mm)']} mm")
         
         # ✅ DISPLAY (each item on new row — FIXED)
         st.subheader("📄 Recommended Machine")
