@@ -776,13 +776,7 @@ if 'best' in locals() and best is not None:
 
         st.subheader("Recommended Machine")
 
-        st.write(f"Machine: {machine_data['oem']} - {machine_data['model']}")
-        st.write(f"Platen X: {machine_data['platen_x']} mm")
-        st.write(f"Platen Y: {machine_data['platen_y']} mm")
-        st.write(f"Tie Bar X: {machine_data['tie_bar_x']} mm")
-        st.write(f"Tie Bar Y: {machine_data['tie_bar_y']} mm")
-
-        # Format shot utilization nicely
+                # Format shot utilization nicely
         if isinstance(machine_data["shot_utilization"], (int, float)):
             shot_util = f"{machine_data['shot_utilization']:.1%}"
         else:
