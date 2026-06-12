@@ -655,8 +655,8 @@ if 'valid' in locals() and len(valid) > 0:
         row=1,
         col=2
     )
-    x0=(platen_x - tie_bar_x) / 2 - d,
-    st.write("Lx0 =", x0)
+    #x0=(platen_x - tie_bar_x) / 2 - d,
+    #st.write("Lx0 =", x0)
     
     # Right tie bar
     
@@ -673,8 +673,8 @@ if 'valid' in locals() and len(valid) > 0:
         row=1,
         col=2
     )      
-    x0=(platen_x + tie_bar_x) / 2 + d,
-    st.write("Rx0 =", x0)
+    #x0=(platen_x + tie_bar_x) / 2 + d,
+    #st.write("Rx0 =", x0)
     # -----------------------------------
     # LAYOUT
     # -----------------------------------
