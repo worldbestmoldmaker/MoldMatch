@@ -773,23 +773,36 @@ if 'best' in locals() and best is not None:
             "tie_bar_y": best.get("tie_bar_y", "N/A"),
             "shot_utilization": best.get("shot_utilization", "N/A")
         }
+    
+    st.subheader("Recommended Machine")
+
+    st.write(f"Machine: {machine_data['oem']} - {machine_data['model']}")
+    
+    st.write(f"Platen X: {machine_data['platen_x']} mm")
+    st.write(f"Platen Y: {machine_data['platen_y']} mm")
+    
+    st.write(f"Tie Bar X: {machine_data['tie_bar_x']} mm")
+    st.write(f"Tie Bar Y: {machine_data['tie_bar_y']} mm")
+    
+    st.write(f"Shot Utilization: {machine_data['shot_utilization']}")
+    
     except Exception:
         pass
 
 # Optional: Display in UI before export
-st.subheader("Recommended Machine")
+#st.subheader("Recommended Machine")
 
-st.write(f"**Machine:** {machine_data['oem']} - {machine_data['model']}")
-st.write(f"Platen (X × Y): {machine_data['platen_x']} × {machine_data['platen_y']} mm")
-st.write(f"Tie Bar Spacing (X × Y): {machine_data['tie_bar_x']} × {machine_data['tie_bar_y']} mm")
+#st.write(f"**Machine:** {machine_data['oem']} - {machine_data['model']}")
+#st.write(f"Platen (X × Y): {machine_data['platen_x']} × {machine_data['platen_y']} mm")
+#st.write(f"Tie Bar Spacing (X × Y): {machine_data['tie_bar_x']} × {machine_data['tie_bar_y']} mm")
 
 # Format shot utilization nicely
-if isinstance(machine_data["shot_utilization"], (int, float)):
-    shot_util = f"{machine_data['shot_utilization']:.1%}"
-else:
-    shot_util = machine_data["shot_utilization"]
+#if isinstance(machine_data["shot_utilization"], (int, float)):
+#    shot_util = f"{machine_data['shot_utilization']:.1%}"
+#else:
+#    shot_util = machine_data["shot_utilization"]
 
-st.write(f"Shot Utilization: {shot_util}")
+#st.write(f"Shot Utilization: {shot_util}")
 
 # Generate PDF
 pdf_file = generate_pdf(machine_data)
