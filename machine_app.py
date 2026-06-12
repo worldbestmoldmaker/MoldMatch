@@ -778,7 +778,8 @@ if 'best' in locals() and best is not None:
             "tie_bar_y": best.get("Tie Bar Y (mm)", "N/A"),
             "shot_utilization": best.get("Shot Utilization (%)", "N/A")
         }
-
+        st.write(f"Platen: {machine_data['platen_y']} mm")
+        
         # ✅ DISPLAY (each item on new row — FIXED)
         st.subheader("📄 Recommended Machine")
 
