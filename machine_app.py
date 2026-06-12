@@ -482,7 +482,7 @@ if 'valid' in locals() and len(valid) > 0:
     # -------------------------
     # PLATEN RECTANGLE
     # -------------------------
-    #fig.add_shape(
+    
     fig.add_shape(
         row=1,
         col=1,
@@ -550,9 +550,7 @@ if 'valid' in locals() and len(valid) > 0:
     # Rotated 90°
     # -------------------------
 
-    mold_x0 = platen_open - mold_height  
-
-    #(platen_open - mold_height) / 2
+    mold_x0 = platen_open - mold_height      
     mold_y0 = (platen_height - mold_width) / 2
     mold_x1 = mold_x0 + mold_height    
     mold_y1 = mold_y0 + mold_width
