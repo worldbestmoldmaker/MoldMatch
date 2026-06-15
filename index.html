@@ -1,61 +1,91 @@
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        background: #f5f5f5;
-        text-align: center;
-    }
-    header {
-        background: #1e88e5;
-        color: white;
-        padding: 40px 20px;
-    }
-    h1 {
-        margin: 0;
-        font-size: 42px;
-        color: white; /* Ensures MoldMatch text is white */
-    }
-    p {
-        font-size: 20px;
-        margin-top: 10px;
-        color: white; /* Makes tagline text white */
-    }
-    .container {
-        margin: 40px auto;
-        max-width: 700px;
-        background: white;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    .btn {
-        display: inline-block;
-        margin-top: 20px;
-        padding: 14px 28px;
-        background: #1e88e5;
-        color: white;
-        text-decoration: none;
-        border-radius: 6px;
-        font-size: 18px;
-    }
-    .btn:hover {
-        background: #1565c0;
-    }
-</style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoldMatch</title>
 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+            text-align: center;
+        }
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-039VJTHKJP"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-039VJTHKJP');
-    </script>
+        header {
+            background: #1e88e5;
+            color: white;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 42px;
+            color: white;
+        }
+
+        p {
+            font-size: 20px;
+            margin-top: 10px;
+            color: white;
+        }
+
+        .container {
+            margin: 40px auto;
+            max-width: 900px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .machine-grid {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .machine {
+            width: 200px;
+            margin: 20px;
+        }
+
+        .machine img {
+            width: 100%;
+            border-radius: 6px;
+        }
+
+        .machine button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #1e88e5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .btn {
+            display: block;
+            margin: 40px auto 0 auto;
+            padding: 14px 28px;
+            background: #1e88e5;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 20px;
+            width: fit-content;
+        }
+
+        .btn:hover {
+            background: #1565c0;
+        }
+    </style>
 </head>
 
-    
 <body>
 
 <header>
@@ -65,18 +95,34 @@
 
 <div class="container">
     <h2>Welcome</h2>
-    <p>
-        MoldMatch helps you quickly determine the best machine for any mold using smart matching logic.
-        This is the landing page for the MoldMatch application.
-    </p>
+    <p>MoldMatch helps you quickly determine the best machine for any mold using smart matching logic.</p>
+    <p>This is the landing page for the MoldMatch application.</p>
 
-    <img src="MoldMatch.png" alt="MoldMatch Logo" style="width:500px; margin-top:20px;">
+    <div class="machine-grid">
 
-    
+        <div class="machine">
+            <img src="MoldMatch.png" alt="MoldMatch">
+            <button>ENGEL</button>
+        </div>
+
+        <div class="machine">
+            <img src="MoldMatch.png" alt="MoldMatch">
+            <button>ARBURG</button>
+        </div>
+
+        <div class="machine">
+            <img src="MoldMatch.png" alt="MoldMatch">
+            <button>NETSTAL</button>
+        </div>
+
+        <div class="machine">
+            <img src="MoldMatch.png" alt="MoldMatch">
+            <button>SUMITOMO</button>
+        </div>
+
+    </div>
+
     <a class="btn" href="https://worldbestmoldmaker-moldmatch-machine-app-z2clyr.streamlit.app/" target="_blank">
         Launch App
     </a>
 </div>
-
-</body>
-</html>
