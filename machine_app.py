@@ -835,13 +835,7 @@ if 'best' in locals() and best is not None:
 
         # ✅ GENERATE PDF
         pdf_file = generate_pdf(machine_data)
-        # Footer line
-        pdf.setFont("Helvetica", 9)
-        pdf.drawString(
-            50, 50,
-            "Engineering screening tool only. Final machine approval requires OEM/application engineer validation."
-        )
-
+        
     except Exception as e:
         st.warning(f"PDF generation error: {e}")
 
