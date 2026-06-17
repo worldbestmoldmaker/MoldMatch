@@ -799,7 +799,7 @@ if 'best' in locals() and best is not None:
             "model": best.get("Model", "Unknown Model"),
         
             "platen_x": best.get("Platen X (mm)", "N/A"),
-            "platen_y": best.get("Platen Y (mm)") or "N/A",
+            "platen_y": best.get("Platen Y (mm)"), "N/A"),
             #"platen_y": best.get("Platen Y (mm)", "N/A"),
             "tie_bar_x": best.get("Tie Bar X (mm)") or "N/A",
             #"tie_bar_x": best.get("Tie Bar X (mm)", "N/A"),
