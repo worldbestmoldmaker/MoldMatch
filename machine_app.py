@@ -339,7 +339,9 @@ if st.button("Click to Run"):
             "Model": m["Model"],
             "Clamp (ton)": m["Clamp Force (ton)"],
             "Platen X (mm)": m["Platen X (mm)"], 
-            "Tie Bar Y (mm)": m["Tie Bar Y (mm)"],
+            "Platen Y (mm)": m["Platen Y (mm)"],
+            "Tie Bar X (mm)": m["Tie Bar X (mm)"],
+            "Tie Bar Y (mm)": m["Tie Bar Y (mm)"],            
             "Daylight Max (mm)": m["Daylight Max (mm)"], # shown
             "Shot Weight (g)": m["Shot Weight (g)"],
             "Screw Size (mm)": m["Screw Size (mm)"],
