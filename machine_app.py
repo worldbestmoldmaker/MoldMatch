@@ -91,7 +91,7 @@ st.markdown(
 st.markdown(
     """
     <div style='text-align:center;'>
-        <h2>MoldMatch</h2>
+        <h2>Please send comments to:</h2>
         <p><strong>Email:</strong> info@moldmatchapp.com</p>
     </div>
     """,
