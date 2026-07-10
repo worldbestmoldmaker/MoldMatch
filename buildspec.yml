@@ -1,0 +1,16 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - pip install -r requirements.txt
+    build:
+      commands:
+        - streamlit run machine_app.py --server.port=3000 --server.address=0.0.0.0
+  artifacts:
+    baseDirectory: /
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
