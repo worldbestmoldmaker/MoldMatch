@@ -101,7 +101,6 @@ st.markdown(
 st.markdown(
     """
     <div style="text-align:center; font-size:18px; padding:10px;">
-#        Please send comments to:<br>
         📧 <a href="mailto:info@moldmatchapp.com">
         info@moldmatchapp.com
         </a>
