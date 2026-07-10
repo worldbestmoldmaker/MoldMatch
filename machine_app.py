@@ -98,7 +98,18 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+st.markdown(
+    """
+    <div style='text-align:center; font-size:16px;'>
+	<h2>Please send comments to:</h2>
 
+        📧 <a href="mailto:info@moldmatchapp.com">
+            info@moldmatchapp.com
+        </a>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 # ---------------------------
 # LOAD DATA
 # ---------------------------
