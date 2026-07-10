@@ -98,7 +98,7 @@ st.markdown(
 )
 
 st.markdown(
-    "📧 <a href='mailto:info@moldmatchapp.com'>info@moldmatchapp.com</a>",
+    <h2>"📧 <a href='mailto:info@moldmatchapp.com'>info@moldmatchapp.com</a>",</h2> 
     unsafe_allow_html=True
 )
 
