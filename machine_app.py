@@ -97,15 +97,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.markdown(
-    "📧 <a href='mailto:info@moldmatchapp.com'>info@moldmatchapp.com</a>",
-    unsafe_allow_html=True
-)
 
 st.markdown(
     """
     <div style="text-align:center; font-size:18px; padding:10px;">
-        Please send comments to:<br>
+#        Please send comments to:<br>
         📧 <a href="mailto:info@moldmatchapp.com">
         info@moldmatchapp.com
         </a>
