@@ -86,6 +86,20 @@ st.markdown(
 )
 
 # ---------------------------
+# TITLE
+# ---------------------------
+st.markdown(
+    """
+    <div style='text-align:center;'>
+        <h2>MoldMatch</h2>
+        <p><strong>Email:</strong> info@moldmatchapp.com</p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+
+# ---------------------------
 # LOAD DATA
 # ---------------------------
 @st.cache_data
