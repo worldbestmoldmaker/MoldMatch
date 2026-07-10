@@ -92,14 +92,14 @@ st.markdown(
     """
     <div style='text-align:center;'>
         <h2>Please send comments to:</h2>
-        <p><strong>Email:</strong> info@moldmatchapp.com</p>
+        #<p><strong>Email:</strong> info@moldmatchapp.com</p>
     </div>
     """,
     unsafe_allow_html=True
 )
 
 st.markdown(
-    "Please send comments to: 📧 <a href='mailto:info@moldmatchapp.com'>info@moldmatchapp.com</a>",
+    "📧 <a href='mailto:info@moldmatchapp.com'>info@moldmatchapp.com</a>",
     unsafe_allow_html=True
 )
 
