@@ -101,6 +101,7 @@ st.markdown(
 st.markdown(
     """
     <div style="text-align:center; font-size:18px; padding:10px;">
+	Please let us know if you have a machine that should be included in our database.<br><br>
         📧 <a href="mailto:info@moldmatchapp.com">
         info@moldmatchapp.com
         </a>
@@ -108,6 +109,8 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+
 
 # ---------------------------
 # LOAD DATA
