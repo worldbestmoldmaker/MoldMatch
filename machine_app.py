@@ -62,12 +62,11 @@ def generate_pdf(machine_data):
 log_path = os.path.join(os.getcwd(), "view_log.txt")
 
 # Log visit once per session
-if "view_logged" not in st.session_state:
+#if "view_logged" not in st.session_state:
+#    st.session_state.view_logged = True
 
-    st.session_state.view_logged = True
-
-    with open(log_path, "a") as f:
-        f.write(f"{datetime.now()} | user visited\n")
+with open(log_path, "a") as f:
+    f.write(f"{datetime.now()} | user visited\n")
 
 # Count visits
 with open(log_path, "r") as f:
