@@ -1,6 +1,5 @@
 import streamlit as st
-import re
-from io import BytesIO
+from pypdf import PdfReader
 
 # ============================================================
 # MOLD QUALITY ANALYZER
@@ -14,7 +13,7 @@ st.set_page_config(
 )
 
 # ============================================================
-# RULES
+# SCORING RULES
 # ============================================================
 
 MATERIAL_RULES = [
@@ -77,8 +76,7 @@ COMPONENT_RULES = [
 
 CONSTRUCTION_RULES = [
     (
-        ["guided ejection", "ejection guide",
-         "ejector guide"],
+        ["guided ejection", "ejection guide", "ejector guide"],
         12,
         "Guided ejection specified"
     ),
@@ -106,8 +104,7 @@ CONSTRUCTION_RULES = [
     ),
     (
         ["hot runner", "valve gate", "mold-master",
-         "mold masters", "synventive", "husky",
-         "yudo"],
+         "mold masters", "synventive", "husky", "yudo"],
         12,
         "Runner/gating system identified"
     ),
@@ -118,8 +115,7 @@ CONSTRUCTION_RULES = [
         "Molding simulation included"
     ),
     (
-        ["spare parts", "wear parts",
-         "replacement parts"],
+        ["spare parts", "wear parts", "replacement parts"],
         6,
         "Spare/wear-parts package included"
     ),
@@ -137,14 +133,12 @@ MAKER_RULES = [
         "ISO 13485 medical quality system referenced"
     ),
     (
-        ["medical tooling", "medical mold",
-         "medical device"],
+        ["medical tooling", "medical mold", "medical device"],
         12,
         "Medical tooling experience stated"
     ),
     (
-        ["in-house design", "in house design",
-         "design department"],
+        ["in-house design", "in house design", "design department"],
         10,
         "In-house mold design capability stated"
     ),
@@ -176,8 +170,7 @@ QUOTE_RULES = [
         "Mold life/warranty stated"
     ),
     (
-        ["lead time", "delivery weeks",
-         "delivery date"],
+        ["lead time", "delivery weeks", "delivery date"],
         10,
         "Lead time stated"
     ),
@@ -188,20 +181,17 @@ QUOTE_RULES = [
         "Trial/acceptance process included"
     ),
     (
-        ["drawing", "3d data", "cad",
-         "documentation"],
+        ["drawing", "3d data", "cad", "documentation"],
         10,
         "Engineering documentation included"
     ),
     (
-        ["inspection report", "dimensional report",
-         "cmm report"],
+        ["inspection report", "dimensional report", "cmm report"],
         15,
         "Dimensional inspection report included"
     ),
     (
-        ["maintenance", "preventive maintenance",
-         "pm schedule"],
+        ["maintenance", "preventive maintenance", "pm schedule"],
         10,
         "Maintenance requirements included"
     ),
@@ -214,14 +204,13 @@ QUOTE_RULES = [
 ]
 
 # ============================================================
-# CLARIFICATION QUESTIONS
+# SUPPLIER CLARIFICATION RULES
 # ============================================================
 
 CLARIFICATION_RULES = [
     (
-        ["cavity steel", "core steel",
-         "h13", "s136", "p20",
-         "1.2344", "1.2083"],
+        ["cavity steel", "core steel", "h13", "s136",
+         "p20", "1.2344", "1.2083"],
         "Please identify the exact cavity and core steel grades, "
         "steel manufacturer, and country of origin."
     ),
@@ -239,18 +228,18 @@ CLARIFICATION_RULES = [
     (
         ["dme", "hasco", "misumi", "meusburger",
          "progressive components"],
-        "Please provide the purchased-component BOM including "
+        "Please provide the purchased-component BOM, including "
         "manufacturer and component part numbers."
     ),
     (
         ["mold base"],
         "Please identify the mold-base manufacturer, plate "
-        "materials and plate hardness."
+        "materials, and plate hardness."
     ),
     (
         ["hot runner", "cold runner", "valve gate"],
-        "Please confirm the runner/gating system and identify "
-        "the manufacturer and model."
+        "Please confirm the runner/gating system, including the "
+        "hot-runner manufacturer and model where applicable."
     ),
     (
         ["mold life", "tool life",
@@ -261,12 +250,12 @@ CLARIFICATION_RULES = [
     (
         ["inspection report", "dimensional report", "cmm"],
         "Please define the dimensional inspection plan, report "
-        "format and measurement equipment."
+        "format, sampling requirements, and measurement equipment."
     ),
     (
         ["acceptance criteria", "mold acceptance", "fat", "sat"],
         "Please define mold acceptance criteria, trial material, "
-        "trial duration, cycle-time target and approval responsibilities."
+        "trial duration, cycle-time target, and approval responsibilities."
     ),
     (
         ["spare parts", "wear parts"],
@@ -277,11 +266,11 @@ CLARIFICATION_RULES = [
         ["cooling circuit", "water line",
          "conformal cooling", "baffle", "bubbler"],
         "Please provide the cooling-circuit layout, connection "
-        "standard and expected flow requirements."
+        "standard, flow target, and pressure-drop information."
     ),
     (
         ["venting", "vent depth"],
-        "Please define mold vent locations and recommended vent "
+        "Please define the vent locations and recommended vent "
         "depth for the specified resin."
     ),
     (
@@ -291,8 +280,8 @@ CLARIFICATION_RULES = [
     ),
     (
         ["moldflow", "mold flow", "simulation"],
-        "Please confirm whether filling, packing, cooling and "
-        "warpage simulation are included."
+        "Please confirm whether filling, packing, cooling, and "
+        "warpage simulation are included and provide the final report."
     ),
 ]
 
@@ -301,11 +290,14 @@ CLARIFICATION_RULES = [
 # ============================================================
 
 def contains_any(text, keywords):
+    """Return True when any keyword is present."""
     text = text.lower()
     return any(keyword.lower() in text for keyword in keywords)
 
 
 def evaluate_rules(text, rules):
+    """Calculate score and return detected strengths."""
+
     score = 0
     detected = []
 
@@ -318,13 +310,40 @@ def evaluate_rules(text, rules):
 
 
 def generate_clarifications(text):
+    """Generate clarification questions from missing quote info."""
+
     questions = []
 
     for keywords, question in CLARIFICATION_RULES:
+
         if not contains_any(text, keywords):
             questions.append(question)
 
     return questions
+
+
+def extract_pdf_text(uploaded_file):
+    """Extract selectable text from a PDF quotation."""
+
+    reader = PdfReader(uploaded_file)
+
+    pages = []
+
+    for page_number, page in enumerate(reader.pages, start=1):
+
+        try:
+            page_text = page.extract_text()
+
+            if page_text:
+                pages.append(
+                    f"\n--- PAGE {page_number} ---\n"
+                    f"{page_text}"
+                )
+
+        except Exception:
+            continue
+
+    return "\n".join(pages)
 
 
 def calculate_quality(
@@ -333,6 +352,10 @@ def calculate_quality(
     tolerance,
     application
 ):
+
+    # --------------------------------------------------------
+    # Individual evaluations
+    # --------------------------------------------------------
 
     material_score, material_hits = evaluate_rules(
         text,
@@ -360,7 +383,7 @@ def calculate_quality(
     )
 
     # --------------------------------------------------------
-    # Mold Construction
+    # Mold Construction Score
     #
     # Materials     40%
     # Construction  40%
@@ -376,7 +399,7 @@ def calculate_quality(
     risks = []
 
     # ========================================================
-    # ENGINEERING PENALTIES
+    # HIGH MOLD-LIFE CHECK
     # ========================================================
 
     if (
@@ -394,12 +417,17 @@ def calculate_quality(
             ]
         )
     ):
+
         mold_construction -= 12
 
         risks.append(
             "High mold-life requirement entered, but adequate "
             "evidence of hardened tooling steel was not detected."
         )
+
+    # ========================================================
+    # TIGHT TOLERANCE CHECK
+    # ========================================================
 
     if (
         tolerance <= 0.020
@@ -412,12 +440,17 @@ def calculate_quality(
             ]
         )
     ):
+
         mold_construction -= 8
 
         risks.append(
             "Tight part tolerance entered, but no dimensional "
             "inspection plan was detected."
         )
+
+    # ========================================================
+    # MEDICAL / PRECISION APPLICATION CHECK
+    # ========================================================
 
     if (
         application == "Medical / Precision"
@@ -431,6 +464,7 @@ def calculate_quality(
             ]
         )
     ):
+
         maker_score -= 10
 
         risks.append(
@@ -438,409 +472,67 @@ def calculate_quality(
             "validation or traceability evidence was detected."
         )
 
+    # ========================================================
+    # GENERAL RISK CHECKS
+    # ========================================================
+
     if not contains_any(
         text,
-        ["mold life", "tool life", "cycles warranty"]
+        [
+            "mold life",
+            "tool life",
+            "cycles warranty",
+            "shots warranty"
+        ]
     ):
+
         risks.append(
             "No mold-life commitment was detected."
         )
 
     if not contains_any(
         text,
-        ["steel certificate", "material certificate",
-         "mill certificate"]
+        [
+            "steel certificate",
+            "material certificate",
+            "mill certificate"
+        ]
     ):
+
         risks.append(
-            "No steel certification/traceability commitment detected."
+            "No steel certification or traceability "
+            "commitment was detected."
         )
 
     if not contains_any(
         text,
-        ["spare parts", "wear parts"]
+        [
+            "spare parts",
+            "wear parts"
+        ]
     ):
+
         risks.append(
-            "No spare or wear-parts package detected."
+            "No spare or wear-parts package was detected."
         )
-
-    mold_construction = max(0, min(mold_construction, 100))
-    maker_score = max(0, min(maker_score, 100))
-    quote_score = max(0, min(quote_score, 100))
 
     # --------------------------------------------------------
-    # Overall MoldMatch Score
+    # Keep scores between 0 and 100
     # --------------------------------------------------------
 
-    overall = round(
-        mold_construction * 0.45
-        + maker_score * 0.25
-        + quote_score * 0.30
+    mold_construction = max(
+        0,
+        min(mold_construction, 100)
     )
 
-    strengths = (
-        material_hits
-        + component_hits
-        + construction_hits
-        + maker_hits
-        + quote_hits
+    maker_score = max(
+        0,
+        min(maker_score, 100)
     )
 
-    questions = generate_clarifications(text)
-
-    return {
-        "overall": overall,
-        "construction": mold_construction,
-        "maker": maker_score,
-        "quote": quote_score,
-        "strengths": strengths,
-        "risks": risks,
-        "questions": questions,
-    }
-
-
-def score_status(score):
-
-    if score >= 85:
-        return "🟢 Preferred"
-
-    elif score >= 70:
-        return "🟡 Accept with Clarification"
-
-    elif score >= 55:
-        return "🟠 Conditional / Engineering Review"
-
-    else:
-        return "🔴 High Risk"
-
-
-# ============================================================
-# USER INTERFACE
-# ============================================================
-
-st.title("🛠️ Mold Quality Analyzer")
-
-st.caption(
-    "MoldMatch | Supplier Quote Technical Assessment"
-)
-
-st.info(
-    "Upload or paste a supplier quotation. "
-    "The analyzer reviews mold construction, mold-maker "
-    "capability and quotation completeness."
-)
-
-# ============================================================
-# INPUT
-# ============================================================
-
-left, right = st.columns([1.3, 1])
-
-with left:
-
-    st.subheader("Supplier Quotation")
-
-    uploaded_file = st.file_uploader(
-        "Upload quotation",
-        type=["txt"]
+    quote_score = max(
+        0,
+        min(quote_score, 100)
     )
 
-    quote_text = ""
-
-    if uploaded_file:
-
-        try:
-
-            quote_text = uploaded_file.read().decode(
-                "utf-8",
-                errors="ignore"
-            )
-
-        except Exception:
-            st.error("Unable to read quotation.")
-
-    quote_text = st.text_area(
-        "Quotation text",
-        value=quote_text,
-        height=350,
-        placeholder=(
-            "Paste quotation, mold specification, "
-            "steel list, standard components, "
-            "hot runner details, warranty, etc."
-        )
-    )
-
-
-with right:
-
-    st.subheader("Application Requirements")
-
-    supplier_name = st.text_input(
-        "Mold Maker"
-    )
-
-    application = st.selectbox(
-        "Application",
-        [
-            "Medical / Precision",
-            "Automotive",
-            "Consumer",
-            "Packaging",
-            "Industrial"
-        ]
-    )
-
-    resin = st.selectbox(
-        "Molded Material",
-        [
-            "PP",
-            "PE",
-            "ABS",
-            "PC",
-            "PA / Nylon",
-            "POM",
-            "PEEK",
-            "Optical / Medical Resin",
-            "Other"
-        ]
-    )
-
-    cavities = st.number_input(
-        "Number of Cavities",
-        min_value=1,
-        max_value=512,
-        value=4
-    )
-
-    required_cycles = st.number_input(
-        "Required Mold Life (cycles)",
-        min_value=1,
-        max_value=100_000_000,
-        value=1_000_000,
-        step=100_000
-    )
-
-    tolerance = st.number_input(
-        "Tightest Part Tolerance (mm)",
-        min_value=0.001,
-        max_value=5.000,
-        value=0.020,
-        step=0.001,
-        format="%.3f"
-    )
-
-
-# ============================================================
-# ANALYSIS
-# ============================================================
-
-st.divider()
-
-if st.button(
-    "🔍 Analyze Mold Quote",
-    type="primary",
-    use_container_width=True
-):
-
-    if len(quote_text.strip()) < 40:
-
-        st.error(
-            "Please upload or paste the supplier quotation."
-        )
-
-    else:
-
-        result = calculate_quality(
-            quote_text.lower(),
-            required_cycles,
-            tolerance,
-            application
-        )
-
-        # ====================================================
-        # OVERALL RESULT
-        # ====================================================
-
-        st.header("Mold Quality Assessment")
-
-        st.metric(
-            "Overall MoldMatch Score",
-            f"{result['overall']} / 100"
-        )
-
-        st.markdown(
-            f"### {score_status(result['overall'])}"
-        )
-
-        st.progress(
-            result["overall"] / 100
-        )
-
-        # ====================================================
-        # THREE CORE SCORES
-        # ====================================================
-
-        c1, c2, c3 = st.columns(3)
-
-        with c1:
-
-            st.metric(
-                "🛠️ Mold Construction",
-                f"{result['construction']} / 100"
-            )
-
-            st.progress(
-                result["construction"] / 100
-            )
-
-        with c2:
-
-            st.metric(
-                "🏭 Mold Maker Confidence",
-                f"{result['maker']} / 100"
-            )
-
-            st.progress(
-                result["maker"] / 100
-            )
-
-        with c3:
-
-            st.metric(
-                "📄 Quote Confidence",
-                f"{result['quote']} / 100"
-            )
-
-            st.progress(
-                result["quote"] / 100
-            )
-
-        # ====================================================
-        # STRENGTHS
-        # ====================================================
-
-        st.subheader("✅ Detected Strengths")
-
-        if result["strengths"]:
-
-            for item in result["strengths"][:12]:
-                st.write(f"✓ {item}")
-
-        else:
-
-            st.warning(
-                "No significant technical strengths "
-                "were detected in the quotation."
-            )
-
-        # ====================================================
-        # RISKS
-        # ====================================================
-
-        st.subheader("⚠️ Technical Risks")
-
-        if result["risks"]:
-
-            for risk in result["risks"]:
-                st.warning(risk)
-
-        else:
-
-            st.success(
-                "No major rule-based technical risks detected."
-            )
-
-        # ====================================================
-        # CLARIFICATION LIST
-        # ====================================================
-
-        st.header("📋 Supplier Clarification List")
-
-        st.caption(
-            "Generated automatically from missing information "
-            "in the quotation."
-        )
-
-        questions = result["questions"]
-
-        if questions:
-
-            clarification_text = ""
-
-            for number, question in enumerate(
-                questions,
-                start=1
-            ):
-
-                st.write(
-                    f"**{number}.** {question}"
-                )
-
-                clarification_text += (
-                    f"{number}. {question}\n\n"
-                )
-
-            st.download_button(
-                "⬇️ Download Clarification List",
-                clarification_text,
-                file_name="supplier_clarification_list.txt",
-                mime="text/plain"
-            )
-
-        else:
-
-            st.success(
-                "No standard clarification gaps detected."
-            )
-
-        # ====================================================
-        # FINAL RECOMMENDATION
-        # ====================================================
-
-        st.header("Recommendation")
-
-        score = result["overall"]
-
-        if score >= 85:
-
-            st.success(
-                "PREFERRED: The quotation provides strong evidence "
-                "of a production-ready mold. Close remaining "
-                "clarification items before PO release."
-            )
-
-        elif score >= 70:
-
-            st.warning(
-                "ACCEPT WITH CLARIFICATION: The proposal appears "
-                "technically promising, but clarification items "
-                "should be closed in writing before PO release."
-            )
-
-        elif score >= 55:
-
-            st.warning(
-                "CONDITIONAL: Require a revised technical "
-                "specification and engineering design review "
-                "before supplier selection."
-            )
-
-        else:
-
-            st.error(
-                "HIGH RISK: Significant technical or documentation "
-                "gaps exist. Do not release the PO based on the "
-                "current quotation alone."
-            )
-
-# ============================================================
-# DISCLAIMER
-# ============================================================
-
-st.divider()
-
-st.caption(
-    "MoldMatch Mold Quality Analyzer is a screening and "
-    "decision-support tool. Final mold approval should include "
-    "engineering review of the mold design, materials, mold-flow "
-    "analysis, tolerances, validation requirements and application."
-)
+    # ===
