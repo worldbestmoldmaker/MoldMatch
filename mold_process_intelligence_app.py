@@ -136,6 +136,7 @@ def measurement_analysis(df):
 
 def pass_fail_drivers(df):
     st.subheader("Pass/fail measurement separation")
+    st.caption("This analysis uses the active Result shown in the sidebar: calculated specifications when enabled, otherwise the original FISBA pass/fail field.")
     known=df[df.Result.isin(["Pass","Fail"])]
     rows=[]
     for c in METRICS:
@@ -186,49 +187,54 @@ def main():
         data=add_anomalies(data,available)
 
         st.header("Pass/Fail Specifications")
-        st.caption("Enable only the FISBA measurements that should determine the calculated result.")
-        use_specs = st.checkbox("Use editable specification limits", value=False)
+        st.caption("Change the limits below. The app immediately recalculates every inspection result.")
+        use_specs = st.toggle("Use calculated Pass/Fail from specification limits", value=False, key="use_calculated_specs")
         spec_defaults = {
-            "DeltaR": (-10.0, 10.0),
-            "PV": (0.0, 700.0),
-            "RadSPHDev": (-0.010, 0.010),
-            "Toricity": (-0.010, 0.010),
-            "Coma": (-100.0, 100.0),
-            "C4 (c2,2)": (-100.0, 100.0),
-            "C5 (s2,2)": (-200.0, 200.0),
-            "C8 (4,0)": (-100.0, 100.0),
+            "DeltaR": (-10.0, 10.0), "PV": (0.0, 700.0),
+            "RadSPHDev": (-0.010, 0.010), "Toricity": (-0.010, 0.010),
+            "Coma": (-100.0, 100.0), "C4 (c2,2)": (-100.0, 100.0),
+            "C5 (s2,2)": (-200.0, 200.0), "C8 (4,0)": (-100.0, 100.0),
         }
         enabled_specs = {}
         if use_specs:
             for metric, (default_lsl, default_usl) in spec_defaults.items():
-                with st.expander(metric, expanded=(metric in ["DeltaR", "PV", "RadSPHDev"])):
-                    enabled = st.checkbox(f"Use {metric}", value=(metric in ["DeltaR", "PV", "RadSPHDev"]), key=f"use_spec_{metric}")
+                enabled = st.checkbox(f"Use {metric}", value=(metric in ["DeltaR", "PV", "RadSPHDev"]), key=f"spec_enabled_{metric}")
+                if enabled:
                     c1, c2 = st.columns(2)
-                    lsl = c1.number_input(f"{metric} LSL", value=float(default_lsl), format="%.6f", key=f"lsl_{metric}")
-                    usl = c2.number_input(f"{metric} USL", value=float(default_usl), format="%.6f", key=f"usl_{metric}")
-                    if enabled:
-                        if lsl >= usl:
-                            st.error(f"{metric}: LSL must be less than USL.")
-                        else:
-                            enabled_specs[metric] = (lsl, usl)
+                    lsl = c1.number_input(f"{metric} LSL", value=float(default_lsl), format="%.6f", key=f"spec_lsl_{metric}")
+                    usl = c2.number_input(f"{metric} USL", value=float(default_usl), format="%.6f", key=f"spec_usl_{metric}")
+                    if lsl >= usl:
+                        st.error(f"{metric}: LSL must be less than USL.")
+                    else:
+                        enabled_specs[metric] = (lsl, usl)
+
+            data["Original Result"] = data["Result"].copy()
             if enabled_specs:
-                calc_pass = pd.Series(True, index=data.index)
-                any_measured = pd.Series(False, index=data.index)
+                pass_mask = pd.Series(True, index=data.index, dtype=bool)
+                complete_mask = pd.Series(True, index=data.index, dtype=bool)
+                failure_lists = [[] for _ in range(len(data))]
                 for metric, (lsl, usl) in enabled_specs.items():
                     measured = data[metric].notna()
-                    any_measured |= measured
-                    calc_pass &= (~measured) | data[metric].between(lsl, usl, inclusive="both")
-                data["Original Result"] = data["Result"]
-                data["Result"] = np.select([~any_measured, calc_pass], ["Unknown", "Pass"], default="Fail")
-                data["Spec Failures"] = ""
-                for idx in data.index:
-                    failed = [m for m,(lsl,usl) in enabled_specs.items() if pd.notna(data.at[idx,m]) and not (lsl <= data.at[idx,m] <= usl)]
-                    data.at[idx,"Spec Failures"] = ", ".join(failed)
-                st.caption(f"Calculated Pass/Fail is active using {len(enabled_specs)} enabled specification(s). Limits are inclusive.")
+                    within = data[metric].between(lsl, usl, inclusive="both")
+                    complete_mask &= measured
+                    pass_mask &= measured & within
+                    failed_positions = np.flatnonzero((measured & ~within).to_numpy())
+                    missing_positions = np.flatnonzero((~measured).to_numpy())
+                    for pos in failed_positions: failure_lists[pos].append(metric)
+                    for pos in missing_positions: failure_lists[pos].append(f"{metric} missing")
+                data["Calculated Result"] = np.where(~complete_mask, "Unknown", np.where(pass_mask, "Pass", "Fail"))
+                data["Spec Failures"] = [", ".join(x) for x in failure_lists]
+                data["Result"] = data["Calculated Result"]
+                original_pass = int((data["Original Result"] == "Pass").sum())
+                calculated_pass = int((data["Calculated Result"] == "Pass").sum())
+                calculated_fail = int((data["Calculated Result"] == "Fail").sum())
+                calculated_unknown = int((data["Calculated Result"] == "Unknown").sum())
+                st.success(f"Calculated result is ACTIVE: {calculated_pass} Pass, {calculated_fail} Fail, {calculated_unknown} Unknown. Original file had {original_pass} Pass.")
             else:
-                st.warning("Turn on at least one measurement to calculate Pass/Fail from specifications.")
+                st.warning("No valid specifications are enabled, so the original FISBA pass/fail result is still being used.")
         else:
-            st.caption("Using the original pass/fail values from the uploaded FISBA file.")
+            data["Result Source"] = "Original FISBA pass/fail"
+            st.info("Result source: original FISBA pass/fail column.")
 
         st.header("Filters")
         cavities=sorted(data.Cav.dropna().unique().tolist())
