@@ -184,6 +184,52 @@ def main():
         except Exception as e: st.error(str(e)); st.stop()
         available=[c for c in ["DeltaR","PV","RadSPHDev","Toricity","Coma","C4 (c2,2)","C5 (s2,2)","C8 (4,0)"] if data[c].notna().sum()>=5]
         data=add_anomalies(data,available)
+
+        st.header("Pass/Fail Specifications")
+        st.caption("Enable only the FISBA measurements that should determine the calculated result.")
+        use_specs = st.checkbox("Use editable specification limits", value=False)
+        spec_defaults = {
+            "DeltaR": (-10.0, 10.0),
+            "PV": (0.0, 700.0),
+            "RadSPHDev": (-0.010, 0.010),
+            "Toricity": (-0.010, 0.010),
+            "Coma": (-100.0, 100.0),
+            "C4 (c2,2)": (-100.0, 100.0),
+            "C5 (s2,2)": (-200.0, 200.0),
+            "C8 (4,0)": (-100.0, 100.0),
+        }
+        enabled_specs = {}
+        if use_specs:
+            for metric, (default_lsl, default_usl) in spec_defaults.items():
+                with st.expander(metric, expanded=(metric in ["DeltaR", "PV", "RadSPHDev"])):
+                    enabled = st.checkbox(f"Use {metric}", value=(metric in ["DeltaR", "PV", "RadSPHDev"]), key=f"use_spec_{metric}")
+                    c1, c2 = st.columns(2)
+                    lsl = c1.number_input(f"{metric} LSL", value=float(default_lsl), format="%.6f", key=f"lsl_{metric}")
+                    usl = c2.number_input(f"{metric} USL", value=float(default_usl), format="%.6f", key=f"usl_{metric}")
+                    if enabled:
+                        if lsl >= usl:
+                            st.error(f"{metric}: LSL must be less than USL.")
+                        else:
+                            enabled_specs[metric] = (lsl, usl)
+            if enabled_specs:
+                calc_pass = pd.Series(True, index=data.index)
+                any_measured = pd.Series(False, index=data.index)
+                for metric, (lsl, usl) in enabled_specs.items():
+                    measured = data[metric].notna()
+                    any_measured |= measured
+                    calc_pass &= (~measured) | data[metric].between(lsl, usl, inclusive="both")
+                data["Original Result"] = data["Result"]
+                data["Result"] = np.select([~any_measured, calc_pass], ["Unknown", "Pass"], default="Fail")
+                data["Spec Failures"] = ""
+                for idx in data.index:
+                    failed = [m for m,(lsl,usl) in enabled_specs.items() if pd.notna(data.at[idx,m]) and not (lsl <= data.at[idx,m] <= usl)]
+                    data.at[idx,"Spec Failures"] = ", ".join(failed)
+                st.caption(f"Calculated Pass/Fail is active using {len(enabled_specs)} enabled specification(s). Limits are inclusive.")
+            else:
+                st.warning("Turn on at least one measurement to calculate Pass/Fail from specifications.")
+        else:
+            st.caption("Using the original pass/fail values from the uploaded FISBA file.")
+
         st.header("Filters")
         cavities=sorted(data.Cav.dropna().unique().tolist())
         chosen_cav=st.multiselect("Cavity",cavities,default=cavities)
