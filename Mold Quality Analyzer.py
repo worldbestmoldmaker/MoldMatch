@@ -24,13 +24,13 @@ st.set_page_config(
 # BASE PATH & ASSETS CONFIGURATION
 # -----------------------------------
 base_path = os.path.dirname(__file__)
-logo_file = os.path.join(base_path, "MoldMatchLogo.PNG")
-rico_hero_file = os.path.join(base_path, "RICO.jpg")
+logo_file = os.path.join(base_path, "MoldMatchLogo.png")
+rico_hero_file = os.path.join(base_path, "RicoMold.jpg")
 qr_file = os.path.join(base_path, "moldmatch_qr.png")
 haitian_img = os.path.join(base_path, "Haitian.jpg")
 krauss_img = os.path.join(base_path, "KraussM.jpg")
 arburg_img = os.path.join(base_path, "Arburg.jpg")
-sodick_img = os.path.join(base_path, "RICO.jpg")
+sodick_img = os.path.join(base_path, "Sodick.jpg")
 engel_img = os.path.join(base_path, "Engel.jpg")
 netstal_img = os.path.join(base_path, "Netstal.jpg")
 sumitomo_img = os.path.join(base_path, "Sumitomo.jpg")
