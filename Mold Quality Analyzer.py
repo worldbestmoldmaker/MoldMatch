@@ -23,7 +23,11 @@ st.set_page_config(
 # -----------------------------------
 # BASE PATH & ASSETS CONFIGURATION
 # -----------------------------------
-base_path = os.path.dirname(__file__)
+try:
+    base_path = os.path.abspath(os.path.dirname(__file__))
+except NameError:
+    base_path = os.getcwd()
+
 logo_file = os.path.join(base_path, "MoldMatchLogo.png")
 rico_hero_file = os.path.join(base_path, "RicoMold.jpg")
 qr_file = os.path.join(base_path, "moldmatch_qr.png")
@@ -35,8 +39,6 @@ engel_img = os.path.join(base_path, "Engel.jpg")
 netstal_img = os.path.join(base_path, "Netstal.jpg")
 sumitomo_img = os.path.join(base_path, "Sumitomo.jpg")
 babyplast_img = os.path.join(base_path, "Babyplast.jpg")
-
-
 
 excel_file = os.path.join(base_path, "machines_clean.xlsx")
 log_path = os.path.join(base_path, "view_log.txt")
@@ -108,9 +110,10 @@ def _draw_proportional_block_view(pdf, machine_data):
         pdf.drawString(x, y - 26, inner_label)
 
     # Side view: machine L x H; mold thickness x mold width.
+    mold_width_for_view = min(mold_w, machine_h)
     draw_view(
         "Side View", 50, 415, 512, 230,
-        machine_l, machine_h, mold_t, mold_width_for_view := min(mold_w, machine_h),
+        machine_l, machine_h, mold_t, mold_width_for_view,
         f"Machine envelope: {machine_l:g} L x {machine_h:g} H",
         f"Mold block: {mold_t:g} thickness x {mold_width_for_view:g} height",
     )
@@ -230,18 +233,13 @@ def generate_process_sheet_pdf(machine_data, process_inputs):
     pdf.drawString(60, 540, f"Wall Thickness: {process_inputs['wall_thickness']} mm")
     pdf.drawString(60, 525, f"Gate Size: {process_inputs['gate_size']} mm")
     pdf.drawString(60, 510, f"Runner System: {process_inputs['runner_type']}")
-    
+
     if process_inputs['runner_type'] == "Cold Runner":
         runner_str = f"- Cold Runner Weight: {process_inputs['cold_runner_weight']} g"
         pdf.drawString(60, 495, f"Cold Runner Weight: {process_inputs['cold_runner_weight']} g")
-        prompt_y = 465
     else:
         runner_str = ""
-        prompt_y = 480
 
-    # AI instructions are embedded invisibly below and are not rendered on the page.
-    # Keep the original thermoplastic prompt, but automatically use an LSR-specific
-    # prompt when the LSR database/material/machine is selected.
     is_lsr = (
         str(process_inputs.get("material", "")).strip().upper() == "LSR"
         or str(machine_data.get("model", "")).strip().upper().endswith("-LSR")
@@ -310,8 +308,6 @@ def generate_process_sheet_pdf(machine_data, process_inputs):
     else:
         prompt_text = thermoplastic_prompt
 
-    # PDF text rendering mode 3 stores text in the PDF text layer but does not
-    # paint it on screen or on paper. This is stronger than white/off-page text.
     pdf.saveState()
     text_obj = pdf.beginText(20, 20)
     text_obj.setFont("Helvetica", 1)
@@ -595,8 +591,6 @@ def check(machine):
         reasons.append("Too long")
 
     tie_y = machine.get("Tie Bar Y (mm)")
-    platen_y = machine.get("Platen Y (mm)")
-
     if pd.notna(tie_y) and mold_width > tie_y:
         reasons.append("Too wide")
 
@@ -607,17 +601,14 @@ def check(machine):
         reasons.append("Too thin")
 
     if pd.notna(daylight_max) and required_opening > daylight_max:
-        reasons.append("Too thick")
+        reasons.append("Insufficient daylight")
 
     clamp_force = machine.get("Clamp Force (ton)", 0)
     if not (clamp_min <= clamp_force <= clamp_max):
         reasons.append("Clamp out of range")
 
-    if pd.notna(daylight_max) and required_opening > daylight_max:
-        reasons.append("Insufficient daylight")
-
     shot_capacity = machine.get("Shot Weight (g)")
-    
+
     if pd.notna(shot_capacity):
         utilization = shot_weight / shot_capacity
         if utilization > 0.8:
@@ -748,7 +739,8 @@ if run_analysis:
             st.dataframe(failed_df.head(10), use_container_width=True)
 
         st.header("📊 Results Analysis")
-        machine_row = df[df["Model"] == best["Model"]].iloc[0]
+        matched_rows = df[(df["OEM"] == best["OEM"]) & (df["Model"] == best["Model"])]
+        machine_row = matched_rows.iloc[0] if not matched_rows.empty else df[df["Model"] == best["Model"]].iloc[0]
         platen_x = machine_row["Platen X (mm)"]
         platen_y = machine_row["Platen Y (mm)"]
         daylight_max = machine_row["Daylight Max (mm)"]
@@ -855,13 +847,13 @@ if 'valid' in locals() and len(valid) > 0:
     d = 15
 
     y0_value = (platen_height - tie_bar_y) / 2
-    
+
     fig.add_shape(
         row=1,
-        col=1, 
-        type="line",  
+        col=1,
+        type="line",
         x0=0,
-        y0=y0_value - d,        
+        y0=y0_value - d,
         x1=platen_open,
         y1=y0_value - d,
         line=dict(color="black", width=d)
@@ -878,9 +870,9 @@ if 'valid' in locals() and len(valid) > 0:
         line=dict(color="black", width=d)
     )
 
-    mold_x0 = platen_open - mold_height      
+    mold_x0 = platen_open - mold_height
     mold_y0 = (platen_height - mold_width) / 2
-    mold_x1 = mold_x0 + mold_height    
+    mold_x1 = mold_x0 + mold_height
     mold_y1 = mold_y0 + mold_width
 
     fig.add_shape(
@@ -965,11 +957,10 @@ if 'valid' in locals() and len(valid) > 0:
         line=dict(color="black", width=d),
         row=1,
         col=2
-    )      
+    )
 
     fig.update_layout(
         height=350,
-        width=950,
         showlegend=False,
         margin=dict(l=10, r=10, t=40, b=10)
     )
@@ -979,7 +970,7 @@ if 'valid' in locals() and len(valid) > 0:
     fig.update_xaxes(visible=False, range=[-50, platen_height + 120], row=1, col=2)
     fig.update_yaxes(visible=False, range=[-50, platen_open + 120], scaleanchor="x", scaleratio=1, row=1, col=2)
 
-    st.plotly_chart(fig, use_container_width=False, key="mold_platen_views")
+    st.plotly_chart(fig, use_container_width=True, key="mold_platen_views")
 
 else:
     st.warning("No valid machine found")
@@ -1093,13 +1084,9 @@ if 'best' in locals() and best is not None:
             st.write(f"Required Shot 2: {shot_2_weight:.1f} g")
             st.write(f"Material: {shot_2_material}")
 
-
-
-
-
         pdf_file = generate_pdf(machine_data)
         process_pdf_file = generate_process_sheet_pdf(machine_data, process_inputs)
-        
+
     except Exception as e:
         st.warning(f"PDF generation error: {e}")
 
