@@ -1,18 +1,11 @@
 import os
 import re
+from io import BytesIO
 import pandas as pd
 import streamlit as st
-import plotly.graph_objects as go
-import plotly.io as pio
-import time
-import numpy as np
-
-from reportlab.pdfgen import canvas
-from reportlab.lib.utils import ImageReader
-from reportlab.lib.pagesizes import letter
-from io import BytesIO
 from plotly.subplots import make_subplots
-from datetime import datetime
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 st.set_page_config(
     page_title="MoldMatch | RICO Mold Machine Matching",
@@ -29,24 +22,11 @@ except NameError:
     base_path = os.getcwd()
 
 logo_file = os.path.join(base_path, "MoldMatchLogo.png")
-rico_hero_file = os.path.join(base_path, "RicoMold.jpg")
-qr_file = os.path.join(base_path, "moldmatch_qr.png")
-haitian_img = os.path.join(base_path, "Haitian.jpg")
-krauss_img = os.path.join(base_path, "KraussM.jpg")
-arburg_img = os.path.join(base_path, "Arburg.jpg")
-sodick_img = os.path.join(base_path, "Sodick.jpg")
-engel_img = os.path.join(base_path, "Engel.jpg")
-netstal_img = os.path.join(base_path, "Netstal.jpg")
-sumitomo_img = os.path.join(base_path, "Sumitomo.jpg")
-babyplast_img = os.path.join(base_path, "Babyplast.jpg")
-
 excel_file = os.path.join(base_path, "machines_clean.xlsx")
-log_path = os.path.join(base_path, "view_log.txt")
 
 # -----------------------------------
 # PDF REPORT GENERATORS
 # -----------------------------------
-
 def _parse_dimensions(value):
     """Return the first three numeric dimensions found in an L x W x H value."""
     if value is None or (not isinstance(value, str) and pd.isna(value)):
@@ -71,6 +51,7 @@ def _draw_proportional_block_view(pdf, machine_data):
     machine_l, machine_w, machine_h = machine_dims
     mold_l, mold_w, mold_t = mold_dims
     pdf.showPage()
+
     if os.path.exists(logo_file):
         try:
             pdf.drawImage(
@@ -109,7 +90,6 @@ def _draw_proportional_block_view(pdf, machine_data):
         pdf.drawString(x, y - 13, outer_label)
         pdf.drawString(x, y - 26, inner_label)
 
-    # Side view: machine L x H; mold thickness x mold width.
     mold_width_for_view = min(mold_w, machine_h)
     draw_view(
         "Side View", 50, 415, 512, 230,
@@ -117,7 +97,6 @@ def _draw_proportional_block_view(pdf, machine_data):
         f"Machine envelope: {machine_l:g} L x {machine_h:g} H",
         f"Mold block: {mold_t:g} thickness x {mold_width_for_view:g} height",
     )
-    # Top view: machine L x W; mold thickness x mold length.
     draw_view(
         "Top View", 50, 105, 512, 230,
         machine_l, machine_w, mold_t, min(mold_l, machine_w),
@@ -125,7 +104,10 @@ def _draw_proportional_block_view(pdf, machine_data):
         f"Mold block: {mold_t:g} thickness x {mold_l:g} length",
     )
     pdf.setFont("Helvetica-Oblique", 8)
-    pdf.drawString(50, 55, "Visualization compares external envelopes only; it does not represent platen position or installation clearances.")
+    pdf.drawString(
+        50, 55,
+        "Visualization compares external envelopes only; it does not represent platen position or installation clearances.",
+    )
 
 
 def generate_pdf(machine_data):
@@ -134,7 +116,7 @@ def generate_pdf(machine_data):
 
     if os.path.exists(logo_file):
         try:
-            pdf.drawImage(logo_file, 50, 720, width=40, height=40, preserveAspectRatio=True, mask='auto')
+            pdf.drawImage(logo_file, 50, 720, width=40, height=40, preserveAspectRatio=True, mask="auto")
             title_x = 100
         except Exception:
             title_x = 50
@@ -145,7 +127,6 @@ def generate_pdf(machine_data):
     pdf.drawString(title_x, 735, "Mold Match Analysis Report")
 
     pdf.setFont("Helvetica", 12)
-
     pdf.drawString(50, 680, f"Machine: {machine_data['oem']} - {machine_data['model']}")
     pdf.drawString(50, 655, f"Platen: {machine_data['platen_x']} × {machine_data['platen_y']} mm")
     pdf.drawString(50, 630, f"Tie Bars: {machine_data['tie_bar_x']} × {machine_data['tie_bar_y']} mm")
@@ -163,10 +144,8 @@ def generate_pdf(machine_data):
         except (TypeError, ValueError):
             pass
     shot = shot_text or "N/A"
-
     pdf.drawString(50, 555, f"Shot Utilization: {shot}")
 
-    # Include Injection Unit 2 in the Mold Match Analysis Report for Two Shots.
     if machine_data.get("machine_type") == "Two Shots":
         pdf.setFont("Helvetica-Bold", 12)
         pdf.drawString(50, 520, "2nd Injection Unit")
@@ -197,14 +176,13 @@ def generate_process_sheet_pdf(machine_data, process_inputs):
 
     if os.path.exists(logo_file):
         try:
-            pdf.drawImage(logo_file, 50, 720, width=40, height=40, preserveAspectRatio=True, mask='auto')
+            pdf.drawImage(logo_file, 50, 720, width=40, height=40, preserveAspectRatio=True, mask="auto")
             title_x = 100
         except Exception:
             title_x = 50
     else:
         title_x = 50
 
-    # Title
     pdf.setFont("Helvetica-Bold", 16)
     pdf.drawString(title_x, 735, "Process Sheet Report")
 
@@ -234,7 +212,7 @@ def generate_process_sheet_pdf(machine_data, process_inputs):
     pdf.drawString(60, 525, f"Gate Size: {process_inputs['gate_size']} mm")
     pdf.drawString(60, 510, f"Runner System: {process_inputs['runner_type']}")
 
-    if process_inputs['runner_type'] == "Cold Runner":
+    if process_inputs["runner_type"] == "Cold Runner":
         runner_str = f"- Cold Runner Weight: {process_inputs['cold_runner_weight']} g"
         pdf.drawString(60, 495, f"Cold Runner Weight: {process_inputs['cold_runner_weight']} g")
     else:
@@ -331,93 +309,10 @@ def generate_process_sheet_pdf(machine_data, process_inputs):
 
 
 # -----------------------------------
-# NPE / RICO MOLD BOOTH EXPERIENCE
+# HEADER (LIGHTWEIGHT FOR IPAD SAFARI)
 # -----------------------------------
-st.markdown(
-    """
-    <style>
-    .stApp { background-color: #f6f8fb; }
-    .block-container { padding-top: 3.75rem !important; padding-bottom: 3rem; max-width: 1200px; }
-    .npe-hero {
-        background: linear-gradient(135deg, #003b71 0%, #005b9f 100%);
-        padding: 34px 40px 32px; border-radius: 18px; color: white;
-        margin-bottom: 24px; box-shadow: 0 5px 18px rgba(0,0,0,0.12);
-    }
-    .npe-brand { font-size: 52px; font-weight: 900; letter-spacing: 1px; color: #58D6FF; line-height: 1.05; text-shadow: 0 2px 8px rgba(0,0,0,.18); }
-    .npe-title { font-size: 40px; font-weight: 800; line-height: 1.1; margin: 16px 0 10px; }
-    .npe-subtitle { font-size: 20px; font-weight: 500; opacity: .96; }
-    .npe-description { font-size: 15px; margin-top: 13px; opacity: .87; max-width: 760px; }
-
-    .rico-mold-caption {
-        text-align: center; color: #52606d; font-size: 14px; font-weight: 600;
-        margin-top: -4px; margin-bottom: 8px; letter-spacing: .2px;
-    }
-    div[data-testid="stImage"] img { border-radius: 18px; }
-    .step-header {
-        background: white; border-left: 6px solid #0072CE; padding: 14px 18px;
-        border-radius: 8px; margin: 20px 0 16px; box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    }
-    .step-number { color: #0072CE; font-size: 13px; font-weight: 800; letter-spacing: 1px; }
-    .step-title { color: #1f2937; font-size: 25px; font-weight: 700; }
-    .result-card {
-        background: linear-gradient(135deg, #eaf7ef, #fff); border: 2px solid #28a745;
-        padding: 24px; border-radius: 15px; margin: 18px 0;
-        box-shadow: 0 4px 14px rgba(0,0,0,.09);
-    }
-    .result-label { color: #188038; font-size: 15px; font-weight: 800; letter-spacing: 1px; }
-    .result-machine { color: #003b71; font-size: 32px; font-weight: 800; }
-    div.stButton > button {
-        background: linear-gradient(90deg, #0072CE, #005b9f); color: white;
-        border: none; font-size: 21px; font-weight: 800; height: 62px;
-        border-radius: 12px; width: 100%; box-shadow: 0 4px 12px rgba(0,91,159,.25);
-    }
-    div.stButton > button:hover { background: linear-gradient(90deg, #005b9f, #003b71); color: white; border: none; }
-    div[data-testid="stMetric"] { background: white; border: 1px solid #e3e8ef; padding: 12px; border-radius: 10px; }
-    .booth-disclaimer {
-        margin-top: 35px; padding: 15px 20px; background: #eef2f6;
-        border-radius: 9px; color: #59636e; font-size: 12px; text-align: center;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
-# Hero area
-logo_col, hero_col = st.columns([1, 7])
-with logo_col:
-    if os.path.exists(logo_file):
-        st.image(logo_file, width=105)
-    if os.path.exists(qr_file):
-        st.image(qr_file, width=105)
-        st.markdown(
-            '<div style="text-align:center;font-size:12px;font-weight:700;color:#005b9f;line-height:1.2;">SCAN<br>moldmatchapp.com</div>',
-            unsafe_allow_html=True,
-        )
-with hero_col:
-    st.markdown(
-        """
-        <div class="npe-hero">
-            <div class="npe-brand">MoldMatch × RICO MOLD</div>
-            <div class="npe-title">Match Your Mold.<br>With the Right Machine.</div>
-            <div class="npe-subtitle">Independent mold-to-machine compatibility screening</div>
-            <div class="npe-description">
-                Enter the RICO mold and process requirements. MoldMatch evaluates the machine
-                database and identifies compatible injection molding machines.
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-# Optional RICO mold visual
-if os.path.exists(rico_hero_file):
-    st.image(rico_hero_file, use_container_width=True)
-    st.markdown(
-        '<div class="rico-mold-caption">RICO Mold Engineering and Manufacturing</div>',
-        unsafe_allow_html=True,
-    )
-else:
-    st.info("Optional: add RicoMold.jpg beside this Python file to display a large RICO mold image.")
+st.title("MoldMatch × RICO Mold")
+st.caption("Independent mold-to-machine compatibility screening")
 
 # ---------------------------
 # LOAD DATA
@@ -425,6 +320,7 @@ else:
 @st.cache_data
 def get_excel_sheet_names():
     return pd.ExcelFile(excel_file, engine="openpyxl").sheet_names
+
 
 @st.cache_data
 def load_data(sheet_name="Plastic"):
@@ -437,12 +333,9 @@ def load_data(sheet_name="Plastic"):
         raise ValueError(f"Worksheet '{sheet_name}' not found. Available worksheets: {available}")
     return pd.read_excel(excel_file, sheet_name=normalized[requested], engine="openpyxl")
 
+
 # STEP 1
-st.markdown(
-    '<div class="step-header"><div class="step-number">STEP 1</div>'
-    '<div class="step-title">Select Molding Technology</div></div>',
-    unsafe_allow_html=True,
-)
+st.subheader("STEP 1: Select Molding Technology")
 machine_type = st.selectbox(
     "Molding Technology",
     options=["Thermoplastic", "LSR", "Two Shots"],
@@ -475,7 +368,6 @@ if machine_type == "Two Shots":
         st.stop()
     df["Model"] = df["1st Unit Model"]
 
-# Evaluate all machine OEMs by default so the RICO mold can be matched independently.
 available_oems = sorted(df["OEM"].dropna().astype(str).str.strip().unique().tolist())
 oem_scope = st.selectbox(
     "Machine brand scope",
@@ -483,7 +375,6 @@ oem_scope = st.selectbox(
     index=0,
     help="Use all brands for an independent match, or select one OEM for a focused review.",
 )
-selected_oem = oem_scope
 if oem_scope != "All machine brands":
     df = df[df["OEM"].astype(str).str.strip() == oem_scope].copy()
 if df.empty:
@@ -491,11 +382,7 @@ if df.empty:
     st.stop()
 
 # STEP 2
-st.markdown(
-    '<div class="step-header"><div class="step-number">STEP 2</div>'
-    '<div class="step-title">Enter Your Mold Requirements</div></div>',
-    unsafe_allow_html=True,
-)
+st.subheader("STEP 2: Enter Your Mold Requirements")
 
 rico_mold_reference = st.text_input(
     "RICO Mold Reference / Project",
@@ -503,7 +390,7 @@ rico_mold_reference = st.text_input(
     help="Enter the RICO mold number, quotation number, or project name.",
 )
 
-st.markdown("### 📐 Mold Dimensions")
+st.markdown("**Mold Dimensions**")
 col1, col2, col3 = st.columns(3)
 with col1:
     mold_length = st.number_input("Length (mm)", min_value=1, value=636)
@@ -512,14 +399,14 @@ with col2:
 with col3:
     mold_height = st.number_input("Thickness (mm)", min_value=1, value=458)
 
-st.markdown("### 🏗️ Clamp Requirement")
+st.markdown("**Clamp Requirement**")
 c1, c2 = st.columns(2)
 with c1:
     clamp_min = st.number_input("Minimum Clamp Force (ton)", min_value=0, value=50)
 with c2:
     clamp_max = st.number_input("Maximum Clamp Force (ton)", min_value=1, value=200)
 
-st.markdown("### ⚖️ Shot Requirement")
+st.markdown("**Shot Requirement**")
 if machine_type == "Two Shots":
     s1, s2 = st.columns(2)
     with s1:
@@ -530,7 +417,7 @@ else:
     shot_weight = st.number_input("Shot Weight (g)", min_value=0.01, value=15.0, step=0.5)
     shot_2_weight = 0.0
 
-st.markdown("### 🧪 Material & Tooling")
+st.markdown("**Material & Tooling**")
 mcol1, mcol2 = st.columns(2)
 with mcol1:
     material_input = st.text_input("Material / Resin", value="LSR" if machine_type == "LSR" else "ABS")
@@ -580,6 +467,7 @@ def same_row_second_shot(machine):
         "Shot 2 Utilization (%)": util,
     }
 
+
 # ---------------------------
 # CHECK FUNCTION
 # ---------------------------
@@ -621,14 +509,11 @@ def check(machine):
         reasons.append("No compatible Injection Unit 2")
     return "PASS" if not reasons else "FAIL", ", ".join(set(reasons))
 
+
 # ---------------------------
 # STEP 3 - RUN ANALYSIS
 # ---------------------------
-st.markdown(
-    '<div class="step-header"><div class="step-number">STEP 3</div>'
-    '<div class="step-title">Match the RICO Mold with Your Machine</div></div>',
-    unsafe_allow_html=True,
-)
+st.subheader("STEP 3: Match the RICO Mold with Your Machine")
 st.caption(
     "MoldMatch evaluates mold fit, clamp range, shot capacity, tie-bar clearance, "
     "and machine opening against the available machine database."
@@ -636,7 +521,7 @@ st.caption(
 
 valid = pd.DataFrame()
 best = None
-run_analysis = st.button("🔎 MATCH THIS RICO MOLD", use_container_width=True)
+run_analysis = st.button("MATCH THIS RICO MOLD", use_container_width=True)
 
 if run_analysis:
     with st.spinner("Evaluating machine compatibility for the RICO mold..."):
@@ -688,26 +573,13 @@ if run_analysis:
         else:
             best = valid.sort_values("Utilization Deviation").iloc[0]
 
-        st.markdown(
-            f"""
-            <div class="result-card">
-                <div class="result-label">RECOMMENDED MACHINE FOR {rico_mold_reference}</div>
-                <div class="result-machine">{best['Model']}</div>
-                <div style="font-size:18px;margin-top:10px;color:#333;">
-                    Clamp Force: <b>{best['Clamp (ton)']} ton</b>
-                    &nbsp;&nbsp;|&nbsp;&nbsp;
-                    Shot Utilization: <b>{round(float(best['Shot Utilization (%)']))}%</b>
-                </div>
-                <div style="margin-top:18px;font-size:17px;line-height:1.8;">
-                    ✅ Mold dimensions compatible<br>
-                    ✅ Tie-bar clearance compatible<br>
-                    ✅ Machine opening compatible<br>
-                    ✅ Clamp range compatible<br>
-                    ✅ Shot capacity compatible
-                </div>
-            </div>
-            """,
-            unsafe_allow_html=True,
+        st.success(f"Recommended Machine for {rico_mold_reference}: {best['Model']}")
+        st.write(
+            f"Clamp Force: **{best['Clamp (ton)']} ton** | "
+            f"Shot Utilization: **{round(float(best['Shot Utilization (%)']))}%**"
+        )
+        st.write(
+            "Compatible with: mold dimensions, tie-bar clearance, machine opening, clamp range, and shot capacity."
         )
 
         if machine_type == "Two Shots":
@@ -738,7 +610,7 @@ if run_analysis:
             st.markdown("### Other Evaluated Machines")
             st.dataframe(failed_df.head(10), use_container_width=True)
 
-        st.header("📊 Results Analysis")
+        st.header("Results Analysis")
         matched_rows = df[(df["OEM"] == best["OEM"]) & (df["Model"] == best["Model"])]
         machine_row = matched_rows.iloc[0] if not matched_rows.empty else df[df["Model"] == best["Model"]].iloc[0]
         platen_x = machine_row["Platen X (mm)"]
@@ -748,19 +620,19 @@ if run_analysis:
         platen_area = platen_x * platen_y
         area_ratio = (mold_area / platen_area) * 100
         if area_ratio < 70:
-            ratio_color = "🟢 SAFE"
+            ratio_color = "SAFE"
         elif area_ratio < 85:
-            ratio_color = "🟡 WARNING"
+            ratio_color = "WARNING"
         else:
-            ratio_color = "🔴 RISK"
+            ratio_color = "RISK"
         opening_gap = daylight_max - mold_height
         if opening_gap >= safety_clearance:
-            gap_color = "🟢 SAFE"
+            gap_color = "SAFE"
         elif opening_gap > 0:
-            gap_color = "🟡 TIGHT"
+            gap_color = "TIGHT"
         else:
-            gap_color = "🔴 TOO TALL"
-        st.subheader("📐 Mold Fit Analysis")
+            gap_color = "TOO TALL"
+        st.subheader("Mold Fit Analysis")
         cA, cB = st.columns(2)
         cA.markdown(f"### {ratio_color}")
         cA.metric("Projected Area Ratio", f"{area_ratio:.1f}%")
@@ -770,52 +642,43 @@ if run_analysis:
         st.error("No compatible machine was found for the entered RICO mold requirements.")
 
 if len(valid) > 0:
-
-    st.subheader("⚖️ Shot Weight Analysis")
-
+    st.subheader("Shot Weight Analysis")
     machine_shot = best["Shot Weight (g)"]
     actual_shot = shot_weight
-
-    if machine_shot > 0:
-        shot_ratio = actual_shot / machine_shot
-    else:
-        shot_ratio = 0
+    shot_ratio = (actual_shot / machine_shot) if machine_shot > 0 else 0
 
     if 0.2 <= shot_ratio <= 0.8:
-        shot_color = "🟢 GOOD"
+        shot_color = "GOOD"
     elif 0.1 <= shot_ratio < 0.2 or 0.8 < shot_ratio <= 0.9:
-        shot_color = "🟡 MARGINAL"
+        shot_color = "MARGINAL"
     else:
-        shot_color = "🔴 OUT OF RANGE"
+        shot_color = "OUT OF RANGE"
 
     cA, cB = st.columns(2)
-
     with cA:
         st.metric("Shot 1 Utilization (%)" if machine_type == "Two Shots" else "Shot Utilization (%)", f"{round(shot_ratio*100)}%")
-
     with cB:
         st.metric("Shot 1 Status" if machine_type == "Two Shots" else "Status", shot_color)
 
     if machine_type == "Two Shots":
         shot_2_ratio = best["Shot 2 Utilization (%)"] / 100
         if 0.20 <= shot_2_ratio <= 0.80:
-            shot_2_color = "🟢 GOOD"
+            shot_2_color = "GOOD"
         elif 0.15 <= shot_2_ratio < 0.20:
-            shot_2_color = "🟡 MARGINAL"
+            shot_2_color = "MARGINAL"
         else:
-            shot_2_color = "🔴 OUT OF RANGE"
+            shot_2_color = "OUT OF RANGE"
         s2a, s2b = st.columns(2)
         with s2a:
             st.metric("Shot 2 Utilization (%)", f"{best['Shot 2 Utilization (%)']:.1f}%")
         with s2b:
             st.metric("Shot 2 Status", shot_2_color)
-
 else:
     st.warning("No valid machine → Shot analysis skipped")
 
-st.subheader("🖼️ Visual RICO Mold Fit on Recommended Machine")
+st.subheader("Visual RICO Mold Fit on Recommended Machine")
 
-if 'valid' in locals() and len(valid) > 0:
+if "valid" in locals() and len(valid) > 0:
     platen_open = daylight_max
     platen_height = platen_y
 
@@ -842,10 +705,8 @@ if 'valid' in locals() and len(valid) > 0:
 
     tie_bar_x = machine_row["Tie Bar X (mm)"]
     tie_bar_y = machine_row["Tie Bar Y (mm)"]
-
     tie_bar_offset = tie_bar_y
     d = 15
-
     y0_value = (platen_height - tie_bar_y) / 2
 
     fig.add_shape(
@@ -971,7 +832,6 @@ if 'valid' in locals() and len(valid) > 0:
     fig.update_yaxes(visible=False, range=[-50, platen_open + 120], scaleanchor="x", scaleratio=1, row=1, col=2)
 
     st.plotly_chart(fig, use_container_width=True, key="mold_platen_views")
-
 else:
     st.warning("No valid machine found")
 
@@ -996,7 +856,7 @@ machine_data = {
     "shot_utilization": "N/A"
 }
 
-if 'best' in locals() and best is not None:
+if "best" in locals() and best is not None:
     try:
         machine_data = {
             "oem": best.get("OEM", "Unknown OEM"),
@@ -1041,32 +901,21 @@ if 'best' in locals() and best is not None:
             "shot_2_utilization": best.get("Shot 2 Utilization (%)") if machine_type == "Two Shots" else None
         }
 
-        st.subheader("📄 Recommended Machine & Process Details")
-
+        st.subheader("Recommended Machine & Process Details")
         st.write(f"Machine: {machine_data['oem']} - {machine_data['model']}")
-        st.write(
-            f"Platen: {machine_data['platen_x']} × "
-            f"{machine_data['platen_y']} mm"
-        )
-        st.write(
-            f"Tie Bars: {machine_data['tie_bar_x']} × "
-            f"{machine_data['tie_bar_y']} mm"
-        )
+        st.write(f"Platen: {machine_data['platen_x']} × {machine_data['platen_y']} mm")
+        st.write(f"Tie Bars: {machine_data['tie_bar_x']} × {machine_data['tie_bar_y']} mm")
         st.write(f"Screw Size: {machine_data['screw_size']} mm")
 
         shot_util = machine_data.get("shot_utilization", "N/A")
-
         if shot_util != "N/A":
             shot_text = str(shot_util).strip()
-
             if not shot_text.endswith("%"):
                 try:
                     shot_text = f"{float(shot_util):g}%"
                 except (TypeError, ValueError):
                     pass
-
             shot_util = shot_text
-
         st.write(f"Shot Utilization: {shot_util}")
 
         if machine_type == "Two Shots":
@@ -1095,7 +944,7 @@ col_pdf1, col_pdf2 = st.columns(2)
 with col_pdf1:
     if pdf_file is not None:
         st.download_button(
-            label="⬇️ Download RICO Mold Machine-Match Analysis",
+            label="Download RICO Mold Machine-Match Analysis",
             data=pdf_file,
             file_name="rico_mold_machine_match_analysis.pdf",
             mime="application/pdf"
@@ -1106,7 +955,7 @@ with col_pdf1:
 with col_pdf2:
     if process_pdf_file is not None:
         st.download_button(
-            label="⬇️ Download Process Sheet PDF",
+            label="Download Process Sheet PDF",
             data=process_pdf_file,
             file_name="process_sheet_prompt_report.pdf",
             mime="application/pdf"
